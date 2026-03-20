@@ -1,0 +1,30 @@
+---
+name: 'Get Unpack Store Solution'
+permissions: 
+  id-token: write
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      solutionname:
+        description: 'The power platform solution name'
+        required: false
+        default: UKCustomsApp
+        type: string
+      major:
+        description: 'The major version (the first solution number). If left blank, the current major version will be used.'
+        required: false
+        type: number
+      minor:
+        description: 'The minor version (the second solution number). If left blank, the current minor version will be used.'
+        required: false
+        type: number
+jobs:
+  call-remote-job:
+    name: Get Unpack Store Solution
+    uses: gpjspr/gpj-common/.github/workflows/ pp-get-unpack-store-bsispdev.yml@main
+    with:
+      solutionname: ${{ inputs.solutionname}}
+      major: ${{inputs.major}}
+      minor: ${{inputs.minor}}
