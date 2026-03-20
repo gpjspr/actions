@@ -1,0 +1,16 @@
+---
+name: 'Check Canvas Apps'
+permissions: 
+  id-token: write
+  contents: read
+
+on:
+  push:
+   branches:
+      - dev/*
+  workflow_dispatch: 
+
+jobs:
+  call-remote-job:
+    name: Check Canvas Apps
+    uses: gpjspr/gpj-common/.github/workflows/pp-canvasapp-lint.yml@main
