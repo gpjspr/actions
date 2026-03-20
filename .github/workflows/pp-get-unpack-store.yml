@@ -32,5 +32,6 @@ jobs:
   lint-canvasapps-remote-job:
     name: Check Canvas Apps
     uses: gpjspr/gpj-common/.github/workflows/pp-canvasapp-lint.yml@main
-    continue-on-error: true
+    with:
+      fail-on-errors: false
     needs: export-solution-remote-job
