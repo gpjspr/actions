@@ -1,0 +1,467 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)": {
+          "defaultValue": "63c278dc-07d5-40b8-9159-383b361628f6",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCADCustomCases"
+          }
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "c50284b3-ecb2-43ec-ae11-e6f55506d8ce"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "cfitnumber",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Check_Folder_Exists": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "a2eb53dc-ef84-40f3-b55d-47c50590ad37"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetFileItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+              "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+              "folderPath": "@triggerBody()['text']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Create_Folders": {
+          "actions": {
+            "Try_Scope": {
+              "actions": {
+                "Create_Root_CFIT_Folder": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "4a3492ac-941f-4413-b783-be1b7419e34b"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@triggerBody()['text']"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Archive": {
+                  "runAfter": {
+                    "Create_Root_CFIT_Folder": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "739ce654-db94-4e26-9556-12231b9977cb"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Archive"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Review": {
+                  "runAfter": {
+                    "Create_Archive": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "4c916570-4e65-4730-8d4b-9d4f30733b33"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Review"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Review_-_Production_STLs": {
+                  "runAfter": {
+                    "Create_Review": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "f320aae0-73c0-42cc-a416-c1cef773cd68"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Review/Production STLs"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Device_Image": {
+                  "runAfter": {
+                    "Create_Review_-_Production_STLs": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "101c7629-64ee-4477-9bdc-e39b6689fecc"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Device Image"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Import_ScanIP": {
+                  "runAfter": {
+                    "Create_Device_Image": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d69614aa-f8ea-4b52-a913-5a0dc2539446"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Import_ScanIP"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Miscellaneous": {
+                  "runAfter": {
+                    "Create_Import_ScanIP": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "7d78cdff-d90f-41ed-8ff2-be8b2fb3c9fc"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Miscellaneous"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_SW_CAD": {
+                  "runAfter": {
+                    "Create_Miscellaneous": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "5805997e-0683-4633-adc6-6c0aa9dd73af"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/SW CAD"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Proposals": {
+                  "runAfter": {
+                    "Create_SW_CAD": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "618ef443-0c26-4226-9a95-a7e4180d97ba"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Proposals"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Proposals_-_Design_Proposal": {
+                  "runAfter": {
+                    "Create_Proposals": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "fe9f1d5d-73c0-4282-952f-8758c065861c"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Proposals/Design Proposal"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Proposals_-_Concept": {
+                  "runAfter": {
+                    "Create_Proposals_-_Standard_Plan": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "84fb6ef2-3e8a-4687-860a-260b31596cbd"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Proposals/Concept"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Create_Proposals_-_Standard_Plan": {
+                  "runAfter": {
+                    "Create_Proposals_-_Design_Proposal": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d4c034fc-fa85-4a2a-a8c2-4ddae32efae6"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "CreateNewFolder",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint CAD Custom Cases (cr49f_UKCustomsSharePointCADCustomCases)')",
+                      "parameters/path": "@{triggerBody()['text']}/Proposals/Standard Plan"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c1898228-668a-4c39-8d88-de61bb6f8462"
+              },
+              "type": "Scope"
+            },
+            "Error_Scope": {
+              "actions": {
+                "Call_Error_Flow": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "07299dc8-4db5-4952-a5cd-5f7b131e1419"
+                  },
+                  "type": "Workflow",
+                  "inputs": {
+                    "host": {
+                      "workflowReferenceName": "606448bb-a9d5-f011-8544-7c1e522e1b37"
+                    },
+                    "body": {
+                      "text": "UK Customs | Instant | Create CAD Folders",
+                      "text_1": "Error sending email",
+                      "text_2": "@concat('https://make.powerautomate.com/environments/', workflow().tags.environmentName, '/flows/', workflow().name, '/runs/', workflow().run.name)"
+                    }
+                  }
+                },
+                "Terminate": {
+                  "runAfter": {
+                    "Call_Error_Flow": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d4df13d9-f622-4d0c-a720-da8efc39bc68"
+                  },
+                  "type": "Terminate",
+                  "inputs": {
+                    "runStatus": "Failed",
+                    "runError": {
+                      "code": "Error creating folders",
+                      "message": "Error creating folders for CFit @{triggerBody()['text']}"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Try_Scope": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d1253453-9f97-43e8-bcdf-c2fe39e934f3"
+              },
+              "type": "Scope"
+            }
+          },
+          "runAfter": {
+            "Check_Folder_Exists": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "55365152-8a4a-48ae-9717-652804838189"
+          },
+          "type": "Scope",
+          "description": "Runs if previous step fails"
+        },
+        "Terminate_Success": {
+          "runAfter": {
+            "Check_Folder_Exists": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "59bd6728-7a23-4011-9b20-52a95ff3b9a2"
+          },
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Succeeded"
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,650 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  CustomTrackerGalleryScreen:
+    Properties:
+      OnVisible: |
+        =Set(
+            CurrentIntakeItem,
+            Blank()
+        );
+        Reset(gal_ct_ctgs);
+        UpdateContext({screentitle: "All Items",sortColumn:"PatientUID"});
+    Children:
+      - cnt_layouts_ctgs:
+          Control: GroupContainer@1.4.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - cnt_hdr_ctgs:
+                Control: GroupContainer@1.4.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =5
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                Children:
+                  - btn_home_ctgs:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Outline
+                        Height: =Parent.Height - 16
+                        Icon: ="Home"
+                        IconStyle: ='ButtonCanvas.IconStyle'.Outline
+                        Layout: ='ButtonCanvas.Layout'.IconOnly
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: =Navigate(HomeScreen)
+                        Width: =Parent.Height -16
+                  - cnt_hdr_spacer_ctgs:
+                      Control: GroupContainer@1.4.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                      Children:
+                        - txt_header_ctgs:
+                            Control: Text@0.0.51
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              Size: =20
+                              Text: ="Custom Tracker - " & screentitle
+                              Weight: ='TextCanvas.Weight'.Bold
+                              Width: =Parent.Width -20
+                  - txt_hdr_viewlabel_ctgs:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.End
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        Text: |-
+                          ="View:  "
+                        VerticalAlign: =VerticalAlign.Middle
+                  - dd_viewselector_ctgs:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        DefaultSelectedItems: =["All Items"]
+                        Items: =["All Items", "All Active Custom Items", "All Active Planning Items", "Kanban"]
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnChange: |
+                          =UpdateContext({screentitle: Self.Selected.Value});
+                          If(
+                              Self.Selected.Value = "Kanban",
+                              UpdateContext({showkanban: true});
+                              //ClearCollect(KanbanColumns,ShowColumns(GroupBy('UK Customs SharePoint Custom Tracker List',Case_x0020_Stage,GroupData),Case_x0020_Stage));
+                              ,
+                              UpdateContext({showkanban: false})
+                          );
+                        Width: =200
+                  - cnt_hdr_spacer2_ctgs:
+                      Control: GroupContainer@1.4.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                        Width: =50
+                  - ButtonCanvas1:
+                      Control: Button@0.0.45
+                      Properties:
+                        AccessibleLabel: ="Refresh"
+                        Appearance: ='ButtonCanvas.Appearance'.Secondary
+                        Icon: ="ArrowClockwise"
+                        Layout: ='ButtonCanvas.Layout'.IconOnly
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: =Refresh('UK Customs SharePoint Custom Tracker List')
+                        Text: ="Refresh"
+                        Width: =40
+                  - btn_new_ifgs_2:
+                      Control: Button@0.0.45
+                      Properties:
+                        AccessibleLabel: ="New"
+                        Icon: ="Add"
+                        Layout: ='ButtonCanvas.Layout'.IconBefore
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        OnSelect: |-
+                          =Set(CurrentTrackerItem,Blank());
+                          NewForm(FormCustomTracker);
+                          Navigate(CustomTrackerScreen)
+                        Text: ="New"
+            - cnt_main_ctgs:
+                Control: GroupContainer@1.4.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  Visible: =Not(showkanban)
+                Children:
+                  - cnt_gal_header_ctgs:
+                      Control: GroupContainer@1.4.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =25
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingTop: =8
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - btn_patientuid_gal_header_ctgs:
+                            Control: Button@0.0.45
+                            Properties:
+                              BorderColor: =RGBA(255, 255, 255, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              BorderThickness: =1
+                              Icon: =If(sortColumn = "PatientUID","ArrowDown","Filter")
+                              IconRotation: =If(sortColumn <> "PatientUID",0,If(sortOrder = SortOrder.Descending,0,180))
+                              Layout: ='ButtonCanvas.Layout'.IconBefore
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |
+                                =UpdateContext(
+                                    {
+                                        sortOrder: If(
+                                            sortColumn <> "PatientUID",
+                                            SortOrder.Descending,
+                                            If(
+                                                sortOrder = SortOrder.Ascending And sortColumn = "PatientUID",
+                                                SortOrder.Descending,
+                                                SortOrder.Ascending
+                                            )
+                                        ),
+                                        sortColumn: "PatientUID"
+                                    }
+                                );
+                              Text: ="Patient UID"
+                              Width: =Parent.Width /4
+                        - btn_date_gal_header_ctgs:
+                            Control: Button@0.0.45
+                            Properties:
+                              BorderStyle: =BorderStyle.Solid
+                              BorderThickness: =1
+                              Icon: =If(sortColumn = "Date","ArrowDown","Filter")
+                              IconRotation: =If(sortColumn <> "Date",0,If(sortOrder = SortOrder.Descending,0,180))
+                              Layout: ='ButtonCanvas.Layout'.IconBefore
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |+
+                                =UpdateContext(
+                                    {
+                                        sortOrder: If(
+                                            sortColumn <> "Date",
+                                            SortOrder.Descending,
+                                            If(
+                                                sortOrder = SortOrder.Ascending And sortColumn = "Date",
+                                                SortOrder.Descending,
+                                                SortOrder.Ascending
+                                            )
+                                        ),
+                                        sortColumn: "Date"
+                                    }
+                                );
+                              Text: ="Date"
+                              Width: =Parent.Width /8
+                        - btn_salesperson_gal_header_ctgs:
+                            Control: Button@0.0.45
+                            Properties:
+                              BorderColor: =RGBA(255, 255, 255, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              BorderThickness: =1
+                              Icon: =If(sortColumn = "SalesPerson","ArrowDown","Filter")
+                              IconRotation: =If(sortColumn <> "SalesPerson",0,If(sortOrder = SortOrder.Descending,0,180))
+                              Layout: ='ButtonCanvas.Layout'.IconBefore
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |
+                                =UpdateContext(
+                                    {
+                                        sortOrder: If(
+                                            sortColumn <> "SalesPerson",
+                                            SortOrder.Descending,
+                                            If(
+                                                sortOrder = SortOrder.Ascending And sortColumn = "SalesPerson",
+                                                SortOrder.Descending,
+                                                SortOrder.Ascending
+                                            )
+                                        ),
+                                        sortColumn: "SalesPerson"
+                                    }
+                                );
+                              Text: ="Sales Person"
+                              Width: =Parent.Width /4
+                        - btn_date_gal_header_ctgs_1:
+                            Control: Button@0.0.45
+                            Properties:
+                              BorderStyle: =BorderStyle.Solid
+                              BorderThickness: =1
+                              Icon: =If(sortColumn = "Stage","ArrowDown","Filter")
+                              IconRotation: =If(sortColumn <> "Date",0,If(sortOrder = SortOrder.Descending,0,180))
+                              Layout: ='ButtonCanvas.Layout'.IconBefore
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |
+                                =UpdateContext(
+                                    {
+                                        sortOrder: If(
+                                            sortColumn <> "Stage",
+                                            SortOrder.Descending,
+                                            If(
+                                                sortOrder = SortOrder.Ascending And sortColumn = "Stage",
+                                                SortOrder.Descending,
+                                                SortOrder.Ascending
+                                            )
+                                        ),
+                                        sortColumn: "Stage"
+                                    }
+                                );
+                              Text: ="Stage"
+                              Width: =Parent.Width /8
+                  - gal_ct_ctgs:
+                      Control: Gallery@2.15.0
+                      Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                      Properties:
+                        Items: "=Switch(\n    screentitle,\n    \"All Items\",\n    Switch(\n        sortColumn,\n        \"PatientUID\",\n        Sort(\n            'UK Customs SharePoint Custom Tracker List',\n            UID_Power_Automate,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"Date\",\n        Sort(\n            'UK Customs SharePoint Custom Tracker List',\n            Created,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"Stage\",\n        Sort(\n            'UK Customs SharePoint Custom Tracker List',\n            CaseStage,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"SalesPerson\",\n        Sort(\n\n                'UK Customs SharePoint Custom Tracker List',\n                \n            SalesPersonEmail,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        'UK Customs SharePoint Custom Tracker List'\n    ),\n    \"All Active Custom Items\",\n    Switch(\n        sortColumn,\n        \"PatientUID\",\n        Sort(\n            Filter(\n                'UK Customs SharePoint Custom Tracker List',\n                SalesPersonEmail = User().Email\n            ),\n            UID_Power_Automate,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"Date\",\n        Sort(\n            Filter(\n                'UK Customs SharePoint Custom Tracker List',\n                SalesPersonEmail = User().Email\n            ),\n            Created,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\"Stage\",\n        Sort(\n            'UK Customs SharePoint Custom Tracker List',\n            CaseStage,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"SalesPerson\",\n        Sort(\n            Filter(\n                'UK Customs SharePoint Custom Tracker List',\n                SalesPersonEmail = User().Email\n            ),\n            SalesPersonEmail,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        Filter(\n            'UK Customs SharePoint Custom Tracker List',\n            SalesPersonEmail = User().Email\n        )\n    ),\n    \"All Active Planning Items\",\n    Switch(\n        sortColumn,\n        \"PatientUID\",\n        Sort(\n            Filter(\n                'UK Customs SharePoint Custom Tracker List',\n                SalesPersonEmail = User().Email,\n                'Request Type' = \"Planning\"\n            ),\n            UID_Power_Automate,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"Date\",\n        Sort(\n            Filter(\n                'UK Customs SharePoint Custom Tracker List',\n                SalesPersonEmail = User().Email,\n                'Request Type' = \"Planning\"\n            ),\n            Created,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        \"Stage\",\n        Sort(\n            'UK Customs SharePoint Custom Tracker List',\n            CaseStage,\n            If(sortOrder = SortOrder.Ascending, SortOrder.Ascending,SortOrder.Descending)\n        ),\n        Filter(\n            'UK Customs SharePoint Custom Tracker List',\n            SalesPersonEmail = User().Email,\n            'Request Type' = \"Planning\"\n        )\n    ),\n    Sort('UK Customs SharePoint Custom Tracker List',UID_Power_Automate,SortOrder.Descending)\n)"
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: =Set(CurrentTrackerItem,ThisItem);
+                        TemplateFill: =If(ThisItem.IsSelected,Color.LightGray,RGBA(0, 0, 0, 0))
+                        TemplateSize: =40
+                      Children:
+                        - cnt_gal_ctgs:
+                            Control: GroupContainer@1.4.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =Parent.TemplateHeight
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              Width: =Parent.Width
+                            Children:
+                              - txt_patientuid_gal_ctgs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    Text: =ThisItem.'Patient UID'
+                                    Width: =Parent.Width /4
+                                    X: =40
+                                    Y: =8
+                              - txt_created_gal_ctgs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    Text: =ThisItem.Created
+                                    Width: =Parent.Width /8
+                                    X: =
+                              - txt_salesperson_gal_ctgs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    Text: =ThisItem.'Sales Person'.DisplayName
+                                    Width: =Parent.Width /4
+                                    X: =
+                                    Y: =8
+                              - txt_status_gal_ctgs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    Text: =ThisItem.'Case Stage:'.Value
+                                    Width: =Parent.Width /8
+                                    X: =
+                                    Y: =8
+                              - cnt_buttonspacer_gal_ctgs_1:
+                                  Control: GroupContainer@1.4.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    PaddingBottom: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =8
+                                    Width: =5
+                              - btn_view_gal_ctgs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Subtle
+                                    Icon: ="Eye"
+                                    Layout: ='ButtonCanvas.Layout'.IconOnly
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: |-
+                                      =Set(CurrentTrackerItem,ThisItem);
+                                      ViewForm(FormCustomTracker);
+                                      Navigate(CustomTrackerScreen);
+                                    Text: ="View"
+                                    Width: =40
+                                    X: =
+                                    Y: =8
+                              - cnt_buttonspacer_gal_ctgs:
+                                  Control: GroupContainer@1.4.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    PaddingBottom: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =8
+                                    Width: =5
+                              - btn_edit_gal_ctgs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Edit"
+                                    Appearance: ='ButtonCanvas.Appearance'.Subtle
+                                    Icon: ="Edit"
+                                    Layout: ='ButtonCanvas.Layout'.IconOnly
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: |-
+                                      =Set(CurrentTrackerItem,ThisItem);
+                                      EditForm(FormCustomTracker);
+                                      Navigate(CustomTrackerScreen);
+                                    Text: ="Edit"
+                                    Width: =40
+                                    X: =
+                                    Y: =8
+            - cnt_kanban_ctgs:
+                Control: GroupContainer@1.4.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  LayoutOverflowX: =LayoutOverflow.Scroll
+                  Visible: =showkanban
+                Children:
+                  - cnt_kanbanbuckets_ctgs:
+                      Control: GroupContainer@1.4.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =8
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        LayoutOverflowX: =LayoutOverflow.Scroll
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                      Children:
+                        - cnt_bucket1_ctgs:
+                            Control: GroupContainer@1.4.0
+                            Variant: AutoLayout
+                            Properties:
+                              Fill: =RGBA(214, 221, 224, 1)
+                              FillPortions: =0
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              Width: =300
+                            Children:
+                              - txt_bucket1_hdr_ctgs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    Text: ="Intake Form"
+                                    Width: =Parent.Width
+                              - gal_bucket1_ctgs:
+                                  Control: Gallery@2.15.0
+                                  Variant: Vertical
+                                  Properties:
+                                    Height: =Parent.Height -40
+                                    Items: =Sort(Filter('UK Customs SharePoint Custom Tracker List','Case Stage:'.Value = "Case Intake"),UID_Power_Automate,SortOrder.Descending)
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    LayoutMinWidth: =Parent.Width-20
+                                    TemplateSize: =100
+                                    Width: =Parent.Width-20
+                                  Children:
+                                    - cnt_bucket1_item_ctgs:
+                                        Control: GroupContainer@1.4.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =100
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          PaddingBottom: =8
+                                          PaddingLeft: =8
+                                          PaddingRight: =8
+                                          PaddingTop: =8
+                                          Width: =Parent.Width-20
+                                        Children:
+                                          - txt_bucket1_title_ctgs:
+                                              Control: Text@0.0.51
+                                              Properties:
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Text: =ThisItem.UID_Power_Automate
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width-10
+                                          - txt_salesperson_ctgs:
+                                              Control: Text@0.0.51
+                                              Properties:
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Text: =ThisItem.'Sales Person'.DisplayName
+                                                Width: =Parent.Width-10
+                                          - cnt_bucket1_command:
+                                              Control: GroupContainer@1.4.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.End
+                                                DropShadow: =DropShadow.None
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.End
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                PaddingBottom: =8
+                                                PaddingLeft: =8
+                                                PaddingRight: =8
+                                                PaddingTop: =8
+                                                Width: =Parent.Width-20
+                                              Children:
+                                                - btn_bucket1_movenext_ctgs:
+                                                    Control: Button@0.0.45
+                                                    Properties:
+                                                      AccessibleLabel: ="Progress"
+                                                      Align: =Align.Center
+                                                      Appearance: ='ButtonCanvas.Appearance'.Secondary
+                                                      Icon: ="ChevronRight"
+                                                      Layout: ='ButtonCanvas.Layout'.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =Patch('UK Customs SharePoint Custom Tracker List',LookUp('UK Customs SharePoint Custom Tracker List',ID = ThisItem.ID),{'Case Stage:' : {Value:"Planning/Concept"}});
+                                                      Text: ="Progress"
+                                                      Width: =32
+                        - cnt_bucket2_ctgs:
+                            Control: GroupContainer@1.4.0
+                            Variant: AutoLayout
+                            Properties:
+                              Fill: =RGBA(214, 221, 224, 1)
+                              FillPortions: =0
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              Width: =300
+                            Children:
+                              - txt_bucket2_hdr_ctgs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    Text: ="Planning / Concept"
+                                    Width: =Parent.Width
+                              - gal_bucket2_ctgs:
+                                  Control: Gallery@2.15.0
+                                  Variant: Vertical
+                                  Properties:
+                                    Height: =Parent.Height -40
+                                    Items: =Sort(Filter('UK Customs SharePoint Custom Tracker List','Case Stage:'.Value = "Planning/Concept"),UID_Power_Automate,SortOrder.Descending)
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    LayoutMinWidth: =Parent.Width-20
+                                    TemplateSize: =100
+                                    Width: =Parent.Width-20
+                                  Children:
+                                    - cnt_bucket2_item_ctgs:
+                                        Control: GroupContainer@1.4.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =100
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          PaddingBottom: =8
+                                          PaddingLeft: =8
+                                          PaddingRight: =8
+                                          PaddingTop: =8
+                                          Width: =Parent.Width-20
+                                        Children:
+                                          - txt_bucket2_title_ctgs:
+                                              Control: Text@0.0.51
+                                              Properties:
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Text: =ThisItem.UID_Power_Automate
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width-10
+                                          - txt_salesperson_ctgs_1:
+                                              Control: Text@0.0.51
+                                              Properties:
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Text: =ThisItem.'Sales Person'.DisplayName
+                                                Width: =Parent.Width-10
+                                          - cnt_bucket2_command:
+                                              Control: GroupContainer@1.4.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.End
+                                                DropShadow: =DropShadow.None
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                PaddingBottom: =8
+                                                PaddingLeft: =8
+                                                PaddingRight: =8
+                                                PaddingTop: =8
+                                                Width: =Parent.Width-20
+                                              Children:
+                                                - btn_bucket2_moveprev_ctgs:
+                                                    Control: Button@0.0.45
+                                                    Properties:
+                                                      AccessibleLabel: ="Progress"
+                                                      Align: =Align.Center
+                                                      Appearance: ='ButtonCanvas.Appearance'.Secondary
+                                                      Icon: ="ChevronRight"
+                                                      IconRotation: =180
+                                                      Layout: ='ButtonCanvas.Layout'.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =Patch('UK Customs SharePoint Custom Tracker List',LookUp('UK Customs SharePoint Custom Tracker List',ID = ThisItem.ID),{'Case Stage:' : {Value:"Case Intake"}});
+                                                      Text: ="Regress"
+                                                      Width: =32
+                                                - btn_bucket2_movenext_ctgs:
+                                                    Control: Button@0.0.45
+                                                    Properties:
+                                                      AccessibleLabel: ="Progress"
+                                                      Align: =Align.Center
+                                                      Appearance: ='ButtonCanvas.Appearance'.Secondary
+                                                      Icon: ="ChevronRight"
+                                                      Layout: ='ButtonCanvas.Layout'.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Width: =32
