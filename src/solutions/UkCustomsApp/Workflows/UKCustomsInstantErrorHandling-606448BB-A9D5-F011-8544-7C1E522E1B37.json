@@ -1,0 +1,134 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedoffice365_36571"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs Admin Email (cr49f_UKCustomsSharePointAdminEmail)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointAdminEmail"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "c0cd3f7f-8bd3-431b-a002-933df4f143a7"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "FlowName",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Flow Name",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "Error",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Error Details",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "FlowRun",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Flow Run",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Respond_complete": {
+          "runAfter": {
+            "Email_UK_Customs_Admin_with_Error": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "58b8da6a-4ab9-4c5e-9c88-ccc7d4a622a7"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "complete": "@true"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "complete": {
+                  "title": "complete",
+                  "x-ms-dynamically-added": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "Email_UK_Customs_Admin_with_Error": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "0c26ab11-5193-4e86-a57b-f76b45dc97d2"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365_1",
+              "operationId": "SendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/To": "@parameters('UK Customs Admin Email (cr49f_UKCustomsSharePointAdminEmail)')",
+              "emailMessage/Subject": "UK Customs Flow Error - @{triggerBody()['text']}",
+              "emailMessage/Body": "<p class=\"editor-paragraph\">@{triggerBody()['text']} threw an error<br>Link:<br><a href=\"@{triggerBody()?['text_2']}\" class=\"editor-link\">@{triggerBody()?['text_2']}</a></p><p class=\"editor-paragraph\"><br>Details:<br>@{triggerBody()['text_1']}</p><br><br>",
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

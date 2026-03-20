@@ -1,0 +1,327 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedoffice365_36571"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      },
+      "shared_sharepointonline_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs Custom Email (cr49f_UKCustomsSharePointCustomEmail)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomEmail"
+          }
+        },
+        "UK Customs App ID (cr49f_UKCustomsAppID)": {
+          "defaultValue": "6f345072-804d-46aa-b535-065f42f989b1",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsAppID",
+            "description": "App ID"
+          }
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        },
+        "UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)": {
+          "defaultValue": "b0a427d4-a873-4ace-924a-08f730ed2925",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomTrackerList",
+            "description": "UK Customs SharePoint Custom Tracker List"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "7353d375-da6b-458a-8653-31cfdf67e04e"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "title": "ItemID",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "Item ID",
+                  "x-ms-content-hint": "NUMBER"
+                }
+              },
+              "required": [
+                "number"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Initialize_vStringEmailBody": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "3a3e49c9-2eed-4636-9d1c-384ce74e6853"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "vStringEmailBody",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Try_Scope": {
+          "actions": {
+            "Check_Sales_Rep_Email_Exists": {
+              "actions": {
+                "Send_Email_to_Sales_Rep_from_Custom_Mailbox": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "9d1e0921-3dda-4a57-b56d-f92e43a5ec93"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365_1",
+                      "operationId": "SharedMailboxSendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/MailboxAddress": "@parameters('UK Customs Custom Email (cr49f_UKCustomsSharePointCustomEmail)')",
+                      "emailMessage/To": "@outputs('Get_Tracker_Item')?['body/SalesRepresentativePerson/Email']",
+                      "emailMessage/Subject": "@{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']}/@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}/@{outputs('Get_Tracker_Item')?['body/Hospital_x0020_Number_x003a__x00']}/@{outputs('Get_Tracker_Item')?['body/Surgeon']} - Delivery Date",
+                      "emailMessage/Body": "@variables('vStringEmailBody')",
+                      "emailMessage/Importance": "Normal"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Surgery_Date_is_not_null": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "and": [
+                  {
+                    "not": {
+                      "equals": [
+                        "@outputs('Get_Tracker_Item')?['body/SalesRepresentativePerson/Email']",
+                        "@null"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "equals": [
+                        "@outputs('Get_Tracker_Item')?['body/SalesRepresentativePerson/Email']",
+                        ""
+                      ]
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7e7b8964-d201-4109-899a-081c3ccfc99d"
+              },
+              "type": "If"
+            },
+            "Surgery_Date_is_not_null": {
+              "actions": {
+                "Set_vStringEmailBody_for_Delivery_Date": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "e4b2612c-5dce-4464-9df1-c8ea3b29d257"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "vStringEmailBody",
+                    "value": "<p>Dear@{outputs('Get_Tracker_Item')?['body/SalesRepresentativePerson/DisplayName']}</p>\n<p>The shipping date from Germany for @{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']} is <b>@{formatDateTime(outputs('Get_Tracker_Item')?['body/Advise_x0020_of_x0020_delivery'],'dd-MMM-yyyy')}</b> and the surgery date is <b>@{formatDateTime(outputs('Get_Tracker_Item')?['body/Advise_x0020_surgery_x0020_date'],'dd-MMM-yyyy')}</b></p>\n<p>The case is currently at @{outputs('Get_Tracker_Item')?['body/CaseStage']} for @{outputs('Get_Tracker_Item')?['body/Current_x0020_Step']}</p>\n<p><a href='@{outputs('Get_Tracker_Item')?['body/Design_x0020_Proposal']}'>Deign Propsal</a> | <a href='@{outputs('Get_Tracker_Item')?['body/PatientFolder']}'>Patient Folder</a> | <a href='https://apps.powerapps.com/play/e/@{workflow().tags.environmentName}/a/@{parameters('UK Customs App ID (cr49f_UKCustomsAppID)')}?entity=tracker&id=@{outputs('Get_Tracker_Item')?['body/ID']}'>Case Tracker</a></p>\n<p>Thank you.</p>\n<p>\n****Automated Email****\n</p>"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_Tracker_Item": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Set_vStringEmailBody_for_no_Delivery_Date": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "03b550e8-5e99-435b-9ce8-8c26c927efc7"
+                    },
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "vStringEmailBody",
+                      "value": "<p>Dear@{outputs('Get_Tracker_Item')?['body/SalesRepresentativePerson/DisplayName']}</p>\n<p>The shipping date from Germany for @{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']} is <b>@{formatDateTime(outputs('Get_Tracker_Item')?['body/Advise_x0020_of_x0020_delivery'],'dd-MMM-yyyy')}</b> </p>\n<p>Could you please arrange a surgery date with the prescribing surgeon and update the surgery date on the case tracker.</p> \n<p>The case is currently at @{outputs('Get_Tracker_Item')?['body/CaseStage']} for @{outputs('Get_Tracker_Item')?['body/Current_x0020_Step']}</p>\n<p><a href='@{outputs('Get_Tracker_Item')?['body/Design_x0020_Proposal']}'>Deign Propsal</a> | <a href='@{outputs('Get_Tracker_Item')?['body/PatientFolder']}'>Patient Folder</a> | <a href='https://apps.powerapps.com/play/e/@{workflow().tags.environmentName}/a/@{parameters('UK Customs App ID (cr49f_UKCustomsAppID)')}?entity=tracker&id=@{outputs('Get_Tracker_Item')?['body/ID']}'>Case Tracker</a></p>\n<p>Thank you.</p>\n<p>\n****Automated Email****\n</p>"
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "not": {
+                  "equals": [
+                    "@outputs('Get_Tracker_Item')?['body/Advise_x0020_surgery_x0020_date']",
+                    "@null"
+                  ]
+                }
+              },
+              "metadata": {
+                "operationMetadataId": "30e06d8a-3a3c-407d-95d8-4a2e4edc60ed"
+              },
+              "type": "If"
+            },
+            "Get_Tracker_Item": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "50c55dd4-ddbe-4199-b926-ffc0f9c5db6b"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)')",
+                  "id": "@triggerBody()['number']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_vStringEmailBody": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0e59dfc8-9e99-499c-9fb4-7e00d9226fcf"
+          },
+          "type": "Scope"
+        },
+        "Error_Scope": {
+          "actions": {
+            "Call_Error_Flow": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "16b5f163-796a-4229-b5ad-c97d01f4adea"
+              },
+              "type": "Workflow",
+              "inputs": {
+                "host": {
+                  "workflowReferenceName": "606448bb-a9d5-f011-8544-7c1e522e1b37"
+                },
+                "body": {
+                  "text": "UK Customs | Instant | Update Delivery Date",
+                  "text_1": "Error with tracker item ID @{triggerBody()['number']}",
+                  "text_2": "@concat('https://make.powerautomate.com/environments/', workflow().tags.environmentName, '/flows/', workflow().name, '/runs/', workflow().run.name)"
+                }
+              }
+            },
+            "Terminate_Error": {
+              "runAfter": {
+                "Call_Error_Flow": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "17ce72f7-133f-4cf9-aeba-7706be7bf7be"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "Error updating tracker",
+                  "message": "Error with tracker item @{triggerBody()['number']}"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Try_Scope": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "45fa69fb-adf1-41b1-9936-94007d7d7d41"
+          },
+          "type": "Scope"
+        },
+        "Respond_complete": {
+          "runAfter": {
+            "Try_Scope": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2cde7cc1-88e0-4290-9bce-ae57a7ad9f32"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "complete": "@{true}"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "complete": {
+                  "title": "complete",
+                  "x-ms-dynamically-added": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

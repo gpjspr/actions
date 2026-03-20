@@ -1,0 +1,1192 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  CustomOrderScren:
+    Properties:
+      OnVisible: "=If(\n    Not(IsBlank(CurrentOrderItem)),\n    UpdateContext({currentorderid: CurrentOrderItem.'Patient UID Lookup'.Value});\n    UpdateContext({currentordertrackerid: CurrentOrderItem.'Patient UID Lookup'.Id}),\n    UpdateContext({currentorderid: \" (New Item)\"});\n    \n);\nIf(\n    Not(IsBlankOrError(Param(\"entity\"))),\n    Set(\n        CurrentOrderItem,\n        LookUp(\n            'UK Customs SharePoint Order Confirmation List',\n            ID = Int(Param(\"id\"))\n        )\n    );\n    UpdateContext({currentorderid: CurrentOrderItem.'Patient UID Lookup'.Value}),\n    Notify(\n        \"Loading order item...\" & currentorderid,\n        NotificationType.Information,\n        2000\n    )\n);\nUpdateContext({isupdating: false});\n"
+    Children:
+      - cnt_layouts_cos:
+          Control: GroupContainer@1.4.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - cnt_hdr_cos:
+                Control: GroupContainer@1.4.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                Children:
+                  - btn_home_cos:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Outline
+                        Height: =Parent.Height - 16
+                        Icon: ="Home"
+                        IconStyle: ='ButtonCanvas.IconStyle'.Outline
+                        Layout: ='ButtonCanvas.Layout'.IconOnly
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: =Navigate(HomeScreen)
+                        Width: =Parent.Height -16
+                  - cnt_hdr_spacer_cos:
+                      Control: GroupContainer@1.4.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                      Children:
+                        - txt_header_cos:
+                            Control: Text@0.0.51
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              Size: =20
+                              Text: '="Custom Order Form " '
+                              Weight: ='TextCanvas.Weight'.Bold
+                              Width: =Parent.Width -20
+            - cnt_main_cos:
+                Control: GroupContainer@1.4.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                Children:
+                  - FormOrderConfirmation:
+                      Control: Form@2.4.4
+                      Variant: Classic
+                      Layout: Vertical
+                      Properties:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        DataSource: ='UK Customs SharePoint Order Confirmation List'
+                        FillPortions: =0
+                        Height: |
+                          =75
+                        Item: =If(IsBlank(CurrentOrderItem),Defaults('UK Customs SharePoint Order Confirmation List'),CurrentOrderItem)
+                        LayoutMinHeight: =75
+                        NumberOfColumns: =2
+                        OnSuccess: =ResetForm(Self); RequestHide()
+                        Width: =Parent.Width
+                      Children:
+                        - Patient UID Lookup_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: ClassicComboBoxEdit
+                            Properties:
+                              BorderColor: =RGBA(166, 166, 166, 1)
+                              DataField: ="PatientUIDLookup"
+                              Default: =ThisItem.'Patient UID Lookup'
+                              DisplayMode: =DisplayMode.View
+                              DisplayName: =DataSourceInfo('UK Customs SharePoint Order Confirmation List',DataSourceInfo.DisplayName)
+                              Height: |
+                                =75
+                              Required: =false
+                              Update: =DataCardValue6_3.Selected
+                              Width: =Parent.Width
+                              X: =0
+                              Y: =0
+                            Children:
+                              - Button_Colour_5:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 1)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =1
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    Fill: =RGBA(158, 198, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    Font: =Font.'Segoe UI'
+                                    Height: =75
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverColor: =RGBA(255, 255, 255, 1)
+                                    HoverFill: =ColorFade(RGBA(0, 120, 212, 1), -10%)
+                                    PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -50%)
+                                    PressedColor: =RGBA(255, 255, 255, 1)
+                                    PressedFill: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    RadiusBottomLeft: |
+                                      =15
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =15
+                                    RadiusTopRight: =0
+                                    Size: =10.5
+                                    Text: =
+                                    Width: =Parent.Width
+                                    X: =Parent.X
+                                    Y: |
+                                      =0
+                              - DataCardKey6_3:
+                                  Control: Label@2.5.1
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    AutoHeight: =true
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =1
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =1
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =34
+                                    PaddingLeft: =0
+                                    Size: =10.5
+                                    Text: =Parent.DisplayName
+                                    Visible: =false
+                                    Width: =Parent.Width/2
+                                    Wrap: =false
+                                    X: =576
+                                    Y: =20
+                              - DataCardValue6_3:
+                                  Control: Classic/ComboBox@2.4.0
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                    BorderThickness: =1
+                                    ChevronBackground: =RGBA(255, 255, 255, 1)
+                                    ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                                    ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                                    ChevronFill: =RGBA(33, 33, 33, 1)
+                                    ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                                    ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DefaultSelectedItems: =Parent.Default
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisplayFields: =["Value"]
+                                    DisplayMode: =Parent.DisplayMode
+                                    Fill: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =1
+                                    Font: =Font.'Segoe UI'
+                                    HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    HoverColor: =RGBA(51, 51, 51, 1)
+                                    HoverFill: =RGBA(212, 212, 212, 1)
+                                    Items: =Choices('UK Customs SharePoint Order Confirmation List'.'Patient UID Lookup')
+                                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                                    PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    PressedColor: =RGBA(255, 255, 255, 1)
+                                    PressedFill: =RGBA(0, 120, 212, 1)
+                                    SearchFields: =["Value"]
+                                    SelectMultiple: =false
+                                    SelectionColor: =RGBA(255, 255, 255, 1)
+                                    SelectionFill: =RGBA(0, 120, 212, 1)
+                                    Size: =20
+                                    Tooltip: =Parent.DisplayName
+                                    Width: =277
+                                    X: =Label1.Width+Label1.X+5
+                                    Y: =Parent.Height/2-Self.Height/2
+                              - ErrorMessage6_3:
+                                  Control: Label@2.5.1
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    AutoHeight: =true
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =1
+                                    Color: =RGBA(168, 0, 0, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(168, 0, 0, 1)
+                                    FocusedBorderThickness: =1
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =10
+                                    Live: =Live.Assertive
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =10.5
+                                    Text: =Parent.Error
+                                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                    Width: =Parent.Width - 60
+                                    X: =32
+                                    Y: =DataCardValue6_3.Y + DataCardValue6_3.Height
+                              - StarVisible6_3:
+                                  Control: Label@2.5.1
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =1
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =1
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =DataCardKey6_3.Height
+                                    PaddingLeft: =0
+                                    Size: =10.5
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Wrap: =false
+                                    X: =2
+                                    Y: =DataCardKey6_3.Y
+                              - Label1:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Right
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =1
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisplayMode: =DisplayMode.View
+                                    FocusedBorderThickness: =1
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Bold
+                                    PaddingLeft: =0
+                                    Size: =20
+                                    Text: ="CUSTOM ITEMS FOR"
+                                    Width: =294
+                                    X: =Parent.Width/2-Self.Width+70
+                                    Y: =Parent.Height/2-Self.Height/2
+                  - ContCustomCategoryApproval:
+                      Control: GroupContainer@1.4.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: |
+                          =45
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =Parent.Width
+                        X: '=0   '
+                        Y: =FormOrderConfirmation.Height
+                      Children:
+                        - Button_Colour_21:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.None
+                              BorderThickness: =1
+                              Color: =RGBA(0, 0, 0, 1)
+                              DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                              Fill: =If(Toggle2_3.Checked ,RGBA(0, 255, 0, 1),RGBA(208-20, 245-20, 246-20, 1))
+                              FocusedBorderThickness: =1
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Bold
+                              Height: |
+                                =45
+                              HoverBorderColor: =RGBA(0, 0, 0, 0)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =ColorFade(RGBA(0, 120, 212, 1), -10%)
+                              PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -50%)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                              RadiusBottomLeft: |+
+                                =15
+
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =15
+                              RadiusTopRight: =0
+                              Size: =20
+                              Text: ="Custom Pricing Items"
+                              Visible: =gblIsAdmin
+                              Width: =Parent.Width
+                        - InfoButtonCanvas1_1:
+                            Control: InfoButton@0.0.33
+                            Properties:
+                              Content: |-
+                                ="1 - Filter the product list by Category and Hierarchy.
+                                2 - Click Add to Custom Order to include the selected item.
+                                3 - When the item appears in the Confirm PSI's table, toggle the Confirm button (the tab will turn green).
+                                4 - Save and Close the window.
+
+                                Note: You can add more items by repeating steps 1 and 2."
+                              FontWeight: =FontWeight.Bold
+                              X: =20
+                              Y: =5
+                        - Toggle2_3:
+                            Control: Toggle@1.1.5
+                            Properties:
+                              Checked: |
+                                =LookUp('UK Customs SharePoint Custom Tracker List',ID=currentordertrackerid).'Update Custom Pricing Items'
+                              Label: =""
+                              OnCheck: |
+                                =Patch(
+                                    'UK Customs SharePoint Custom Tracker List',
+                                    LookUp(
+                                        'UK Customs SharePoint Custom Tracker List',
+                                        ID = currentordertrackerid
+                                    ),
+                                    {
+                                        'Update Custom Pricing Items': Self.Checked,
+                                        'Last Updated': Now()
+                                    }
+                                );
+                                UKCustomsQuotationEmail.Run(currentordertrackerid);
+                                //email nabeel flow
+                              OnUncheck: |
+                                =Patch(
+                                    'UK Customs SharePoint Custom Tracker List',
+                                    LookUp(
+                                        'UK Customs SharePoint Custom Tracker List',
+                                        ID = currentordertrackerid
+                                    ),
+                                    {
+                                        'Update Custom Pricing Items': Self.Checked,
+                                        'Last Updated': Now()
+                                    }
+                                );
+                              Visible: =User().Email = "m.waka@implantcast.co.uk" || User().Email = "k.brouwer@implantcast.co.uk"|| User().Email = "n.ali@implantcast.co.uk" || User().Email = "G.powell-jones@implantcast.co.uk"
+                              X: =800
+                              Y: =Parent.Height/2-Self.Height/2
+                  - ContCustomCategory:
+                      Control: GroupContainer@1.4.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =If(Toggle2.Checked ,0,47+UKCustomCategory.Height+5)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Visible: =If(Toggle2.Checked && And((User().Email = "m.waka@implantcast.co.uk" || User().Email = "k.brouwer@implantcast.co.uk")),false,true)
+                        Width: =Parent.Width
+                        X: |
+                          =0
+                        Y: =ContCustomCategoryApproval.Height+ContCustomCategoryApproval.Y+2
+                      Children:
+                        - BadgeCanvas1:
+                            Control: Badge@0.0.24
+                            Properties:
+                              Appearance: ='BadgeCanvas.Appearance'.Tint
+                              Content: =
+                              Height: |
+                                =45
+                              Width: =Parent.Width-2
+                              X: |
+                                =2
+                              Y: =TexDisProductCode_2.Height+TexDisProductCode_2.Y+2
+                        - TexDisProductCode:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              Text: ="Product Code"
+                              Width: =119
+                              X: =2
+                              Y: =TexDisProductCode_2.Height+TexDisProductCode_2.Y+2
+                        - TextCanvas2_6:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Height: =45
+                              PaddingLeft: =10
+                              Text: ="Category"
+                              Width: =304
+                              X: =121
+                              Y: =TexDisProductCode_2.Height+TexDisProductCode_2.Y+2
+                        - TextCanvas2_7:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Height: =45
+                              PaddingLeft: =10
+                              Text: ="Hierarchy"
+                              Width: =422
+                              X: =425
+                              Y: =TexDisProductCode_2.Height+TexDisProductCode_2.Y+2
+                        - TextCanvas2_8:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Height: =45
+                              PaddingLeft: =10
+                              Text: ="Price"
+                              Width: =102
+                              X: =847
+                              Y: =51
+                        - DropdownCanvas4:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              DefaultSelectedItems: |-
+                                =[{ Value: "Pelvis" }]
+                              Items: =Distinct('Uk Customs SharePoint Categories List',Title)
+                              Width: =200
+                              X: =TexDisProductCode_1.X+TexDisProductCode_1.Width+2
+                              Y: =47/2-Self.Height/2
+                            Children:
+                              - Value1:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Value"
+                                    FieldName: ="Value"
+                                    FieldType: ="s"
+                                    Order: =1
+                        - DropdownCanvas5:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Items: =Distinct(Filter('Uk Customs SharePoint Categories List',Title=DropdownCanvas4.Selected.Value),Hierarchy)
+                              OnChange: =
+                              Width: =550
+                              X: =TexDisProductCode_2.Width+TexDisProductCode_2.X+2
+                              Y: =47/2-Self.Height/2
+                            Children:
+                              - Value4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Value"
+                                    FieldName: ="Value"
+                                    FieldType: ="s"
+                                    Order: =1
+                        - UKCustomCategory:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Flexible_SocialFeed_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(166, 166, 166, 1)
+                              Height: =Self.AllItemsCount*47+45
+                              Items: |+
+                                =If(
+                                    IsBlank(DropdownCanvas4.Selected.Value) && IsBlank(DropdownCanvas5.Selected.Value),
+                                    'Uk Customs SharePoint Categories List',  // Show all items if no filter is selected
+                                If(IsBlank(DropdownCanvas5.Selected.Value),
+                                    Filter('Uk Customs SharePoint Categories List', Title = DropdownCanvas4.Selected.Value),  // Filter by Title only
+
+                                 Filter('Uk Customs SharePoint Categories List', Title = DropdownCanvas4.Selected.Value && Hierarchy = DropdownCanvas5.Selected.Value)  // Filter by both Title and Hierarchy
+                                ))
+
+
+                              TemplatePadding: =2
+                              TemplateSize: =45
+                              Width: =Parent.Width
+                              Y: =BadgeCanvas1.Height+BadgeCanvas1.Y+2
+                            Children:
+                              - txtProductCode:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Align: =Align.Center
+                                    DisplayMode: =DisplayMode.View
+                                    Height: =45
+                                    Value: =ThisItem.'Product Code'
+                                    Width: =120
+                              - txtCategory:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Align: =Align.Center
+                                    DisplayMode: =DisplayMode.View
+                                    Height: =45
+                                    Value: =ThisItem.Title
+                                    Width: =150
+                                    X: =txtProductCode.Width+2
+                              - txtHierarchy:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    DisplayMode: =DisplayMode.View
+                                    Height: =45
+                                    Value: =ThisItem.Hierarchy
+                                    Width: |
+                                      =Parent.Width-txtProductCode.Width-txtCategory.Width-TextInputPrice.Width-NumberInputPrice.Width-ButtonCanvas2_6.Width-20
+                                    X: =txtCategory.X+txtCategory.Width+2
+                              - TextInputPrice:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    DisplayMode: =DisplayMode.View
+                                    Height: |
+                                      =45
+                                    Type: ="Number"
+                                    Value: =ThisItem.Price
+                                    Width: |+
+                                      =100
+
+
+                                    X: =txtHierarchy.Width+txtHierarchy.X+2
+                                    Y: |
+                                      =0
+                              - NumberInputPrice:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Height: =45
+                                    Value: =ThisItem.Price
+                                    Width: =100
+                                    X: =TextInputPrice.Width+TextInputPrice.X+2
+                              - ButtonCanvas2_6:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Height: |
+                                      =45
+                                    Icon: ="Add"
+                                    OnSelect: |-
+                                      =Patch(
+                                          'UK Customs SharePoint Order Confirmation List',
+                                          Defaults('UK Customs SharePoint Order Confirmation List'),
+                                          {
+                                              'Patient UID': CurrentOrderItem.'Patient UID Lookup'.Value,
+                                              Description: txtHierarchy.Value,
+                                              Qty: 1,
+                                              'OC Input': true,
+                                              'Item On FlightDeck': true,
+                                              Title: txtProductCode.Value,
+                                              'Sale Price': Value(NumberInputPrice.Value),
+                                              'Custom or loan kit item':{ Value: "Pricing Item" },
+                                              'Filter Order': UKCustomCategory_3.AllItemsCount+1
+                                          }
+                                      );
+                                      Notify(
+                                          "Pricing item added successfully",
+                                          NotificationType.Success,
+                                          3000
+                                      )
+                                    Text: ="Add to Order"
+                                    Width: =146
+                                    X: =NumberInputPrice.Width+NumberInputPrice.X+2
+                        - TexDisProductCode_1:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              Text: ="Category Filter"
+                              Width: =119
+                              X: =10
+                              Y: =2
+                        - TexDisProductCode_2:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              Text: ="Hierarchy Filter"
+                              Width: =119
+                              X: =ButReset.Width+ButReset.X+15
+                              Y: =2
+                        - ButReset:
+                            Control: Button@0.0.45
+                            Properties:
+                              Icon: ="ArrowSync"
+                              OnSelect: =Reset(DropdownCanvas4)
+                              Text: =
+                              Width: =32
+                              X: =DropdownCanvas4.Width+DropdownCanvas4.X+5
+                              Y: =47/2-Self.Height/2
+                        - ButReset_1:
+                            Control: Button@0.0.45
+                            Properties:
+                              Icon: ="ArrowSync"
+                              OnSelect: =Reset(DropdownCanvas5)
+                              Text: =
+                              Width: =32
+                              X: =DropdownCanvas5.Width+DropdownCanvas5.X+5
+                              Y: =47/2-Self.Height/2
+                        - TextCanvas2_9:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Height: =45
+                              PaddingLeft: =10
+                              Text: ="Updated Price"
+                              Width: =105
+                              X: =949
+                              Y: =49
+                  - ContPSIApproval:
+                      Control: GroupContainer@1.4.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =45
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =Parent.Width
+                        Y: =ContCustomCategory.Y+ContCustomCategory.Height+2
+                      Children:
+                        - Button_Colour_22:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.None
+                              BorderThickness: =1
+                              Color: =RGBA(0, 0, 0, 1)
+                              DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                              Fill: =If(Toggle1_8.Checked ,RGBA(0, 255, 0, 1),RGBA(208-20, 245-20, 246-20, 1))
+                              FocusedBorderThickness: =1
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Bold
+                              Height: |
+                                =45
+                              HoverBorderColor: =RGBA(0, 0, 0, 0)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =ColorFade(RGBA(0, 120, 212, 1), -10%)
+                              PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -50%)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                              RadiusBottomLeft: |+
+                                =15
+
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =15
+                              RadiusTopRight: =0
+                              Size: =20
+                              Text: ="Confirm PSI's"
+                              Visible: =gblIsAdmin
+                              Width: =Parent.Width
+                        - Toggle1_8:
+                            Control: Toggle@1.1.5
+                            Properties:
+                              Checked: =LookUp('UK Customs SharePoint Custom Tracker List',ID=currentordertrackerid).'Confirm PSI''s'
+                              Label: =""
+                              OnCheck: |+
+                                =ClearCollect(
+                                    FinalCollection,
+                                    UKCustomCategory_3.AllItems
+                                );
+                                ForAll(
+                                    RenameColumns(
+                                        Filter(
+                                            FinalCollection,
+                                            ToggOnChange.Checked
+                                        ),
+                                        ID,
+                                        EID
+                                    ),
+                                    Patch(
+                                        'UK Customs SharePoint Order Confirmation List',
+                                        LookUp(
+                                            'UK Customs SharePoint Order Confirmation List',
+                                            ID = EID
+                                        ),
+                                        {'Filter Order': Value(ThisRecord.RowNumber)}
+                                    )
+                                );
+                                Clear(FinalCollection);
+                                Patch(
+                                    'UK Customs SharePoint Custom Tracker List',// The data source to update
+                                    LookUp(
+                                        'UK Customs SharePoint Custom Tracker List',
+                                        ID = currentordertrackerid
+                                    ),// Find the specific item to update
+                                    {
+                                        'Confirm PSI''s': Self.Checked,
+                                        'Last Updated': Now()
+                                    }// Update the field to indicate the toggle is checked
+                                );
+
+                              OnUncheck: |-
+                                =Patch(
+                                    'UK Customs SharePoint Custom Tracker List',// The data source to update
+                                    LookUp(
+                                        'UK Customs SharePoint Custom Tracker List',
+                                        ID = currentordertrackerid
+                                    ),// Find the specific item to update
+                                    {
+                                        'Confirm PSI''s': Self.Checked,
+                                        'Last Updated': Now()
+                                    }// Update the field to indicate the toggle is checked
+                                )
+                              X: =750
+                              Y: =5
+                        - InfoButtonCanvas2_2:
+                            Control: InfoButton@0.0.33
+                            Properties:
+                              Content: |-
+                                ="1 - Review the custom items listed below and decide if they are needed.
+                                2 - Click the Delete icon to remove any item that is not required.
+                                3 - Toggle the Confirm PSI switch when you're satisfied with the items (the tab will turn green).
+                                4 - Save and Close the window."
+                              FontWeight: =FontWeight.Bold
+                              X: =20
+                              Y: =10
+                  - ContPSI_1:
+                      Control: GroupContainer@1.4.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: |
+                          =Parent.Height-(ContPSIApproval.Y+ContPSIApproval.Height)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =Parent.Width
+                        X: '=0   '
+                        Y: =ContPSIApproval.Y+ContPSIApproval.Height+2
+                      Children:
+                        - UKCustomCategory_3:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Flexible_SocialFeed_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(166, 166, 166, 1)
+                              Height: |
+                                =Parent.Height-BadgeCanvas1_3.Height
+                              Items: |-
+                                =With(
+                                    {
+                                        sortedData: Sort(
+                                            Sort(
+                                                Filter(
+                                                    'UK Customs SharePoint Order Confirmation List',
+                                                    'Patient UID' = CurrentOrderItem.'Patient UID Lookup'.Value,'OC Input'=true
+                                                ),
+
+                                                'Filter Order',// Sort by this column
+                                                SortOrder.Ascending
+                                            ),
+                                            Created,
+                                            SortOrder.Ascending
+                                        )
+                                    },
+                                    ForAll(
+                                        Sequence(CountRows(sortedData)),
+                                        Patch(
+                                            Last(
+                                                FirstN(
+                                                    sortedData,
+                                                    Value
+                                                )
+                                            ),
+                                            {RowNumber: Value}
+                                        )
+                                    )
+                                )
+                              TemplatePadding: =2
+                              TemplateSize: =45
+                              Width: =Parent.Width
+                              Y: =45
+                            Children:
+                              - ButtonUpdateCollection_2:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    OnSelect: |-
+                                      =//If(
+                                      //    IsNumeric(NumInputQTY_2.Value),
+                                      //    NumInputQTY_2.Value,
+                                      //    Reset(NumInputQTY_2)
+                                      //);
+                                      //If(
+                                      //    IsBlank(
+                                      //        LookUp(
+                                      //            colGridUpdates,
+                                      //            ID = ThisItem.ID
+                                      //        )
+                                      //    ),
+                                      //    Collect(
+                                      //        colGridUpdates,
+                                      //        ThisItem
+                                      //    )
+                                      //);
+                                      //UpdateIf(
+                                      //    colGridUpdates,
+                                      //    ID = ThisItem.ID,
+                                      //    {Qty: Value(NumInputQTY_2.Value),'Filter Order':Value(ThisItem.rownumber)}
+                                      //)
+                                    Visible: =false
+                                    Y: =6
+                              - txtCategory_3:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    DisplayMode: =DisplayMode.View
+                                    Height: =45
+                                    Value: =ThisItem.Title
+                                    Width: =110
+                                    X: =IconDown.X + IconDown.Width + 2
+                              - txtHierarchy_3:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    DisplayMode: =DisplayMode.View
+                                    Height: =45
+                                    Value: =ThisItem.Description
+                                    Width: =Parent.Width - IconUp.Width - IconDown.Width - txtCategory_3.Width - NumInputQTY_2.Width - TextInputPatientUID_2.Width - IconDelete.Width - 40
+                                    X: =txtCategory_3.X + txtCategory_3.Width + 2
+                              - TextInputPatientUID_2:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Align: =Align.Center
+                                    DisplayMode: =DisplayMode.View
+                                    Height: |
+                                      =45
+                                    Value: =ThisItem.'Patient UID'
+                                    Width: |+
+                                      =120
+
+                                    X: =NumInputQTY_2.X + NumInputQTY_2.Width + 2
+                                    Y: |
+                                      =0
+                              - IconDelete:
+                                  Control: Classic/Icon@2.5.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderThickness: =1
+                                    Color: =RGBA(0, 120, 212, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(220, 220, 220, 1)
+                                    DisabledFill: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =1
+                                    Height: =32
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    HoverFill: =RGBA(0, 0, 0, 0)
+                                    Icon: =Icon.Trash
+                                    OnSelect: =Remove('UK Customs SharePoint Order Confirmation List',ThisItem)
+                                    PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                    PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    PressedFill: =RGBA(0, 0, 0, 0)
+                                    X: =TextInputPatientUID_2.X + TextInputPatientUID_2.Width + 2
+                                    Y: =45/2-Self.Height/2
+                              - NumInputQTY_2:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Align: =Align.Center
+                                    Height: =45
+                                    OnChange: =Select(ButtonUpdateCollection_2)
+                                    Value: =1
+                                    Width: =75
+                                    X: =txtHierarchy_3.X + txtHierarchy_3.Width + 2
+                                    Y: '=0   '
+                              - TextOrderNumber_1:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Align: =Align.Center
+                                    Height: |
+                                      =45
+                                    Value: =ThisItem.RowNumber
+                                    Width: =90
+                              - IconUp:
+                                  Control: Classic/Icon@2.5.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderThickness: =1
+                                    Color: =RGBA(0, 120, 212, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(220, 220, 220, 1)
+                                    DisabledFill: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =1
+                                    Height: =45
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    HoverFill: =RGBA(0, 0, 0, 0)
+                                    Icon: =Icon.ArrowUp
+                                    OnSelect: |-
+                                      =If(
+                                          IsBlank(
+                                              LookUp(
+                                                  CollThisRowNew,
+                                                  ID = ThisItem.ID
+                                              )
+                                          ),
+                                          Collect(
+                                              CollThisRowNew,
+                                              ThisItem
+                                          )
+                                      );
+                                      UpdateIf(
+                                          CollThisRowNew,
+                                          ID = ThisItem.ID,
+                                          {'Filter Order': Value(ThisItem.RowNumber - 1.5)
+                                          }
+                                      );Select(PatchRowChanges)
+                                    PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                    PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    PressedFill: =RGBA(0, 0, 0, 0)
+                                    Visible: =If(ThisItem.RowNumber =1, false,true)
+                                    Width: =32
+                                    Y: |
+                                      =0
+                              - TextFilter OrderNumber:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    Align: =Align.Center
+                                    Height: |
+                                      =45
+                                    Value: =ThisItem.'Filter Order'
+                                    Visible: =false
+                                    Width: =142
+                                    X: =244
+                              - ToggOnChange:
+                                  Control: Toggle@1.1.5
+                                  Properties:
+                                    Checked: =If(ThisItem.RowNumber <> Value('TextFilter OrderNumber'.Value),true)
+                                    Label: =ToggOnChange.Checked
+                                    OnSelect: =Select(Parent)
+                                    Visible: =false
+                                    X: =821
+                                    Y: =5
+                              - IconDown:
+                                  Control: Classic/Icon@2.5.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderThickness: =1
+                                    Color: =RGBA(0, 120, 212, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(220, 220, 220, 1)
+                                    DisabledFill: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =1
+                                    Height: =45
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    HoverFill: =RGBA(0, 0, 0, 0)
+                                    Icon: =Icon.ArrowDown
+                                    OnSelect: |-
+                                      =If(
+                                          IsBlank(
+                                              LookUp(
+                                                  CollThisRowNew,
+                                                  ID = ThisItem.ID
+                                              )
+                                          ),
+                                          Collect(
+                                              CollThisRowNew,
+                                              ThisItem
+                                          )
+                                      );
+                                      UpdateIf(
+                                          CollThisRowNew,
+                                          ID = ThisItem.ID,
+                                          {'Filter Order': Value(ThisItem.RowNumber + 1.5)
+                                          }
+                                      );Select(PatchRowChanges)
+                                    PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                    PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                                    PressedFill: =RGBA(0, 0, 0, 0)
+                                    Visible: =If(ThisItem.RowNumber =UKCustomCategory_3.AllItemsCount, false,true)
+                                    Width: |
+                                      =32
+                                    X: =IconDown.Width + 2
+                                    Y: |
+                                      =0
+                        - BadgeCanvas1_3:
+                            Control: Badge@0.0.24
+                            Properties:
+                              Appearance: ='BadgeCanvas.Appearance'.Tint
+                              Content: =
+                              Height: |
+                                =45
+                              Width: =Parent.Width-2
+                              X: =2
+                        - TexDisProductCode_4:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Height: =45
+                              PaddingLeft: =15
+                              Text: ="Product Code"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =112
+                              X: =TexDisProductCode_5.X + TexDisProductCode_5.Width + 2
+                        - TextCanvas2_10:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Height: =45
+                              PaddingLeft: =15
+                              Text: ="Description"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - TexDisProductCode_5.Width - TexDisProductCode_4.Width - TextCanvas2_11.Width - TextCanvas2_12.Width - TextCanvas2_13.Width-20
+                              X: =TexDisProductCode_4.X + TexDisProductCode_4.Width
+                        - TextCanvas2_12:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              Text: ="Patient UID"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =116
+                              X: =TextCanvas2_11.X + TextCanvas2_11.Width + 2
+                        - TextCanvas2_11:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              PaddingLeft: =0
+                              Text: ="Quantity"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =79
+                              X: =TextCanvas2_10.X + TextCanvas2_10.Width + 2
+                        - TextCanvas2_13:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              Text: ="Delete"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =82
+                              X: =TextCanvas2_12.X + TextCanvas2_12.Width + 2
+                        - Archive_1:
+                            Control: Button@0.0.45
+                            Properties:
+                              OnSelect: |+
+                                =//ForAll(Filter(UKCustomCategory_1.AllItems, Toggle3.Checked = true),
+                                 //   Patch(
+                                 //       'Order Confirmaiton',
+                                  //      ThisRecord,  // Directly update the current record in ForAll()
+                                  //      {'Filter Order': 1} // Set 'Filter Order' to a fixed value of 1
+                                  //  )
+                                //) This was kept as an archive
+
+
+                              Text: ="Archive"
+                              Visible: =false
+                              X: =16
+                              Y: =6
+                        - PatchRowChanges:
+                            Control: Button@0.0.45
+                            Properties:
+                              Height: =36
+                              OnSelect: |
+                                =ForAll(RenameColumns(
+                                    CollThisRowNew,ID,EID),
+                                    Patch(
+                                        'UK Customs SharePoint Order Confirmation List',
+                                        LookUp(
+                                            'UK Customs SharePoint Order Confirmation List',
+                                            ID = EID
+                                        ),
+                                        {
+                                            'Filter Order': Value(ThisRecord.'Filter Order')
+                                        }
+                                    )
+                                );Clear(CollThisRowNew);Select(PatchRowNumber)
+                              Text: ="PatchRowChanges"
+                              Visible: =false
+                              Width: =185
+                              X: =567
+                              Y: =2
+                        - Archive_2:
+                            Control: Button@0.0.45
+                            Properties:
+                              OnSelect: |-
+                                =ClearCollect(
+                                    Test,
+                                    RenameColumns(
+                                        'UK Customs SharePoint Order Confirmation List',
+                                        ID,
+                                        EID
+                                    )
+                                )
+                              Visible: =false
+                              X: =684
+                              Y: =8
+                        - PatchRowNumber:
+                            Control: Timer@2.1.0
+                            Properties:
+                              AutoStart: =true
+                              BorderColor: =RGBA(0, 120, 212, 1)
+                              BorderStyle: =BorderStyle.None
+                              BorderThickness: =1
+                              Color: =RGBA(255, 255, 255, 1)
+                              Duration: =1000
+                              Fill: =RGBA(0, 120, 212, 1)
+                              FocusedBorderThickness: =1
+                              Font: =Font.'Segoe UI'
+                              HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -10%)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =ColorFade(RGBA(0, 120, 212, 1), -10%)
+                              OnTimerEnd: |-
+                                =ClearCollect(Collection,UKCustomCategory_3.AllItems);
+
+                                ForAll(RenameColumns(Filter(Collection, ToggOnChange.Checked )
+                                    ,ID,EID),
+                                    Patch(
+                                        'UK Customs SharePoint Order Confirmation List',
+                                        LookUp(
+                                            'UK Customs SharePoint Order Confirmation List',
+                                            ID = EID
+                                        ),
+                                        {
+                                            'Filter Order': Value(ThisRecord.RowNumber)
+                                        }
+                                    )
+                                );Clear(Collection)
+                              PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                              Size: =10.5
+                              Visible: =false
+                              X: =371
+                              Y: =6
+                        - TexDisProductCode_5:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =45
+                              PaddingLeft: =15
+                              Text: ="Order"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =66
+            - cnt_ftr_cos:
+                Control: GroupContainer@1.4.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =40
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                Children:
+                  - cnt_ftr_mainspacer_cos:
+                      Control: GroupContainer@1.4.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                  - btn_cancel_cos:
+                      Control: Button@0.0.45
+                      Properties:
+                        AccessibleLabel: ="Cancel"
+                        Appearance: ='ButtonCanvas.Appearance'.Secondary
+                        Icon: ="ArrowLeft"
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: |-
+                          =Set(CurrentOrderItem,Blank());
+                          Back();
+                        Text: ="Tracker"
