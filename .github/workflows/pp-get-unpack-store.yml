@@ -10,7 +10,7 @@ on:
       solutionname:
         description: 'The power platform solution name'
         required: false
-        default: UKCustomsApp
+        default: UkCustomsApp
         type: string
       major:
         description: 'The major version (the first solution number). If left blank, the current major version will be used.'

@@ -1,0 +1,23 @@
+---
+name: 'Get SharePoint Schema'
+permissions: 
+  id-token: write
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      arguments:
+        description: 'Optional arguments for PnP such as -Handlers Lists'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  call-remote-job:
+    name: Get SharePoint Schema
+    uses: gpjspr/gpj-common/.github/workflows/sp-get-schema-bsispdev.yml@main
+    with:
+      solutionname: ${{ vars.PP_SOLUTION_NAME }}
+      siteurl: ${{ vars.SP_SITE_URL }}
+      arguments: ${{ inputs.arguments }}
