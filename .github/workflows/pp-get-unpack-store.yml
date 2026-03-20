@@ -21,10 +21,16 @@ on:
         required: false
         type: number
 jobs:
-  call-remote-job:
+  export-solution-remote-job:
     name: Get Unpack Store Solution
     uses: gpjspr/gpj-common/.github/workflows/pp-get-unpack-store-bsispdev.yml@main
     with:
       solutionname: ${{ inputs.solutionname}}
       major: ${{inputs.major}}
       minor: ${{inputs.minor}}
+
+  lint-canvasapps-remote-job:
+    name: Check Canvas Apps
+    uses: gpjspr/gpj-common/.github/workflows/pp-canvasapp-lint.yml@main
+    continue-on-error: true
+    needs: export-solution-remote-job
