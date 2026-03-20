@@ -1,0 +1,94 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        },
+        "Uk Customs Cases Folder Path (cr49f_UkCustomsCasesFolderPath)": {
+          "defaultValue": "/shared documents/",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UkCustomsCasesFolderPath"
+          }
+        },
+        "UK Customs Elevated Users (cr49f_UKCustomsElevatedUsers)": {
+          "defaultValue": "m.waka@implantcast.co.uk;k.brouwer@implantcast.co.uk;n.ali@implantcast.co.uk;g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsElevatedUsers",
+            "description": "Elevated or Admin users"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "74c4297d-6887-48d4-a0ad-e278372adee9"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          }
+        }
+      },
+      "actions": {
+        "Return_Environment_Variables": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "212e9b53-8a63-4e5b-8ea1-86cc6ba3cd84"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "sharepointurl": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+              "casesfolder": "@parameters('Uk Customs Cases Folder Path (cr49f_UkCustomsCasesFolderPath)')",
+              "elevatedusers": "@parameters('UK Customs Elevated Users (cr49f_UKCustomsElevatedUsers)')"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sharepointurl": {
+                  "title": "sharepointurl",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                },
+                "casesfolder": {
+                  "title": "casesfolder",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                },
+                "elevatedusers": {
+                  "title": "elevatedusers",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
