@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="9.2.26031.160" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" OrganizationVersion="9.2.26031.160" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26031.00160">
+  <SolutionManifest>
+    <UniqueName>UkCustomsApp</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="UKCustomsApp" languagecode="1033"/>
+    </LocalizedNames>
+    <Descriptions/>
+    <Version>1.0.260320.6</Version>
+    <Managed>Both</Managed>
+    <Publisher>
+      <UniqueName>Cr837da</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="CDS Default Publisher" languagecode="1033"/>
+      </LocalizedNames>
+      <Descriptions/>
+      <EMailAddress xsi:nil="true"/>
+      <SupportingWebsiteUrl xsi:nil="true"/>
+      <CustomizationPrefix>cr49f</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>15489</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode xsi:nil="true"/>
+          <City xsi:nil="true"/>
+          <County xsi:nil="true"/>
+          <Country xsi:nil="true"/>
+          <Fax xsi:nil="true"/>
+          <FreightTermsCode xsi:nil="true"/>
+          <ImportSequenceNumber xsi:nil="true"/>
+          <Latitude xsi:nil="true"/>
+          <Line1 xsi:nil="true"/>
+          <Line2 xsi:nil="true"/>
+          <Line3 xsi:nil="true"/>
+          <Longitude xsi:nil="true"/>
+          <Name xsi:nil="true"/>
+          <PostalCode xsi:nil="true"/>
+          <PostOfficeBox xsi:nil="true"/>
+          <PrimaryContactName xsi:nil="true"/>
+          <ShippingMethodCode xsi:nil="true"/>
+          <StateOrProvince xsi:nil="true"/>
+          <Telephone1 xsi:nil="true"/>
+          <Telephone2 xsi:nil="true"/>
+          <Telephone3 xsi:nil="true"/>
+          <TimeZoneRuleVersionNumber xsi:nil="true"/>
+          <UPSZone xsi:nil="true"/>
+          <UTCOffset xsi:nil="true"/>
+          <UTCConversionTimeZoneCode xsi:nil="true"/>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode xsi:nil="true"/>
+          <City xsi:nil="true"/>
+          <County xsi:nil="true"/>
+          <Country xsi:nil="true"/>
+          <Fax xsi:nil="true"/>
+          <FreightTermsCode xsi:nil="true"/>
+          <ImportSequenceNumber xsi:nil="true"/>
+          <Latitude xsi:nil="true"/>
+          <Line1 xsi:nil="true"/>
+          <Line2 xsi:nil="true"/>
+          <Line3 xsi:nil="true"/>
+          <Longitude xsi:nil="true"/>
+          <Name xsi:nil="true"/>
+          <PostalCode xsi:nil="true"/>
+          <PostOfficeBox xsi:nil="true"/>
+          <PrimaryContactName xsi:nil="true"/>
+          <ShippingMethodCode xsi:nil="true"/>
+          <StateOrProvince xsi:nil="true"/>
+          <Telephone1 xsi:nil="true"/>
+          <Telephone2 xsi:nil="true"/>
+          <Telephone3 xsi:nil="true"/>
+          <TimeZoneRuleVersionNumber xsi:nil="true"/>
+          <UPSZone xsi:nil="true"/>
+          <UTCOffset xsi:nil="true"/>
+          <UTCConversionTimeZoneCode xsi:nil="true"/>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="29" id="{0714e94d-2aea-f011-8406-00224840d221}" behavior="0"/>
+      <RootComponent type="29" id="{1345c520-58fb-f011-8406-7ced8db73047}" behavior="0"/>
+      <RootComponent type="29" id="{1630bb97-d400-f111-8406-6045bd1198a8}" behavior="0"/>
+      <RootComponent type="29" id="{45bc7684-59fb-f011-8406-7ced8db73047}" behavior="0"/>
+      <RootComponent type="29" id="{606448bb-a9d5-f011-8544-7c1e522e1b37}" behavior="0"/>
+      <RootComponent type="29" id="{61bfb861-35db-f011-8544-7c1e522e1b37}" behavior="0"/>
+      <RootComponent type="29" id="{b20d851d-1200-f111-8406-7ced8db75548}" behavior="0"/>
+      <RootComponent type="29" id="{b9458b1f-9705-f111-8406-7c1e522dc8e2}" behavior="0"/>
+      <RootComponent type="29" id="{cf760fb2-3edb-f011-8544-7c1e522e1b37}" behavior="0"/>
+      <RootComponent type="29" id="{e20cb262-d8f5-f011-8407-00224840d221}" behavior="0"/>
+      <RootComponent type="29" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}" behavior="0"/>
+      <RootComponent type="300" schemaName="cr49f_ukcustoms_ba9e2" behavior="0"/>
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_ExcelUKCustoms" solution="Active" id.connectionreferencelogicalname="cr49f_ExcelUKCustoms"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Quotation Email" id="{1345c520-58fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Error Handling" id="{606448bb-a9d5-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Email Delivery Of Custom" id="{b20d851d-1200-f111-8406-7ced8db75548}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Delivery Date" id="{e20cb262-d8f5-f011-8407-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedoffice365_36571" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedoffice365_36571"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Intake Form Review" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Quotation Email" id="{1345c520-58fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Email Delivery Of Custom" id="{b20d851d-1200-f111-8406-7ced8db75548}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Create CAD Folders" id="{b9458b1f-9705-f111-8406-7c1e522dc8e2}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Create Patient Folders" id="{cf760fb2-3edb-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Delivery Date" id="{e20cb262-d8f5-f011-8407-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="cr49f_sharedsharepointonline_a7486" solution="UKCustoms (1.0.26210.2)" id.connectionreferencelogicalname="cr49f_sharedsharepointonline_a7486"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Intake Form Review" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsAppID" solution="Active" id.schemaname="cr49f_UKCustomsAppID"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsAppID" solution="Active" id.schemaname="cr49f_UKCustomsAppID"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsAppID" solution="Active" id.schemaname="cr49f_UKCustomsAppID"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Delivery Date" id="{e20cb262-d8f5-f011-8407-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsAppID" solution="Active" id.schemaname="cr49f_UKCustomsAppID"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Intake Form Review" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UkCustomsCasesFolderPath" solution="Active" id.schemaname="cr49f_UkCustomsCasesFolderPath"/>
+        <Dependent type="29" displayName="UK Customs | Instant | App Start" id="{61bfb861-35db-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsElevatedUsers" solution="Active" id.schemaname="cr49f_UKCustomsElevatedUsers"/>
+        <Dependent type="29" displayName="UK Customs | Instant | App Start" id="{61bfb861-35db-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsNabeelNotificationCCEmail" solution="Active" id.schemaname="cr49f_UKCustomsNabeelNotificationCCEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsNabeelNotificationCCEmail" solution="Active" id.schemaname="cr49f_UKCustomsNabeelNotificationCCEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointAdminEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointAdminEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointAdminEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointAdminEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointAdminEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointAdminEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Error Handling" id="{606448bb-a9d5-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCADCustomCases" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCADCustomCases"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Create CAD Folders" id="{b9458b1f-9705-f111-8406-7c1e522dc8e2}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCaseIntakeReviewForm" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCaseIntakeReviewForm"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCaseLogList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCaseLogList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UkCustomsSharePointCategoriesList" solution="Active" id.schemaname="cr49f_UkCustomsSharePointCategoriesList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomCasesFolder" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomCasesFolder"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Create Patient Folders" id="{cf760fb2-3edb-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomDatesList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomDatesList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Email Delivery Of Custom" id="{b20d851d-1200-f111-8406-7ced8db75548}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Delivery Date" id="{e20cb262-d8f5-f011-8407-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomEmail" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomEmail"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Intake Form Review" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UkCustomsSharePointCustomPriorityList" solution="Active" id.schemaname="cr49f_UkCustomsSharePointCustomPriorityList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Quotation Email" id="{1345c520-58fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Email Delivery Of Custom" id="{b20d851d-1200-f111-8406-7ced8db75548}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Delivery Date" id="{e20cb262-d8f5-f011-8407-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Intake Form Review" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointCustomTrackerList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointCustomTrackerList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointDesignProposal" solution="Active" id.schemaname="cr49f_UKCustomsSharePointDesignProposal"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointExcelOneDriveID" solution="Active" id.schemaname="cr49f_UKCustomsSharePointExcelOneDriveID"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointHospitals" solution="Active" id.schemaname="cr49f_UKCustomsSharePointHospitals"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointHospitals" solution="Active" id.schemaname="cr49f_UKCustomsSharePointHospitals"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointIntakeForm" solution="Active" id.schemaname="cr49f_UKCustomsSharePointIntakeForm"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointNabeelEmailAddress" solution="Active" id.schemaname="cr49f_UKCustomsSharePointNabeelEmailAddress"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Quotation Email" id="{1345c520-58fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointNabeelEmailAddress" solution="Active" id.schemaname="cr49f_UKCustomsSharePointNabeelEmailAddress"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointNabeelEmailAddress" solution="Active" id.schemaname="cr49f_UKCustomsSharePointNabeelEmailAddress"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointOrderAutomationEmailAddress" solution="Active" id.schemaname="cr49f_UKCustomsSharePointOrderAutomationEmailAddress"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointOrderConfirmationList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointOrderConfirmationList"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointOrderConfirmationList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointOrderConfirmationList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointProductsList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointProductsList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | New Case Created" id="{0714e94d-2aea-f011-8406-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Quotation Email" id="{1345c520-58fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Flightdeck" id="{1630bb97-d400-f111-8406-6045bd1198a8}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Pricing Item" id="{45bc7684-59fb-f011-8406-7ced8db73047}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | App Start" id="{61bfb861-35db-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Email Delivery Of Custom" id="{b20d851d-1200-f111-8406-7ced8db75548}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Create CAD Folders" id="{b9458b1f-9705-f111-8406-7c1e522dc8e2}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Create Patient Folders" id="{cf760fb2-3edb-f011-8544-7c1e522e1b37}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Update Delivery Date" id="{e20cb262-d8f5-f011-8407-00224840d221}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="29" displayName="UK Customs | Instant | Intake Form Review" id="{e4e9b08e-97fa-f011-8406-7ced8d397229}"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSIte" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSIte"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="EnvironmentVariableDefinition" displayName="cr49f_UKCustomsSharePointSurgeonKardexList" solution="Active" id.schemaname="cr49f_UKCustomsSharePointSurgeonKardexList"/>
+        <Dependent type="300" schemaName="cr49f_ukcustoms_ba9e2" displayName="UK Customs"/>
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

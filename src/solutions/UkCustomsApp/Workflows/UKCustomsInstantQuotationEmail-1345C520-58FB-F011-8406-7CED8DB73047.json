@@ -1,0 +1,178 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_office365_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedoffice365_36571"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs Nabeel Email Address (cr49f_UKCustomsSharePointNabeelEmailAddress)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointNabeelEmailAddress"
+          }
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        },
+        "UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)": {
+          "defaultValue": "b0a427d4-a873-4ace-924a-08f730ed2925",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomTrackerList",
+            "description": "UK Customs SharePoint Custom Tracker List"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "a5b55f98-4e3c-4216-800f-09c1356c55d7"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "title": "TrackerID",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "Custom Tracker ID",
+                  "x-ms-content-hint": "NUMBER"
+                }
+              },
+              "required": [
+                "number"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Try_Scope": {
+          "actions": {
+            "Get_Tracker_Item": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "2fe39f40-bc6c-49f2-9aef-749f43fd9dc1"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)')",
+                  "id": "@triggerBody()['number']"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "description": "We dont really need this as the trigger has it, but the flow was instant"
+            },
+            "Email_for_Quote": {
+              "runAfter": {
+                "Get_Tracker_Item": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ef09c67b-3753-4ac1-893a-7ca7383086ab"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_office365_1",
+                  "operationId": "SendEmailV2",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                },
+                "parameters": {
+                  "emailMessage/To": "@parameters('UK Customs Nabeel Email Address (cr49f_UKCustomsSharePointNabeelEmailAddress)')",
+                  "emailMessage/Subject": "Quote request for @{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']}/@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}",
+                  "emailMessage/Body": "<p>Good day Nabeel,</p>\n<p>Please could you provide a quote for @{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']} </p>\n<p><b><Pricing Items:</b> <a href='@{parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')}/Shared Documents/@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}/Quote'>@{parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')}/Shared Documents/@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}/Quote</a></p>\n<p><b>Hospital:</b> @{outputs('Get_Tracker_Item')?['body/Hospital']}</p>\n<p><b>Sales Person:</b> @{outputs('Get_Tracker_Item')?['body/SalesRepresentativePerson/DisplayName']}</p>\n<p>Please save the quote in the <a href='@{parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')}/Shared Documents/@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}/Quote'>Quote Folder</a>\n<p>Thank You</p>\n<p>UK Customs</p>\n<p>****Automated Email****</p>",
+                  "emailMessage/Importance": "Normal"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "2fed899d-64b3-49b9-b416-bdd0859f8e32"
+          },
+          "type": "Scope"
+        },
+        "Error_Scope": {
+          "actions": {
+            "Call_Error_Flow": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "3624323f-36e8-44a1-8d8b-29d58699cada"
+              },
+              "type": "Workflow",
+              "inputs": {
+                "host": {
+                  "workflowReferenceName": "606448bb-a9d5-f011-8544-7c1e522e1b37"
+                },
+                "body": {
+                  "text": "UK Customs | Instant | Quote Email",
+                  "text_1": "Error sending email",
+                  "text_2": "@concat('https://make.powerautomate.com/environments/', workflow().tags.environmentName, '/flows/', workflow().name, '/runs/', workflow().run.name)"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Try_Scope": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f74b968b-c9d2-4690-957d-b9e0f2e33632"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,169 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+App:
+  Properties:
+    OnStart: |-
+      =Set(
+          CurrentIntakeItem,
+          Blank()
+      );
+      Set(
+          CurrentTrackerItem,
+          Blank()
+      );
+      Set(
+          CurrentReviewItem,
+          Blank()
+      );
+      Set(
+          varImageHight,
+          200
+      );
+      If(
+          Not(IsBlankOrError(Param("entity"))),
+          Switch(
+              Param("entity"),
+              "tracker",
+              Set(
+                  CurrentTrackerItem,
+                  LookUp(
+                      'UK Customs SharePoint Custom Tracker List',
+                      ID = Int(Param("id"))
+                  )
+              ),
+              "intake",
+              Set(
+                  CurrentIntakeItem,
+                  LookUp(
+                      'UK Customs SharePoint Intake Form',
+                      ID = Int(Param("id"))
+                  )
+              ),
+              "order",
+              Set(
+                  CurrentOrderItem,
+                  LookUp(
+                      'UK Customs SharePoint Order Confirmation List',
+                      ID=Int(Param("id"))
+                  )
+              )
+
+          )
+      );
+      // Set up tracker status collection
+      ClearCollect(
+          colTrackerStatus,
+          {
+              field: "Planning Can Continue",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "Submit Design Proposal for Review",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "If Applicable. Surgeon Approved Concept",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "If Applicable. Surgeon Rejected Concept",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "Sign Prescription Form",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "Trigger Manufacturing",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "Confirm OC",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "Delivered",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          },
+          {
+              field: "Case Feedback",
+              casestage: " Planning / Concept ",
+              caseintake: " Complete ",
+              planning: " Planning / Concept ",
+              designconcept: " Design Proposal ",
+              approval: " Financial Approval ",
+              delivery: " Manufacturing",
+              surgery: " Surgery "
+          }
+      )
+    StartScreen: |-
+      =If(
+          IsBlankOrError(Param("entity")),
+          HomeScreen,
+          Switch(
+              Param("entity"),
+              "tracker",
+              CustomTrackerScreen,
+              "intake",
+              IntakeFormScreen,
+              "review",
+              IntakeReviewScreen,
+              "order",
+              CustomOrderScren
+          )
+      )
+    Theme: =SharePointTheme

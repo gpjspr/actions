@@ -1,0 +1,664 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_excelonlinebusiness_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_ExcelUKCustoms"
+        },
+        "api": {
+          "name": "shared_excelonlinebusiness"
+        }
+      },
+      "shared_office365_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedoffice365_36571"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        },
+        "UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)": {
+          "defaultValue": "b0a427d4-a873-4ace-924a-08f730ed2925",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomTrackerList",
+            "description": "UK Customs SharePoint Custom Tracker List"
+          }
+        },
+        "UK Customs SharePoint Hospitals (cr49f_UKCustomsSharePointHospitals)": {
+          "defaultValue": "d227d836-c87d-408f-a129-1f9af0cde702",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointHospitals"
+          }
+        },
+        "UK Customs SharePoint Order Confirmation List (cr49f_UKCustomsSharePointOrderConfirmationList)": {
+          "defaultValue": "2c20da9c-daaa-425f-8607-22fc4ea3132e",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointOrderConfirmationList"
+          }
+        },
+        "UK Customs Nabeel Notification CC Email (cr49f_UKCustomsNabeelNotificationCCEmail)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsNabeelNotificationCCEmail"
+          }
+        },
+        "UK Customs Order Automation Email Address (cr49f_UKCustomsSharePointOrderAutomationEmailAddress)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointOrderAutomationEmailAddress"
+          }
+        },
+        "UK Customs Admin Email (cr49f_UKCustomsSharePointAdminEmail)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointAdminEmail"
+          }
+        },
+        "UK Customs Nabeel Email Address (cr49f_UKCustomsSharePointNabeelEmailAddress)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointNabeelEmailAddress"
+          }
+        },
+        "UK Customs SharePoint Excel OneDrive ID (cr49f_UKCustomsSharePointExcelOneDriveID)": {
+          "defaultValue": "b!LYCbK-59S0GngxsXRQr6aVCURoc9OjhDk_EDVJHOk4dmTimFtK7gTY6sYsrGFKkO",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointExcelOneDriveID"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "ded26d0d-318c-450d-b205-1e6000888b7f"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "title": "trackerid",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter a number",
+                  "x-ms-content-hint": "NUMBER"
+                }
+              },
+              "required": [
+                "number"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Try_Scope": {
+          "actions": {
+            "Get_Tracker_Item": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "fb7adc6c-a714-4623-9207-e63b6b864c66"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)')",
+                  "id": "@triggerBody()['number']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Get_Hospital_Items": {
+              "runAfter": {
+                "Get_Tracker_Item": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7ac6b328-4b67-4d79-8096-812e6cbbad8c"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Hospitals (cr49f_UKCustomsSharePointHospitals)')",
+                  "$filter": "Title eq '@{outputs('Get_Tracker_Item')?['body/Hospital']}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Get_Master_Sales_Template_Content": {
+              "runAfter": {
+                "Get_Hospital_Items": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "80834e22-e8f5-416e-afbb-5f4cb09c5c07"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetFileContentByPath",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "path": "/Shared Documents/General/UK Customs Sales Order Template/UK Customs Sales Order Template.xlsx",
+                  "inferContentType": true
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Custom_Table": {
+              "runAfter": {
+                "Create_Temporary_File_in_SharePoint": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "5a4b69d4-4a7a-4977-b13f-6397c0367ec1",
+                "tableId": null
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_excelonlinebusiness_1",
+                  "operationId": "CreateTable",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+                },
+                "parameters": {
+                  "source": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "drive": "@parameters('UK Customs SharePoint Excel OneDrive ID (cr49f_UKCustomsSharePointExcelOneDriveID)')",
+                  "file": "@outputs('Create_Temporary_File_in_SharePoint')?['body/Id']",
+                  "table/Range": "$A1:$L1",
+                  "table/TableName": "Custom",
+                  "table/ColumnsNames": "Order No,Territory,Surgeon,Hospital,AccountCode,Deliver UK Date,Operation Date,ShippingDate,Patient ID,Notes,QuoteNo,IsFinal"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Custom_Items_Table": {
+              "runAfter": {
+                "Create_Custom_Table": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b22ae7ed-ccdf-4166-900c-8018716456ff",
+                "tableId": null
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_excelonlinebusiness_1",
+                  "operationId": "CreateTable",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+                },
+                "parameters": {
+                  "source": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "drive": "@parameters('UK Customs SharePoint Excel OneDrive ID (cr49f_UKCustomsSharePointExcelOneDriveID)')",
+                  "file": "@outputs('Create_Temporary_File_in_SharePoint')?['body/Id']",
+                  "table/Range": "$A3:$E3",
+                  "table/TableName": "Items",
+                  "table/ColumnsNames": "ProductCode,Description,Qty,SalePrice,CostPrice"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Each_Hospital_Item": {
+              "foreach": "@outputs('Get_Hospital_Items')?['body/value']",
+              "actions": {
+                "Compose_Case_Info_with_Account_Code": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "b30fc0ff-f346-434d-bd7f-932393fe79ce"
+                  },
+                  "type": "Compose",
+                  "inputs": {
+                    "Order No": "@outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']",
+                    "Territory": "@items('Each_Hospital_Item')?['SalesPerson/DisplayName']",
+                    "Surgeon": "@outputs('Get_Tracker_Item')?['body/Surgeon']",
+                    "Hospital": "@items('Each_Hospital_Item')?['Title']",
+                    "AccountCode": "@items('Each_Hospital_Item')?['AccountCode']",
+                    "Deliver UK Date": "@if(empty(outputs('Get_Tracker_Item')?['body/DeliverytoUKDate']), '', formatDateTime(outputs('Get_Tracker_Item')?['body/DeliverytoUKDate'], 'dd/MM/yyyy'))",
+                    "Operation Date": "@if(empty(outputs('Get_Tracker_Item')?['body/Advise_x0020_surgery_x0020_date']), '', formatDateTime(outputs('Get_Tracker_Item')?['body/Advise_x0020_surgery_x0020_date'], 'dd/MM/yyyy'))",
+                    "ShippingDate": "@if(empty(outputs('Get_Tracker_Item')?['body/Advise_x0020_of_x0020_delivery']), '', formatDateTime(outputs('Get_Tracker_Item')?['body/Advise_x0020_of_x0020_delivery'], 'dd/MM/yyyy'))",
+                    "Patient ID": "@outputs('Get_Tracker_Item')?['body/Hospital_x0020_Number_x003a__x00']",
+                    "Notes": "@concat(outputs('Get_Tracker_Item')?['UID_Power_Automate'], ' - ', formatDateTime(utcNow(), 'dd/MM/yyyy HH:mm'))",
+                    "QuoteNo": "@outputs('Get_Tracker_Item')?['body/QuoteNumber']",
+                    "IsFinal": "@if(equals(outputs('Get_Tracker_Item')?['body/LockFlightDeck'], true), 'Y', '')"
+                  }
+                },
+                "Add_Hospital_Info_Row": {
+                  "runAfter": {
+                    "Compose_Case_Info_with_Account_Code": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "34d84ddb-3212-43f8-8aa2-6d439bce2a37",
+                    "tableId": "@outputs('Create_Custom_Table')?['body/name']"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_excelonlinebusiness_1",
+                      "operationId": "AddRowV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+                    },
+                    "parameters": {
+                      "source": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "drive": "@parameters('UK Customs SharePoint Excel OneDrive ID (cr49f_UKCustomsSharePointExcelOneDriveID)')",
+                      "file": "@outputs('Create_Temporary_File_in_SharePoint')?['body/Id']",
+                      "table": "@outputs('Create_Custom_Table')?['body/name']",
+                      "item": "@outputs('Compose_Case_Info_with_Account_Code')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Create_Custom_Items_Table": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b335ddac-363a-4643-a69c-454f54da439c"
+              },
+              "type": "Foreach"
+            },
+            "Get_Order_Confirmation_Items": {
+              "runAfter": {
+                "Each_Hospital_Item": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1192fad3-3f7d-4f13-87ee-09dfb495ea6e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Order Confirmation List (cr49f_UKCustomsSharePointOrderConfirmationList)')",
+                  "$filter": "PatientUID eq '@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}' and\nOC_x0020_Input eq 1 and\nItemOnFlightDeck eq 1",
+                  "$orderby": "FilterOrder asc"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Each_Order_Confirmation_Item": {
+              "foreach": "@outputs('Get_Order_Confirmation_Items')?['body/value']",
+              "actions": {
+                "Compose_Order_Confirmation_Item": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "6e6839b8-e3f4-4325-9785-0204e781c33d"
+                  },
+                  "type": "Compose",
+                  "inputs": {
+                    "ProductCode": "@if(\r\n    or(\r\n        contains(item()?['Title'], 'SA'), \r\n        contains(item()?['Title'], 'CD'), \r\n        contains(item()?['Title'], 'SK')\r\n    ), \r\n    item()?['Title'], \r\n    concat('''', item()?['Title'])\r\n)",
+                    "Description": "@items('Each_Order_Confirmation_Item')?['Description']",
+                    "Qty": "@items('Each_Order_Confirmation_Item')?['Qty']",
+                    "SalePrice": "@items('Each_Order_Confirmation_Item')?['Price']",
+                    "CostPrice": "@items('Each_Order_Confirmation_Item')?['CostPrice']"
+                  }
+                },
+                "Add_Order_Confirmation_Rows": {
+                  "runAfter": {
+                    "Compose_Order_Confirmation_Item": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "105f4971-405d-4eab-925d-5d1916209fe1",
+                    "tableId": "@outputs('Create_Custom_Items_Table')?['body/name']"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_excelonlinebusiness_1",
+                      "operationId": "AddRowV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+                    },
+                    "parameters": {
+                      "source": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "drive": "@parameters('UK Customs SharePoint Excel OneDrive ID (cr49f_UKCustomsSharePointExcelOneDriveID)')",
+                      "file": "@outputs('Create_Temporary_File_in_SharePoint')?['body/Id']",
+                      "table": "@outputs('Create_Custom_Items_Table')?['body/name']",
+                      "item": "@outputs('Compose_Order_Confirmation_Item')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_Order_Confirmation_Items": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "05c138f2-bd4a-4844-8f21-38c007e482e3"
+              },
+              "type": "Foreach"
+            },
+            "Pause_30_seconds_to_make_sure_Excel_is_updated": {
+              "runAfter": {
+                "Each_Order_Confirmation_Item": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3f04adfc-6172-48e1-a710-a7dba8502785"
+              },
+              "type": "Wait",
+              "inputs": {
+                "interval": {
+                  "count": 30,
+                  "unit": "Second"
+                }
+              }
+            },
+            "Notify_Admin_and_EmailAutomation_of_Custom_Items": {
+              "runAfter": {
+                "Get_Excel_FIle": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f168ea51-ebbf-4093-a0b8-6320e95c411c"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_office365_1",
+                  "operationId": "SendEmailV2",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                },
+                "parameters": {
+                  "emailMessage/To": "@{parameters('UK Customs Admin Email (cr49f_UKCustomsSharePointAdminEmail)')};@{parameters('UK Customs Order Automation Email Address (cr49f_UKCustomsSharePointOrderAutomationEmailAddress)')}",
+                  "emailMessage/Subject": "Flightdeck Order Confirmation - @{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']}",
+                  "emailMessage/Body": "<p>Flightdeck Custom Order</p>",
+                  "emailMessage/Cc": "@parameters('UK Customs Nabeel Notification CC Email (cr49f_UKCustomsNabeelNotificationCCEmail)')",
+                  "emailMessage/Attachments": [
+                    {
+                      "Name": "@outputs('Create_Temporary_File_in_SharePoint')?['body/Name']",
+                      "ContentBytes": "@body('Get_Excel_FIle')"
+                    }
+                  ],
+                  "emailMessage/Importance": "Normal"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Temporary_File_in_SharePoint": {
+              "runAfter": {
+                "Get_Master_Sales_Template_Content": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "8fbd5d32-8571-493a-8bb4-24c506456cef"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "folderPath": "/Shared Documents/Custom Orders",
+                  "name": "@concat(outputs('Get_Tracker_Item')?['body/UID_Power_Automate'],'-',guid(),'.xlsx')",
+                  "body": "@body('Get_Master_Sales_Template_Content')"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            },
+            "Get_Excel_FIle": {
+              "runAfter": {
+                "Pause_30_seconds_to_make_sure_Excel_is_updated": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3bcdedc0-370e-4f7c-ac63-d18105dd0990"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetFileContent",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "id": "@outputs('Create_Temporary_File_in_SharePoint')?['body/Id']",
+                  "inferContentType": true
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Get_Order_Confirmation_Items_Not_On_Flightdeck": {
+              "runAfter": {
+                "Notify_Admin_and_EmailAutomation_of_Custom_Items": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1192fad3-3f7d-4f13-87ee-09dfb495ea6e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Order Confirmation List (cr49f_UKCustomsSharePointOrderConfirmationList)')",
+                  "$filter": "PatientUID eq '@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}' and\nOC_x0020_Input eq 1 and\nItemOnFlightDeck eq 0",
+                  "$orderby": "FilterOrder asc"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Items_Not_on_FlightDeck_Found": {
+              "actions": {
+                "Create_HTML_table_of_Items": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "6fec44de-fd8e-401f-b459-fb80648654d9"
+                  },
+                  "type": "Table",
+                  "inputs": {
+                    "from": "@outputs('Get_Order_Confirmation_Items_Not_On_Flightdeck')?['body/value']",
+                    "format": "HTML",
+                    "columns": [
+                      {
+                        "header": "ProductCode",
+                        "value": "@if(\r\n    or(\r\n        contains(item()?['Title'], 'SA'), \r\n        contains(item()?['Title'], 'CD'), \r\n        contains(item()?['Title'], 'SK')\r\n    ), \r\n    item()?['Title'], \r\n    concat('''', item()?['Title'])\r\n)"
+                      },
+                      {
+                        "header": "Description",
+                        "value": "@item()?['Description']"
+                      },
+                      {
+                        "header": "Qty",
+                        "value": "@item()?['Qty']"
+                      }
+                    ]
+                  }
+                },
+                "Notify_of_Items_not_on_Flightdeck": {
+                  "runAfter": {
+                    "Create_HTML_table_of_Items": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "6113d104-efa2-4e07-8cd0-b1157e10c414"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365_1",
+                      "operationId": "SendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/To": "@parameters('UK Customs Nabeel Email Address (cr49f_UKCustomsSharePointNabeelEmailAddress)')",
+                      "emailMessage/Subject": "Flightdeck Custom Order Items not on Flightdeck - @{outputs('Get_Tracker_Item')?['body/C_x002d_FitCaseNumber']}/@{outputs('Get_Tracker_Item')?['body/UID_Power_Automate']}",
+                      "emailMessage/Body": "<p>Dear Team,</p>\n<p>Please see the list of items that is not registered on FlightDeck</p>\n<p>\n@{body('Create_HTML_table_of_Items')}\n</p>\n<p>Thank you. UK Customs</p>",
+                      "emailMessage/Importance": "Normal"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_Order_Confirmation_Items_Not_On_Flightdeck": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "greater": [
+                  "@length(outputs('Get_Order_Confirmation_Items_Not_On_Flightdeck')?['body/value'])",
+                  0
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1dbc5ae4-5382-4a76-8c70-49819c1bef80"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "7a433b2f-c8c3-469d-8ebf-037129846e66"
+          },
+          "type": "Scope"
+        },
+        "Error_Scope": {
+          "actions": {
+            "Call_Error_Flow": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "07d52944-53e6-4569-bb39-89508e384337"
+              },
+              "type": "Workflow",
+              "inputs": {
+                "host": {
+                  "workflowReferenceName": "606448bb-a9d5-f011-8544-7c1e522e1b37"
+                },
+                "body": {
+                  "text": "UK Customs | Instant | Update Flightdeck",
+                  "text_1": "Error with case id @{triggerBody()['number']}",
+                  "text_2": "@concat('https://make.powerautomate.com/environments/', workflow().tags.environmentName, '/flows/', workflow().name, '/runs/', workflow().run.name)"
+                }
+              }
+            },
+            "Terminate": {
+              "runAfter": {
+                "Call_Error_Flow": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f0a8a937-caec-4298-9196-60b8d2422eed"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "Error processing flight deck update",
+                  "message": "Error with case ID @{triggerBody()['number']}"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Try_Scope": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "960976c6-b7c7-4437-8832-19c01243e163"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
