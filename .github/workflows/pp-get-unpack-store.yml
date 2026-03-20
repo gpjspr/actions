@@ -7,11 +7,11 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      solutionname:
-        description: 'The power platform solution name'
-        required: false
-        default: UkCustomsApp
-        type: string
+     # solutionname:
+     #   description: 'The power platform solution name'
+     #   required: false
+     #   default: UkCustomsApp
+     #   type: string
       major:
         description: 'The major version (the first solution number). If left blank, the current major version will be used.'
         required: false
@@ -25,6 +25,6 @@ jobs:
     name: Get Unpack Store Solution
     uses: gpjspr/gpj-common/.github/workflows/pp-get-unpack-store-bsispdev.yml@main
     with:
-      solutionname: ${{ inputs.solutionname}}
+      solutionname: ${{ vars.PP_SOLUTION_NAME }}
       major: ${{inputs.major}}
       minor: ${{inputs.minor}}
