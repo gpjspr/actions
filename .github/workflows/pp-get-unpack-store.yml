@@ -35,3 +35,11 @@ jobs:
     with:
       fail-on-errors: false
     needs: export-solution-remote-job
+
+  document-flows-remote-job:
+    name: Document Flows
+    uses: gpjspr/gpj-common/.github/workflows/pp-document-flows.yml@main
+    with:
+      flow-path: src/solutions/${{ inputs.solutionname }}/Workflows
+      output-path: documentation/flowdiagrams
+    needs: export-solution-remote-job
