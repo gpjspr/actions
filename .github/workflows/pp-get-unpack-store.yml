@@ -40,6 +40,6 @@ jobs:
     name: Document Flows
     uses: gpjspr/gpj-common/.github/workflows/pp-document-flows.yml@main
     with:
-      flow-path: src/solutions/${{ inputs.solutionname }}/Workflows
+      solutionname: ${{ inputs.solutionname }}
       output-path: documentation/flowdiagrams
     needs: export-solution-remote-job
