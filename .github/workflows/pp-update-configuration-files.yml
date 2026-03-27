@@ -1,0 +1,21 @@
+---
+name: 'Update Configuration Files'
+permissions: 
+  id-token: write
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      solutionname:
+        description: 'The power platform solution name'
+        required: false
+        default: UkCustomsApp
+        type: string
+
+jobs:
+  update-configuration-files-remote-job:
+    name: Update Configuration
+    uses: gpjspr/gpj-common/.github/workflows/pp-update-configuration-files.yml@main
+    with:
+      solutionname: ${{ inputs.solutionname}}
