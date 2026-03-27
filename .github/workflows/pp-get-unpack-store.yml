@@ -36,13 +36,13 @@ jobs:
     with:
       fail-on-errors: false
 
-  update-configuration-remote-job:
-    name: Configuration
-    uses: gpjspr/gpj-common/.github/workflows/pp-update-configuration-files.yml@main
-    needs: export-solution-remote-job
-    if: needs.export-solution-remote-job.outputs.config_exists == 'true'
-    with:
-      solutionname: ${{ inputs.solutionname}}
+  # update-configuration-remote-job:
+  #  name: Configuration
+  #  uses: gpjspr/gpj-common/.github/workflows/pp-update-configuration-files.yml@main
+  #  needs: export-solution-remote-job
+  #  if: needs.export-solution-remote-job.outputs.config_exists == 'true'
+  #  with:
+  #   solutionname: ${{ inputs.solutionname}}
 
   # document-flows-remote-job:
   #  name: Document Flows
