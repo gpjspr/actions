@@ -1,4 +1,46 @@
 {
-  "EnvironmentVariables": [],
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "cr49f_UKCustomsSharePointCustomTrackerList",
+      "Value": "",
+      "Name": {
+        "Default": "UK Customs SharePoint Custom Tracker List",
+        "ByLcid": {
+          "1033": "UK Customs SharePoint Custom Tracker List"
+        }
+      },
+      "TypeId": 100000004,
+      "Description": {
+        "Default": "UK Customs SharePoint Custom Tracker List",
+        "ByLcid": {
+          "1033": "UK Customs SharePoint Custom Tracker List"
+        }
+      },
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "cr49f_UKCustomsSharePointSIte"
+    },
+    {
+      "SchemaName": "cr49f_UKCustomsSharePointSIte",
+      "Value": "",
+      "Name": {
+        "Default": "UK Customs SharePoint SIte",
+        "ByLcid": {
+          "1033": "UK Customs SharePoint SIte"
+        }
+      },
+      "TypeId": 100000004,
+      "Description": {
+        "Default": "SharePoint site URL for UK Customs",
+        "ByLcid": {
+          "1033": "SharePoint site URL for UK Customs"
+        }
+      },
+      "IsRequired": false,
+      "ParameterKey": "dataset",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+    }
+  ],
   "ConnectionReferences": []
 }
