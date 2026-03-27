@@ -1,0 +1,502 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)": {
+          "defaultValue": "85294e66-aeb4-4de0-8eac-62cac614a90e",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomCasesFolder"
+          }
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "02a1d8ef-5599-44e9-ab56-bb9f72cfd9fa"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "PatientUID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "patient UID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "email": {
+                  "title": "SalesPerson",
+                  "type": "string",
+                  "format": "email",
+                  "x-ms-dynamically-added": true,
+                  "description": "Sales Person Email",
+                  "x-ms-content-hint": "EMAIL"
+                }
+              },
+              "required": [
+                "text",
+                "email"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Create_Folders_Scope": {
+          "actions": {
+            "Create_Patient_Folder": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "eef12ab1-4abc-45b4-b929-314ef53c6d88"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@triggerBody()['text']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Signed_Presciption_Folder": {
+              "runAfter": {
+                "Create_Patient_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "52f61677-85e7-4f45-aac6-ab3044bfdfa2"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Signed Prescription Form"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Design_Proposal_Folder": {
+              "runAfter": {
+                "Create_Presciption_Form_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7d7414bf-10ef-4d59-a516-0b008e83bd36"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Design Proposal"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Surgical_Technique_Folder": {
+              "runAfter": {
+                "Create_Design_Concept_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "338ac89b-be64-4442-b024-17c88bb889e2"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Surgical Technique"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Final_OC_Folder": {
+              "runAfter": {
+                "Create_Surgical_Technique_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c7e382f9-b334-4fed-be59-c6b4eb9b7746"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/FInal OC"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Usage_Folder": {
+              "runAfter": {
+                "Create_Quote_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "946695cd-0dc7-411a-8e3b-7f77f795215f"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Usage"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Patient_Images_Folder": {
+              "runAfter": {
+                "Create_Usage_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "24c727c7-125b-469c-8010-ca7d2e934dde"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Patient Images"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Standard_Plans_Folder": {
+              "runAfter": {
+                "Create_Patient_Images_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4d0549fc-6579-4342-8843-e2d46ffae7c4"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Standard Plans"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "SalesPersonEmail_is_not_blank": {
+              "actions": {
+                "Set_Metadata_on_Patient_Folder": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "7abd4564-40a0-47b9-9e98-d57d27a34c86"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchFileItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                      "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                      "id": "@outputs('Create_Patient_Folder')?['body/ID']",
+                      "item/SalesPerson/Claims": "@triggerBody()['email']"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Create_Standard_Plans_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "and": [
+                  {
+                    "not": {
+                      "equals": [
+                        "@triggerBody()['email']",
+                        "@null"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "equals": [
+                        "@triggerBody()['email']",
+                        ""
+                      ]
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "0558a47d-a891-4fc4-804e-422caf904941"
+              },
+              "type": "If"
+            },
+            "Create_Presciption_Form_Folder": {
+              "runAfter": {
+                "Create_Signed_Presciption_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "52f61677-85e7-4f45-aac6-ab3044bfdfa2"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Signed Form"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Quote_Folder": {
+              "runAfter": {
+                "Create_Final_OC_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "52f61677-85e7-4f45-aac6-ab3044bfdfa2"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Quote"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_Design_Concept_Folder": {
+              "runAfter": {
+                "Create_Design_Proposal_Folder": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "52f61677-85e7-4f45-aac6-ab3044bfdfa2"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CreateNewFolder",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Cases Folder (cr49f_UKCustomsSharePointCustomCasesFolder)')",
+                  "parameters/path": "@{triggerBody()['text']}/Concept Discussion"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_vBoolResult": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "02924490-99b1-4522-aa77-6ead57d247f9"
+          },
+          "type": "Scope"
+        },
+        "Initialize_vBoolResult": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "bde664d2-e5b4-4343-be16-8da9a2c02428"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "vBoolResult",
+                "type": "boolean",
+                "value": "@true"
+              }
+            ]
+          }
+        },
+        "Create_Folders_Error_Scope": {
+          "actions": {
+            "Set_vBoolResult_false": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "816eebe8-7a48-487e-ba84-eba85874f00f"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "vBoolResult",
+                "value": "@false"
+              }
+            },
+            "Call_Error_Flow": {
+              "runAfter": {
+                "Set_vBoolResult_false": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "646163b0-3fa5-4468-bafe-d7c69ebdf0b6"
+              },
+              "type": "Workflow",
+              "inputs": {
+                "host": {
+                  "workflowReferenceName": "606448bb-a9d5-f011-8544-7c1e522e1b37"
+                },
+                "body": {
+                  "text": "UK Customs | Instant | Create Patient Folders",
+                  "text_1": "Patient UID : @{triggerBody()['text']}, Sales Person: @{triggerBody()['email']}",
+                  "text_2": "@concat('https://make.powerautomate.com/environments/', workflow().tags.environmentName, '/flows/', workflow().name, '/runs/', workflow().run.name)"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Create_Folders_Scope": [
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8c47b261-537e-49c4-b642-10d82c2e98d7"
+          },
+          "type": "Scope"
+        },
+        "Respond_with_Outcome": {
+          "runAfter": {
+            "Create_Folders_Error_Scope": [
+              "Succeeded",
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "56c99ec7-d6b9-43b4-981b-c4328ad917ce"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "result": "@{variables('vBoolResult')}"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "title": "result",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

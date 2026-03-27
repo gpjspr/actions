@@ -1,0 +1,344 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_office365_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedoffice365_36571"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "UK Customs App ID (cr49f_UKCustomsAppID)": {
+          "defaultValue": "6f345072-804d-46aa-b535-065f42f989b1",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsAppID",
+            "description": "App ID"
+          }
+        },
+        "UK Customs Custom Email (cr49f_UKCustomsSharePointCustomEmail)": {
+          "defaultValue": "g.powell-jones@implantcast.co.uk",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomEmail"
+          }
+        },
+        "UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)": {
+          "defaultValue": "https://implantcastuk.sharepoint.com/sites/Cfit3DDEV",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointSIte",
+            "description": "SharePoint site URL for UK Customs"
+          }
+        },
+        "UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)": {
+          "defaultValue": "b0a427d4-a873-4ace-924a-08f730ed2925",
+          "type": "String",
+          "metadata": {
+            "schemaName": "cr49f_UKCustomsSharePointCustomTrackerList",
+            "description": "UK Customs SharePoint Custom Tracker List"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "456938db-1d3f-428d-a3fb-1fc945257ea2"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "boolean": {
+                  "title": "SubmittedForReview",
+                  "type": "boolean",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please select yes or no",
+                  "x-ms-content-hint": "BOOLEAN"
+                },
+                "number": {
+                  "title": "CustomTrackerID",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter a number",
+                  "x-ms-content-hint": "NUMBER"
+                },
+                "email": {
+                  "title": "NotificationEmail",
+                  "type": "string",
+                  "format": "email",
+                  "x-ms-dynamically-added": true,
+                  "description": "Submitted For Review Email",
+                  "x-ms-content-hint": "EMAIL"
+                }
+              },
+              "required": [
+                "boolean",
+                "number"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Try_Scope": {
+          "actions": {
+            "Get_Custom_Tracker_Item_for_Details": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "eb392b67-02d6-4d59-93fa-245601485824"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('UK Customs SharePoint SIte (cr49f_UKCustomsSharePointSIte)')",
+                  "table": "@parameters('UK Customs SharePoint Custom Tracker List (cr49f_UKCustomsSharePointCustomTrackerList)')",
+                  "id": "@triggerBody()['number']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "SubmittedForReview_is_true": {
+              "actions": {
+                "Notify_Recipient_of_Submitted_for_Review": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "354ba6a3-4085-4638-a83f-2b49ee8c4c1c"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365_1",
+                      "operationId": "SharedMailboxSendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/MailboxAddress": "@parameters('UK Customs Custom Email (cr49f_UKCustomsSharePointCustomEmail)')",
+                      "emailMessage/To": "@triggerBody()['email']",
+                      "emailMessage/Subject": "@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/UID_Power_Automate']}/@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/Hospital_x0020_Number_x003a__x00']}/@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/Surgeon']}/@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/SalesRepresentativePerson/DisplayName']} - Intake Form",
+                      "emailMessage/Body": "<p>Dear Team Member</p>\n<p>Please review the Intake Form and Images for @{outputs('Get_Custom_Tracker_Item_for_Details')?['body/UID_Power_Automate']}</p>\n<p>Review the patient images and case intake form and assess if the images and information align and if all the required information is present to design the custom implant. UK Customs will liaise with the Sales Person if any information is outstanding or required.<br>\nWhen finished, tigger the \"Complete Case Intake Review\" on the case tracker.</p>\n<p><a href=\"https://apps.powerapps.com/play/e/@{workflow().tags.environmentName}/a/@{parameters('UK Customs App ID (cr49f_UKCustomsAppID)')}?entity=tracker&id=@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/ID']}\">Case Tracker</a></p>\n<p><a href=\"https://apps.powerapps.com/play/e/@{workflow().tags.environmentName}/a/@{parameters('UK Customs App ID (cr49f_UKCustomsAppID)')}?entity=intake&id=@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/CaseIntakeReviewID']}\">Intake Form</a></p>\n<p>Thank You</p>\n<p>****Automated Email</p>",
+                      "emailMessage/Importance": "Normal"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Planning_Approach_is_Intake_Form": {
+                  "actions": {
+                    "Notify_Sales_Rep_of_Planning_Approach": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "c4608cea-645f-4876-acc4-8d2177de56ec"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_office365_1",
+                          "operationId": "SharedMailboxSendEmailV2",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                        },
+                        "parameters": {
+                          "emailMessage/MailboxAddress": "@parameters('UK Customs Custom Email (cr49f_UKCustomsSharePointCustomEmail)')",
+                          "emailMessage/To": "@triggerBody()['email']",
+                          "emailMessage/Subject": "@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/UID_Power_Automate']}/@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/Hospital_x0020_Number_x003a__x00']}/@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/Surgeon']}/@{outputs('Get_Custom_Tracker_Item_for_Details')?['body/SalesRepresentativePerson/DisplayName']} - I-Caps",
+                          "emailMessage/Body": "<p>Dear @{outputs('Get_Custom_Tracker_Item_for_Details')?['body/SalesRepresentativePerson/DisplayName']}</p>\n<p>The paitent information and images are being reviewed for @{outputs('Get_Custom_Tracker_Item_for_Details')?['body/UID_Power_Automate']}</p>\n<p>Please <b>do not<.b> create an I-Caps until <b>review is completed</b>\n<p>You will receive confirmation on completion of the case review</p>\n<p>Thank You</p>\n<p>****Automated Email</p>",
+                          "emailMessage/Importance": "Normal"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Notify_Recipient_of_Submitted_for_Review": [
+                      "Succeeded"
+                    ]
+                  },
+                  "expression": {
+                    "and": [
+                      {
+                        "equals": [
+                          "@outputs('Get_Custom_Tracker_Item_for_Details')?['body/Case_x0020_Planning_x0020_Approa']",
+                          "Intake Form"
+                        ]
+                      },
+                      {
+                        "not": {
+                          "equals": [
+                            "@outputs('Get_Custom_Tracker_Item_for_Details')?['body/SalesRepresentativePerson/Email']",
+                            "@null"
+                          ]
+                        }
+                      },
+                      {
+                        "not": {
+                          "equals": [
+                            "@outputs('Get_Custom_Tracker_Item_for_Details')?['body/SalesRepresentativePerson/Email']",
+                            ""
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "18365158-73ee-4898-a98b-2e1136c6c2a7"
+                  },
+                  "type": "If"
+                }
+              },
+              "runAfter": {
+                "Get_Custom_Tracker_Item_for_Details": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@triggerBody()['boolean']",
+                      "@true"
+                    ]
+                  },
+                  {
+                    "not": {
+                      "equals": [
+                        "@triggerBody()?['email']",
+                        "@null"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "equals": [
+                        "@triggerBody()?['email']",
+                        ""
+                      ]
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4c35f464-f1d1-468b-98a5-52b8625b8807"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "0766a2eb-cba0-4cc0-bd2e-ddcd3001ed9e"
+          },
+          "type": "Scope"
+        },
+        "Respond_complete": {
+          "runAfter": {
+            "Try_Scope": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c52e7cdf-bddb-47b5-817e-10e0e3f82b06"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "complete": "@{true}"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "complete": {
+                  "title": "complete",
+                  "x-ms-dynamically-added": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "Error_Scope": {
+          "actions": {
+            "Call_Error_Flow": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "b269985e-b979-4daa-a8e3-ef3753ba9b53"
+              },
+              "type": "Workflow",
+              "inputs": {
+                "host": {
+                  "workflowReferenceName": "606448bb-a9d5-f011-8544-7c1e522e1b37"
+                },
+                "body": {
+                  "text": "UK Customs | Instant | Intake Form Review",
+                  "text_1": "Error emailing intake review",
+                  "text_2": "@concat('https://make.powerautomate.com/environments/', workflow().tags.environmentName, '/flows/', workflow().name, '/runs/', workflow().run.name)"
+                }
+              }
+            },
+            "Terminate": {
+              "runAfter": {
+                "Call_Error_Flow": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4d68204e-750b-489e-b0fe-cdaf17b29c0c"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "Error processing intake review",
+                  "message": "Error emailing intake reviwe"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Try_Scope": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "35858df6-26f4-47e2-82c3-0fbf6558214f"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

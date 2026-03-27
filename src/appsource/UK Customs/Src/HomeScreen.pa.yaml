@@ -1,0 +1,658 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  HomeScreen:
+    Properties:
+      OnVisible: |
+        =If(
+            IsBlank(gblEnvironmentVariables),
+            Set(
+                gblEnvironmentVariables,
+                UKCustomsAppStart.Run()
+            )
+        );
+        // if logged in user is elevated, set gblIsAdmin
+        If(
+            IsMatch(
+                gblEnvironmentVariables.elevatedusers,
+                Lower(User().Email),
+                MatchOptions.Contains
+            ),
+            Set(
+                gblIsAdmin,
+                true
+            ),
+            Set(
+                gblIsAdmin,
+                false
+            )
+        );
+    Children:
+      - cnt_layout_hs:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - cnt_header_hs:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                Children:
+                  - hdr_hs:
+                      Control: Header@0.0.44
+                      Properties:
+                        IsProfilePictureVisible: =false
+                        Logo: =Pelvis
+                        Title: ="UK Customs (0.3)"
+            - cnt_main_hs:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(245, 245, 245, 1)
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  LayoutWrap: =true
+                  PaddingBottom: =2
+                  PaddingLeft: =2
+                  PaddingRight: =2
+                  PaddingTop: =2
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - cnt_item1_hs:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =300
+                        LayoutMinWidth: =If(HomeScreen.Size = ScreenSize.Small, Parent.Width, 400)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =10
+                      Children:
+                        - cmt_img_item1_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1.5
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinWidth: =cnt_item1_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_icon_item1_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =60
+                                    Height: =100
+                                    Icon: ="Add"
+                                    IconStyle: ='ButtonCanvas.IconStyle'.Filled
+                                    Layout: ='ButtonCanvas.Layout'.IconOnly
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: |-
+                                      =Set(CurrentTrackerItem,Blank());
+                                      //EditForm((FormCustomTracker);
+                                      ResetForm(FormCustomTracker);
+                                      Navigate(CustomTrackerScreen);
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Text: =
+                                    Width: =100
+                        - cnt_title_item1_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinWidth: =cnt_item1_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_item1_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Featured item button"
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =20
+                                    FontWeight: =FontWeight.Bold
+                                    LayoutMinWidth: =Parent.Width
+                                    OnSelect: |-
+                                      =Set(CurrentTrackerItem,Blank());
+                                      ResetForm(FormCustomTracker);
+                                      //NewForm(FormCustomTracker);
+                                      Navigate(CustomTrackerScreen);
+                                    Text: ="New Custom Case"
+                                    Width: =Parent.Width
+                              - txt_item1_hs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    LayoutMinWidth: =Parent.Width
+                                    Size: =16
+                                    Text: ="Create a new case"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    Width: =Parent.Width
+                  - cnt_item2_hs:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =300
+                        LayoutMinWidth: =If(HomeScreen.Size = ScreenSize.Small, Parent.Width, 400)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =10
+                      Children:
+                        - cmt_img_item2_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1.5
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinWidth: =cnt_item2_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_icon_item2_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =60
+                                    Height: =100
+                                    Icon: ="Send"
+                                    IconRotation: =-45
+                                    IconStyle: ='ButtonCanvas.IconStyle'.Filled
+                                    Layout: ='ButtonCanvas.Layout'.IconOnly
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Navigate(CustomTrackerGalleryScreen)
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Text: =
+                                    Width: =100
+                        - cnt_title_item2_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinWidth: =cnt_item2_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_item2_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Featured item button"
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =20
+                                    FontWeight: =FontWeight.Bold
+                                    LayoutMinWidth: =Parent.Width
+                                    OnSelect: =Navigate(CustomTrackerGalleryScreen)
+                                    Text: ="Custom Trackers"
+                                    Width: =Parent.Width
+                              - txt_item2_hs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    LayoutMinWidth: =Parent.Width
+                                    Size: =16
+                                    Text: ="View all tracker forms you have access to"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    Width: =Parent.Width
+                  - cnt_item3_hs:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =300
+                        LayoutMinWidth: =If(HomeScreen.Size = ScreenSize.Small, Parent.Width, 400)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =10
+                      Children:
+                        - cmt_img_item3_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1.5
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinWidth: =cnt_item3_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_icon_item3_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =60
+                                    Height: =100
+                                    Icon: ="DocumentBulletList"
+                                    IconStyle: ='ButtonCanvas.IconStyle'.Filled
+                                    Layout: ='ButtonCanvas.Layout'.IconOnly
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Navigate(IntakeFormGalleryScreen)
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Text: =
+                                    Width: =100
+                        - cnt_title_item3_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinWidth: =cnt_item3_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_item3_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Featured item button"
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =20
+                                    FontWeight: =FontWeight.Bold
+                                    LayoutMinWidth: =Parent.Width
+                                    OnSelect: =Navigate(IntakeFormGalleryScreen)
+                                    Text: ="Intake Forms"
+                                    Width: =Parent.Width
+                              - txt_item3_hs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    LayoutMinWidth: =Parent.Width
+                                    Size: =16
+                                    Text: ="View all intake forms"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    Width: =Parent.Width
+                  - cnt_item4_hs:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =300
+                        LayoutMinWidth: =If(HomeScreen.Size = ScreenSize.Small, Parent.Width, 400)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =10
+                      Children:
+                        - cmt_img_item4_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1.5
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinWidth: =cnt_item4_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_icon_item4_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    DisplayMode: =DisplayMode.Disabled
+                                    FontSize: =60
+                                    Height: =100
+                                    Icon: ="Money"
+                                    IconStyle: ='ButtonCanvas.IconStyle'.Filled
+                                    Layout: ='ButtonCanvas.Layout'.IconOnly
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Navigate(CustomOrderGalleryScreen)
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Text: =
+                                    Width: =100
+                        - cnt_title_item4_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinWidth: =cnt_item4_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_item4_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Featured item button"
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    DisplayMode: =DisplayMode.Disabled
+                                    FontSize: =20
+                                    FontWeight: =FontWeight.Bold
+                                    LayoutMinWidth: =Parent.Width
+                                    OnSelect: =Navigate(CustomOrderGalleryScreen)
+                                    Text: ="Custom Orders"
+                                    Width: =Parent.Width
+                              - txt_item4_hs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    LayoutMinWidth: =Parent.Width
+                                    Size: =16
+                                    Text: ="View all custom orders"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    Width: =Parent.Width
+                  - cnt_item5_hs:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =300
+                        LayoutMinWidth: =If(HomeScreen.Size = ScreenSize.Small, Parent.Width, 400)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =10
+                      Children:
+                        - cmt_img_item5_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1.5
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinWidth: =cnt_item5_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - img_item5_hs:
+                                  Control: Image@2.2.3
+                                  Properties:
+                                    ImagePosition: =ImagePosition.Fill
+                        - cnt_title_item5_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinWidth: =cnt_item5_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_item5_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Featured item button"
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =20
+                                    FontWeight: =FontWeight.Bold
+                                    LayoutMinWidth: =Parent.Width
+                                    Text: ="Featured item"
+                                    Width: =Parent.Width
+                              - txt_item5_hs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    LayoutMinWidth: =Parent.Width
+                                    Size: =16
+                                    Text: ="Short description or engaging message"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    Width: =Parent.Width
+                  - cnt_item6_hs:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =300
+                        LayoutMinWidth: =If(HomeScreen.Size = ScreenSize.Small, Parent.Width, 400)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =10
+                      Children:
+                        - cmt_img_item6_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1.5
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinWidth: =cnt_item6_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - img_item6_hs:
+                                  Control: Image@2.2.3
+                                  Properties:
+                                    ImagePosition: =ImagePosition.Fill
+                        - cnt_title_item6_hs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinWidth: =cnt_item6_hs.Width
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - btn_item6_hs:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Featured item button"
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FontSize: =20
+                                    FontWeight: =FontWeight.Bold
+                                    LayoutMinWidth: =Parent.Width
+                                    Text: ="Featured item"
+                                    Width: =Parent.Width
+                              - txt_item6_hs:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    LayoutMinWidth: =Parent.Width
+                                    Size: =16
+                                    Text: ="Short description or engaging message"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    Width: =Parent.Width
