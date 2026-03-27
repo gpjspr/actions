@@ -15,7 +15,7 @@ on:
 
 jobs:
   call-remote-job:
-    name: Get SharePoint Schema
+    name: SharePoint
     uses: gpjspr/gpj-common/.github/workflows/sp-get-schema-bsispdev.yml@main
     with:
       solutionname: ${{ vars.PP_SOLUTION_NAME }}
