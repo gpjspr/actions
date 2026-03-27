@@ -1,6 +1,18 @@
 {
   "EnvironmentVariables": [
     {
+      "SchemaName": "cr49f_UKCustomsDevelopmentToggle",
+      "Value": "",
+      "Name": {
+        "Default": "UK Customs Development Toggle",
+        "ByLcid": {
+          "1033": "UK Customs Development Toggle"
+        }
+      },
+      "TypeId": 100000002,
+      "IsRequired": false
+    },
+    {
       "SchemaName": "cr49f_UKCustomsSharePointCustomTrackerList",
       "Value": "",
       "Name": {

@@ -40,6 +40,18 @@
       "IsRequired": false,
       "ParameterKey": "dataset",
       "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+    },
+    {
+      "SchemaName": "cr49f_UKCustomsDevelopmentToggle",
+      "Value": "",
+      "Name": {
+        "Default": "UK Customs Development Toggle",
+        "ByLcid": {
+          "1033": "UK Customs Development Toggle"
+        }
+      },
+      "TypeId": 100000002,
+      "IsRequired": false
     }
   ],
   "ConnectionReferences": []
