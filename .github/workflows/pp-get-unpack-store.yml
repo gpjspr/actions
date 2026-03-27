@@ -22,7 +22,7 @@ on:
         type: number
 jobs:
   export-solution-remote-job:
-    name: Get Unpack Store Solution
+    name: Get Unpack
     uses: gpjspr/gpj-common/.github/workflows/pp-get-unpack-store-bsispdev.yml@main
     with:
       solutionname: ${{ inputs.solutionname}}
