@@ -40,7 +40,7 @@ jobs:
     name: Configuration
     uses: gpjspr/gpj-common/.github/workflows/pp-update-configuration-files.yml@main
     needs: export-solution-remote-job
-    if: needs.export-solution-remote-job.outputs.configexists == 'true'
+    if: needs.export-solution-remote-job.outputs.config_exists == 'true'
     with:
       solutionname: ${{ inputs.solutionname}}
 
