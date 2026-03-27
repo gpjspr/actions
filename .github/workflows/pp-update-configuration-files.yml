@@ -15,7 +15,7 @@ on:
 
 jobs:
   update-configuration-files-remote-job:
-    name: Update Configuration
+    name: Configuration
     uses: gpjspr/gpj-common/.github/workflows/pp-update-configuration-files.yml@main
     with:
       solutionname: ${{ inputs.solutionname}}
