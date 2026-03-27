@@ -32,9 +32,15 @@ jobs:
   lint-canvasapps-remote-job:
     name: Check Canvas Apps
     uses: gpjspr/gpj-common/.github/workflows/pp-canvasapp-lint.yml@main
+    needs: export-solution-remote-job
     with:
       fail-on-errors: false
+
+  update-configuration-remote-job:
+    name: Configuration
+    uses: gpjspr/gpj-common/.github/workflows/pp-update-configuration-files.yml@main
     needs: export-solution-remote-job
+    if: needs.export-solution-remote-job.outputs.configexists == 'true'
 
   # document-flows-remote-job:
   #  name: Document Flows
