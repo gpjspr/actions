@@ -43,13 +43,25 @@ jobs:
       major: ${{inputs.major}}
       minor: ${{inputs.minor}}
       pp_env_url: ${{ needs.prepare.outputs.pp_env_url }}
-
+      
+  download-artifacts:
+    name: Download app artifacts
+    runs-on: ubuntu-latest
+    needs: export-solution-remote-job
+  
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: appsource
+          path: src/appsource
+        
   lint-canvasapps-remote-job:
     name: Check Canvas Apps
     uses: gpjspr/gpj-common/.github/workflows/pp-canvasapp-lint.yml@main
     with:
       fail-on-errors: false
-    needs: export-solution-remote-job
+      root: src/appsource
+    needs: download-artifacts
 
   # document-flows-remote-job:
   #  name: Document Flows
