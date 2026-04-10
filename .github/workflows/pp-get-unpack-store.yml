@@ -21,13 +21,28 @@ on:
         required: false
         type: number
 jobs:
+
+  prepare:
+    name: 'Prepare environment variables'
+    runs-on: ubuntu-latest
+    environment: DEV
+    outputs:
+      pp_env_url: ${{ steps.set.outputs.pp_env_url }}
+
+    steps:
+      - id: set
+        run: |
+          echo "pp_env_url=${{ vars.PP_ENV_URL }}" >> $GITHUB_OUTPUT
+          
   export-solution-remote-job:
     name: Get Unpack
+    needs: prepare
     uses: gpjspr/gpj-common/.github/workflows/pp-get-unpack-store-bsispdev.yml@main
     with:
       solutionname: ${{ inputs.solutionname}}
       major: ${{inputs.major}}
       minor: ${{inputs.minor}}
+      pp_env_url: ${{ needs.prepare.outputs.pp_env_url }}
 
   lint-canvasapps-remote-job:
     name: Check Canvas Apps
