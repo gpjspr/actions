@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     outputs:
-      pp_env_url: ${{ steps.set.outputs.sp_site_url }}
+      sp_site_url: ${{ steps.set.outputs.sp_site_url }}
 
     steps:
       - id: set
