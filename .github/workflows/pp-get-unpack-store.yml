@@ -63,7 +63,7 @@ jobs:
       fail-on-errors: false
       root: src/appsource
   #  needs: download-artifacts
-      needs: export-solution-remote-job
+    needs: export-solution-remote-job
 
   # document-flows-remote-job:
   #  name: Document Flows
