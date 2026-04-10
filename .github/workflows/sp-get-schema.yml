@@ -31,6 +31,5 @@ jobs:
     uses: gpjspr/gpj-common/.github/workflows/sp-get-schema-bsispdev.yml@main
     with:
       solutionname: ${{ vars.PP_SOLUTION_NAME }}
-      siteurl: ${{ vars.SP_SITE_URL }}
+      siteurl:  ${{ needs.prepare.outputs.sp_site_url }}
       arguments: ${{ inputs.arguments }}
-      sp_site_url: ${{ needs.prepare.outputs.sp_site_url }}
