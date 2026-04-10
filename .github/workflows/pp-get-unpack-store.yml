@@ -3,6 +3,7 @@ name: 'Get Unpack Store Solution'
 permissions: 
   id-token: write
   contents: write
+  actions: write
 
 on:
   workflow_dispatch:
