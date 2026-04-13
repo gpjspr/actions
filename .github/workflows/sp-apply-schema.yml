@@ -27,7 +27,8 @@ jobs:
       - id: set
         run: |
           echo "sp_site_url=${{ vars.SP_SITE_URL }}" >> $GITHUB_OUTPUT
-          echo "### Using environment ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY     
+          echo "### Using environment ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "Site =  ${{ vars.SP_SITE_URL }}" >> $GITHUB_STEP_SUMMARY 
   call-remote-job:
     name: SharePoint
     needs: set
