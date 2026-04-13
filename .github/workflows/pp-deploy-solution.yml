@@ -3,6 +3,7 @@ name: Deploy Solution
 permissions:
   id-token: write
   contents: write
+  actions: write
 on:
   push:
     branches:
@@ -51,13 +52,13 @@ jobs:
           echo "pp_env_url=${{ vars.PP_ENV_URL }}" >> $GITHUB_OUTPUT
           echo "sp_site_url=${{ vars.SP_SITE_URL }}" >> $GITHUB_OUTPUT
           
-  sharepoint-remote-job:
-    name: SharePoint
-    needs: set
-    uses: gpjspr/gpj-common/.github/workflows/sp-update-schema-bsispdev.yml@main
-    with:
-      solutionname: ${{ vars.PP_SOLUTION_NAME }}
-      siteurl:  ${{ needs.set.outputs.sp_site_url }}
+  # sharepoint-remote-job:
+  #   name: SharePoint
+  #   needs: set
+  #  uses: gpjspr/gpj-common/.github/workflows/sp-update-schema-bsispdev.yml@main
+  #  with:
+  #    solutionname: ${{ vars.PP_SOLUTION_NAME }}
+  #    siteurl:  ${{ needs.set.outputs.sp_site_url }}
       
   solution-remote-job:
     name: Solution
