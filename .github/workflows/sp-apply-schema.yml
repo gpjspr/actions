@@ -3,6 +3,7 @@ name: 'Update SharePoint Schema'
 permissions: 
   id-token: write
   contents: write
+  actions: write
 
 on:
   workflow_dispatch:
