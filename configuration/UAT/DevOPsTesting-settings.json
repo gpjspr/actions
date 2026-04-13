@@ -2,7 +2,7 @@
   "EnvironmentVariables": [
     {
       "SchemaName": "crdf0_DevOpsTestSharePointList",
-      "Value": "",
+      "Value": "989dff1f-6a35-432d-b012-e8d203445e26",
       "Name": {
         "Default": "DevOpsTestSharePointList",
         "ByLcid": {
