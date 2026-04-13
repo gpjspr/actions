@@ -6,6 +6,14 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Deployment environment'
+        options:
+          - TEST
+          - UAT
+          - PROD
 
 jobs:
   prepare:
@@ -16,7 +24,7 @@ jobs:
     steps:
       - id: env
         run: |
-          BRANCH="${GITHUB_REF_NAME}"
+          BRANCH="${{ inputs.environment }}"
     
           if [[ $BRANCH == dev/* ]]; then
             ENV_NAME="DEV"
