@@ -62,7 +62,8 @@ jobs:
       
   solution-remote-job:
     name: Solution
-    needs: [set,sharepoint-remote-job]
+ 
+    needs: set
     uses: gpjspr/gpj-common/.github/workflows/pp-deploy-bsispdev.yml@main
     with:
       solutionname: ${{ vars.PP_SOLUTION_NAME }}
