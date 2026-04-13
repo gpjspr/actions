@@ -3,6 +3,7 @@ name: 'Update Configuration Files'
 permissions: 
   id-token: write
   contents: write
+  actions: write
 
 on:
   workflow_dispatch:
