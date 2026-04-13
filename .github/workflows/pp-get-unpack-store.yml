@@ -8,11 +8,6 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      solutionname:
-        description: 'The power platform solution name'
-        required: false
-        default: UkCustomsApp
-        type: string
       major:
         description: 'The major version (the first solution number). If left blank, the current major version will be used.'
         required: false
@@ -40,7 +35,7 @@ jobs:
     needs: prepare
     uses: gpjspr/gpj-common/.github/workflows/pp-get-unpack-store-bsispdev.yml@main
     with:
-      solutionname: ${{ inputs.solutionname}}
+      solutionname: ${{ vars.PP_SOLUTION_NAME }}
       major: ${{inputs.major}}
       minor: ${{inputs.minor}}
       pp_env_url: ${{ needs.prepare.outputs.pp_env_url }}
@@ -69,6 +64,6 @@ jobs:
   #  name: Document Flows
   #  uses: gpjspr/gpj-common/.github/workflows/pp-document-flows.yml@main
   #  with:
-  #    solutionname: ${{ inputs.solutionname }}
+  #    solutionname: ${{ vars.PP_SOLUTION_NAME }}
   #    output-path: documentation/flowdiagrams
   #  needs: export-solution-remote-job
