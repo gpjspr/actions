@@ -17,7 +17,7 @@
     },
     {
       "SchemaName": "crdf0_DevOpsTestSharePointSite",
-      "Value": "",
+      "Value": "https://bsispdev.sharepoint.com/sites/devopsuat",
       "Name": {
         "Default": "DevOpsTest - SharePoint Site",
         "ByLcid": {
