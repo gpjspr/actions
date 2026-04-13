@@ -1,0 +1,46 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "crdf0_DevOpsTestSharePointList",
+      "Value": "",
+      "Name": {
+        "Default": "DevOpsTestSharePointList",
+        "ByLcid": {
+          "1033": "DevOpsTestSharePointList"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "crdf0_DevOpsTestSharePointSite"
+    },
+    {
+      "SchemaName": "crdf0_DevOpsTestSharePointSite",
+      "Value": "",
+      "Name": {
+        "Default": "DevOpsTest - SharePoint Site",
+        "ByLcid": {
+          "1033": "DevOpsTest - SharePoint Site"
+        }
+      },
+      "TypeId": 100000004,
+      "Description": {
+        "Default": "DevOps Test SharePointSite",
+        "ByLcid": {
+          "1033": "DevOps Test SharePointSite"
+        }
+      },
+      "IsRequired": false,
+      "ParameterKey": "dataset",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "spr_SharePoint",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+    }
+  ]
+}

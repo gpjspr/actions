@@ -1,0 +1,132 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "spr_SharePoint"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "DevOpsTest - SharePoint Site (crdf0_DevOpsTestSharePointSite)": {
+          "defaultValue": "https://bsispdev.sharepoint.com/sites/Kevin",
+          "type": "String",
+          "metadata": {
+            "schemaName": "crdf0_DevOpsTestSharePointSite",
+            "description": "DevOps Test SharePointSite"
+          }
+        },
+        "DevOpsTestSharePointList (crdf0_DevOpsTestSharePointList)": {
+          "defaultValue": "59e4c5a1-ef50-4b64-bf1f-f81e4d84ac19",
+          "type": "String",
+          "metadata": {
+            "schemaName": "crdf0_DevOpsTestSharePointList"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "f22c494d-425e-430e-96b3-bfcdc9f38301"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          }
+        }
+      },
+      "actions": {
+        "Get_Hospital_Item": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "3329736b-6f8a-4f50-b1bc-285a2df9da56"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('DevOpsTest - SharePoint Site (crdf0_DevOpsTestSharePointSite)')",
+              "table": "@parameters('DevOpsTestSharePointList (crdf0_DevOpsTestSharePointList)')"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Compose": {
+          "runAfter": {
+            "Break_Solution_with_Wrong_Connector": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ae2b0428-7559-46e6-b885-24bbbb340468"
+          },
+          "type": "Compose",
+          "inputs": "@length(outputs('Get_Hospital_Item')?['body/value'])"
+        },
+        "Break_Solution_with_Wrong_Connector": {
+          "runAfter": {
+            "Get_Hospital_Item": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0891ab83-e27c-49af-9f14-edf97c6ede52"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetAllTables",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('DevOpsTest - SharePoint Site (crdf0_DevOpsTestSharePointSite)')"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
