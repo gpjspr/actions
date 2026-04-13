@@ -49,8 +49,8 @@ jobs:
           
   call-remote-job:
     name: SharePoint
-    needs: prepare
+    needs: set
     uses: gpjspr/gpj-common/.github/workflows/sp-update-schema-bsispdev.yml@main
     with:
       solutionname: ${{ vars.PP_SOLUTION_NAME }}
-      siteurl:  ${{ needs.prepare.outputs.sp_site_url }}
+      siteurl:  ${{ needs.set.outputs.sp_site_url }}
