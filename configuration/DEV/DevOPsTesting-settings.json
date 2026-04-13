@@ -2,7 +2,7 @@
   "EnvironmentVariables": [
     {
       "SchemaName": "crdf0_DevOpsTestSharePointList",
-      "Value": "",
+      "Value": "59e4c5a1-ef50-4b64-bf1f-f81e4d84ac19",
       "Name": {
         "Default": "DevOpsTestSharePointList",
         "ByLcid": {
@@ -17,7 +17,7 @@
     },
     {
       "SchemaName": "crdf0_DevOpsTestSharePointSite",
-      "Value": "",
+      "Value": "https://bsispdev.sharepoint.com/sites/kevin",
       "Name": {
         "Default": "DevOpsTest - SharePoint Site",
         "ByLcid": {
@@ -39,7 +39,7 @@
   "ConnectionReferences": [
     {
       "LogicalName": "spr_SharePoint",
-      "ConnectionId": "",
+      "ConnectionId": "shared_sharepointonline/shared-sharepointonl-ceec1017-75d8-4ea1-ae91-c2b6d19cccd1",
       "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
     }
   ]
