@@ -44,15 +44,24 @@ jobs:
     environment: ${{ needs.prepare.outputs.env_name }}
     outputs:
       pp_env_url: ${{ steps.set.outputs.pp_env_url }}
+      sp_site_url: ${{ steps.set.outputs.sp_site_url }}
     steps:
       - id: set
         run: |
           echo "pp_env_url=${{ vars.PP_ENV_URL }}" >> $GITHUB_OUTPUT
+          echo "sp_site_url=${{ vars.SP_SITE_URL }}" >> $GITHUB_OUTPUT
           
+  sharepoint-remote-job:
+    name: SharePoint
+    needs: set
+    uses: gpjspr/gpj-common/.github/workflows/sp-update-schema-bsispdev.yml@main
+    with:
+      solutionname: ${{ vars.PP_SOLUTION_NAME }}
+      siteurl:  ${{ needs.set.outputs.sp_site_url }}
+      
   solution-remote-job:
     name: Solution
-    needs: set
-    
+    needs: [set,sharepoint-remote-job]
     uses: gpjspr/gpj-common/.github/workflows/pp-deploy-bsispdev.yml@main
     with:
       solutionname: ${{ vars.PP_SOLUTION_NAME }}
