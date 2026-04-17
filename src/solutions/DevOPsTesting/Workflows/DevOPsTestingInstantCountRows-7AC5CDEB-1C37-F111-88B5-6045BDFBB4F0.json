@@ -9,15 +9,6 @@
         "api": {
           "name": "shared_sharepointonline"
         }
-      },
-      "shared_sharepointonline": {
-        "runtimeSource": "invoker",
-        "connection": {
-          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
-        },
-        "api": {
-          "name": "shared_sharepointonline"
-        }
       }
     },
     "definition": {
@@ -111,7 +102,7 @@
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
-              "connectionName": "shared_sharepointonline",
+              "connectionName": "shared_sharepointonline_1",
               "operationId": "GetAllTables",
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
             },
