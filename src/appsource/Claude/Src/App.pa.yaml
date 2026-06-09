@@ -1,0 +1,46 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+App:
+  Properties:
+    Formulas: |-
+      =// ── Colour constants ──────────────────────────────────────────────
+      ColPrimary        = RGBA(15, 40, 80, 1);
+      ColAccent         = RGBA(37, 99, 235, 1);
+      ColBg             = RGBA(243, 247, 255, 1);
+      ColCardBg         = RGBA(255, 255, 255, 1);
+      ColTextPrimary    = RGBA(15, 23, 42, 1);
+      ColTextSecondary  = RGBA(100, 116, 139, 1);
+      ColInStock        = RGBA(22, 163, 74, 1);
+      ColLowStock       = RGBA(217, 119, 6, 1);
+      ColOutOfStock     = RGBA(220, 38, 38, 1);
+
+      // ── Status → Badge ThemeColor helper ─────────────────────────────
+      StatusThemeColor(status: Text): Text =
+        If(
+          status = "In Stock",      "Success",
+          status = "Low Stock",     "Warning",
+          status = "Out of Stock",  "Danger",
+          "Subtle"
+        )
+    OnStart: |-
+      =ClearCollect(
+        colProductsHom,
+        {Name: "MacBook Pro 16",        Category: "Laptops",     Price: 2499, Status: "In Stock"},
+        {Name: "Dell XPS 15",           Category: "Laptops",     Price: 1899, Status: "Low Stock"},
+        {Name: "iPhone 15 Pro",         Category: "Phones",      Price: 1199, Status: "In Stock"},
+        {Name: "Samsung Galaxy S24",    Category: "Phones",      Price: 999,  Status: "In Stock"},
+        {Name: "iPad Pro 12.9in",         Category: "Tablets",     Price: 1099, Status: "Out of Stock"},
+        {Name: "Sony WH-1000XM5",        Category: "Audio",       Price: 349,  Status: "In Stock"},
+        {Name: "LG UltraWide 34in",      Category: "Monitors",    Price: 799,  Status: "Low Stock"},
+        {Name: "Logitech MX Master 3",  Category: "Peripherals", Price: 99,   Status: "In Stock"},
+        {Name: "Apple Watch Ultra 2",   Category: "Wearables",   Price: 799,  Status: "Low Stock"},
+        {Name: "Samsung Galaxy Tab S9", Category: "Tablets",     Price: 849,  Status: "In Stock"}
+      )
+    StartScreen: =scrHome
+    Theme: =PowerAppsTheme
