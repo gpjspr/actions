@@ -3,7 +3,7 @@
   "Name": "DevOps Test Canvas App",
   "Id": "269435c8-bf0f-4efc-8448-88457637df22",
   "FileID": "269435c8-bf0f-4efc-8448-88457637df22",
-  "LocalConnectionReferences": "{\"36ab4d0b-e072-49ee-a8a3-246ce4789567\":{\"id\":\"36ab4d0b-e072-49ee-a8a3-246ce4789567\",\"connectionInstanceId\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline/connections/shared-sharepointonl-ceec1017-75d8-4ea1-ae91-c2b6d19cccd1\",\"dataSources\":[\"DevOpsTestSharePointList\"],\"datasets\":{\"https://bsispdev.sharepoint.com/sites/Kevin_crdf0_DevOpsTestSharePointSite\":{\"dataSources\":{\"DevOpsTestSharePointList\":{\"tableName\":\"59e4c5a1-ef50-4b64-bf1f-f81e4d84ac19\",\"tableNameOverride\":{\"environmentVariableName\":\"crdf0_DevOpsTestSharePointList\"}}},\"datasetOverride\":{\"name\":\"https://bsispdev.sharepoint.com/sites/Kevin\",\"environmentVariableName\":\"crdf0_DevOpsTestSharePointSite\"}}},\"dependencies\":{},\"dependents\":[],\"connectionRef\":{\"id\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline\",\"displayName\":\"SharePoint\",\"iconUri\":\"https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1769/1.0.1769.4361/sharepointonline/icon.png\"}}}",
+  "LocalConnectionReferences": "{\"ca77b854-ad7c-4544-a5ef-e6c915dbb014\":{\"id\":\"ca77b854-ad7c-4544-a5ef-e6c915dbb014\",\"connectionInstanceId\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline/connections/6c0372e1fd2e4a3886662fcca0927356\",\"dataSources\":[\"DevOpsTestSharePointList\"],\"datasets\":{\"https://bsispdev.sharepoint.com/sites/Kevin_crdf0_DevOpsTestSharePointSite\":{\"dataSources\":{\"DevOpsTestSharePointList\":{\"tableName\":\"59e4c5a1-ef50-4b64-bf1f-f81e4d84ac19\",\"tableNameOverride\":{\"environmentVariableName\":\"crdf0_DevOpsTestSharePointList\"}}},\"datasetOverride\":{\"name\":\"https://bsispdev.sharepoint.com/sites/Kevin\",\"environmentVariableName\":\"crdf0_DevOpsTestSharePointSite\"}}},\"dependencies\":{},\"dependents\":[],\"connectionRef\":{\"id\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline\",\"displayName\":\"SharePoint\",\"iconUri\":\"https://static.powerapps.com/resource/ppcr/releases/v1.0.1813/1.0.1813.4743/sharepointonline/icon.png\"}}}",
   "LocalDatabaseReferences": "",
   "LibraryDependencies": "[]",
   "AppPreviewFlagsMap": {
@@ -105,13 +105,24 @@
   "DocumentType": "App",
   "AppCreationSource": "AppFromScratch",
   "AppDescription": "",
-  "ManualOfflineProfileId": null,
+  "ManualOfflineProfileId": "",
   "DefaultConnectedDataSourceMaxGetRowsCount": 500,
   "ContainsThirdPartyPcfControls": false,
   "ParserErrorCount": 0,
   "BindingErrorCount": 0,
   "ConnectionString": "",
   "EnableInstrumentation": false,
-  "ControlCount": {},
-  "AnalysisLoadTime": 0.0865107
+  "ControlCount": {
+    "screen": 1,
+    "groupContainer": 2,
+    "PowerApps_CoreControls_ButtonCanvas": 1,
+    "gallery": 2,
+    "galleryTemplate": 2,
+    "rectangle": 3,
+    "image": 1,
+    "icon": 2,
+    "label": 4
+  },
+  "DeserializationLoadTime": 0.4395992,
+  "AnalysisLoadTime": 0.2547786
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26053.140" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26053.00140">
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26054.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26054.00135">
   <Entities />
   <Roles />
   <Workflows />
@@ -13,10 +13,9 @@
   <EntityDataProviders />
   <CanvasApps />
   <connectionreferences>
-    <connectionreference connectionreferencelogicalname="spr_SharePoint">
-      <connectionreferencedisplayname>DevOPsTesting SharePoint</connectionreferencedisplayname>
+    <connectionreference connectionreferencelogicalname="crdf0_DevOPsTestingSharePoint1">
+      <connectionreferencedisplayname>DevOPsTesting SharePoint 1</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_sharepointonline</connectorid>
-      <description>SharePoint Site</description>
       <iscustomizable>1</iscustomizable>
       <promptingbehavior>0</promptingbehavior>
       <statecode>0</statecode>
