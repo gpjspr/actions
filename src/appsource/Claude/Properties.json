@@ -1,9 +1,9 @@
 {
   "Author": "",
-  "Name": "DevOps Test Canvas App",
-  "Id": "269435c8-bf0f-4efc-8448-88457637df22",
-  "FileID": "269435c8-bf0f-4efc-8448-88457637df22",
-  "LocalConnectionReferences": "{\"ca77b854-ad7c-4544-a5ef-e6c915dbb014\":{\"id\":\"ca77b854-ad7c-4544-a5ef-e6c915dbb014\",\"connectionInstanceId\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline/connections/6c0372e1fd2e4a3886662fcca0927356\",\"dataSources\":[\"DevOpsTestSharePointList\"],\"datasets\":{\"https://bsispdev.sharepoint.com/sites/Kevin_crdf0_DevOpsTestSharePointSite\":{\"dataSources\":{\"DevOpsTestSharePointList\":{\"tableName\":\"59e4c5a1-ef50-4b64-bf1f-f81e4d84ac19\",\"tableNameOverride\":{\"environmentVariableName\":\"crdf0_DevOpsTestSharePointList\"}}},\"datasetOverride\":{\"name\":\"https://bsispdev.sharepoint.com/sites/Kevin\",\"environmentVariableName\":\"crdf0_DevOpsTestSharePointSite\"}}},\"dependencies\":{},\"dependents\":[],\"connectionRef\":{\"id\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline\",\"displayName\":\"SharePoint\",\"iconUri\":\"https://static.powerapps.com/resource/ppcr/releases/v1.0.1813/1.0.1813.4743/sharepointonline/icon.png\"}}}",
+  "Name": "Claude",
+  "Id": "b85ccb16-2100-4928-a1d3-781faf3f26cd",
+  "FileID": "b85ccb16-2100-4928-a1d3-781faf3f26cd",
+  "LocalConnectionReferences": "{\"0984b87c-01f2-4dc0-a0eb-4309663a7ea8\":{\"id\":\"0984b87c-01f2-4dc0-a0eb-4309663a7ea8\",\"connectionInstanceId\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline/connections/shared-sharepointonl-ceec1017-75d8-4ea1-ae91-c2b6d19cccd1\",\"dataSources\":[\"Products\"],\"datasets\":{\"https://bsispdev.sharepoint.com/sites/implantcast\":{\"dataSources\":{\"Products\":{\"tableName\":\"d5b238db-8ae1-4909-8156-2c156cb9c766\"}}}},\"dependencies\":{},\"dependents\":[],\"connectionRef\":{\"id\":\"/providers/microsoft.powerapps/apis/shared_sharepointonline\",\"displayName\":\"SharePoint\",\"iconUri\":\"https://static.powerapps.com/resource/ppcr/releases/v1.0.1809/1.0.1809.4714/sharepointonline/icon.png\"}}}",
   "LocalDatabaseReferences": "",
   "LibraryDependencies": "[]",
   "AppPreviewFlagsMap": {
@@ -74,7 +74,7 @@
     "enableupdateifdelegation": true,
     "dataflowanalysisenabled": true,
     "showclassicthemes": false,
-    "userdefinedtypes": false,
+    "userdefinedtypes": true,
     "enableeditinmcs": true,
     "disablebehaviorreturntypecheck": false,
     "commentgeneratedformulasv2": true,
@@ -108,21 +108,13 @@
   "ManualOfflineProfileId": "",
   "DefaultConnectedDataSourceMaxGetRowsCount": 500,
   "ContainsThirdPartyPcfControls": false,
-  "ParserErrorCount": 0,
+  "ParserErrorCount": 1,
   "BindingErrorCount": 0,
   "ConnectionString": "",
   "EnableInstrumentation": false,
   "ControlCount": {
-    "screen": 1,
-    "groupContainer": 2,
-    "PowerApps_CoreControls_ButtonCanvas": 1,
-    "gallery": 2,
-    "galleryTemplate": 2,
-    "rectangle": 3,
-    "image": 1,
-    "icon": 2,
-    "label": 4
+    "screen": 1
   },
-  "DeserializationLoadTime": 0.4395992,
-  "AnalysisLoadTime": 0.2547786
+  "DeserializationLoadTime": 0.6570159,
+  "AnalysisLoadTime": 0.1096321
 }

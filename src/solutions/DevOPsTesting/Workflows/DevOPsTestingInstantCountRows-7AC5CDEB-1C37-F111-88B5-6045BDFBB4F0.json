@@ -1,19 +1,10 @@
 {
   "properties": {
     "connectionReferences": {
-      "shared_sharepointonline_1": {
-        "runtimeSource": "invoker",
-        "connection": {
-          "connectionReferenceLogicalName": "spr_SharePoint"
-        },
-        "api": {
-          "name": "shared_sharepointonline"
-        }
-      },
       "shared_sharepointonline": {
         "runtimeSource": "invoker",
         "connection": {
-          "connectionReferenceLogicalName": "cr49f_sharedsharepointonline_a7486"
+          "connectionReferenceLogicalName": "crdf0_DevOPsTestingSharePoint1"
         },
         "api": {
           "name": "shared_sharepointonline"
@@ -39,13 +30,6 @@
             "schemaName": "crdf0_DevOpsTestSharePointSite",
             "description": "DevOps Test SharePointSite"
           }
-        },
-        "DevOpsTestSharePointList (crdf0_DevOpsTestSharePointList)": {
-          "defaultValue": "59e4c5a1-ef50-4b64-bf1f-f81e4d84ac19",
-          "type": "String",
-          "metadata": {
-            "schemaName": "crdf0_DevOpsTestSharePointList"
-          }
         }
       },
       "triggers": {
@@ -65,31 +49,9 @@
         }
       },
       "actions": {
-        "Get_Hospital_Item": {
-          "runAfter": {},
-          "metadata": {
-            "operationMetadataId": "3329736b-6f8a-4f50-b1bc-285a2df9da56"
-          },
-          "type": "OpenApiConnection",
-          "inputs": {
-            "host": {
-              "connectionName": "shared_sharepointonline_1",
-              "operationId": "GetItems",
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
-            },
-            "parameters": {
-              "dataset": "@parameters('DevOpsTest - SharePoint Site (crdf0_DevOpsTestSharePointSite)')",
-              "table": "@parameters('DevOpsTestSharePointList (crdf0_DevOpsTestSharePointList)')"
-            },
-            "authentication": {
-              "type": "Raw",
-              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
-            }
-          }
-        },
         "Compose": {
           "runAfter": {
-            "Break_Solution_with_Wrong_Connector": [
+            "Get_lists": [
               "Succeeded"
             ]
           },
@@ -97,22 +59,18 @@
             "operationMetadataId": "ae2b0428-7559-46e6-b885-24bbbb340468"
           },
           "type": "Compose",
-          "inputs": "@length(outputs('Get_Hospital_Item')?['body/value'])"
+          "inputs": "@body('Get_lists')"
         },
-        "Break_Solution_with_Wrong_Connector": {
-          "runAfter": {
-            "Get_Hospital_Item": [
-              "Succeeded"
-            ]
-          },
+        "Get_lists": {
+          "runAfter": {},
           "metadata": {
-            "operationMetadataId": "0891ab83-e27c-49af-9f14-edf97c6ede52"
+            "operationMetadataId": "454b533f-e85c-42c3-9f5f-eb2373223c60"
           },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
               "connectionName": "shared_sharepointonline",
-              "operationId": "GetAllTables",
+              "operationId": "GetTables",
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
             },
             "parameters": {

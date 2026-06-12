@@ -1,6 +1,18 @@
 {
   "EnvironmentVariables": [
     {
+      "SchemaName": "crdf0_EnvVar1",
+      "Value": "AA",
+      "Name": {
+        "Default": "EnvVar1",
+        "ByLcid": {
+          "1033": "EnvVar1"
+        }
+      },
+      "TypeId": 100000000,
+      "IsRequired": false
+    },
+    {
       "SchemaName": "crdf0_DevOpsTestSharePointList",
       "Value": "989dff1f-6a35-432d-b012-e8d203445e26",
       "Name": {
@@ -38,7 +50,7 @@
   ],
   "ConnectionReferences": [
     {
-      "LogicalName": "spr_SharePoint",
+      "LogicalName": "crdf0_DevOPsTestingSharePoint1",
       "ConnectionId": "shared_sharepointonline/8f6253e4bb05470c9b6e08009b7f27ee",
       "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
     }

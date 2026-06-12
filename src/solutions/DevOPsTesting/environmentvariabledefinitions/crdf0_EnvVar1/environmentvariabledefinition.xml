@@ -1,0 +1,10 @@
+<environmentvariabledefinition schemaname="crdf0_EnvVar1">
+  <displayname default="EnvVar1">
+    <label description="EnvVar1" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.260609.1</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>
