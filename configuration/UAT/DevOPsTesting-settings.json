@@ -22,10 +22,7 @@
         }
       },
       "TypeId": 100000004,
-      "IsRequired": false,
-      "ParameterKey": "table",
-      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
-      "ParentSchemaName": "crdf0_DevOpsTestSharePointSite"
+      "IsRequired": false
     },
     {
       "SchemaName": "crdf0_DevOpsTestSharePointSite",
@@ -43,10 +40,9 @@
           "1033": "DevOps Test SharePointSite"
         }
       },
-      "IsRequired": false,
-      "ParameterKey": "dataset",
-      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+      "IsRequired": false
     }
+    
   ],
   "ConnectionReferences": [
     {
