@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="9.2.26054.135" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" OrganizationVersion="9.2.26054.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26054.00135">
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="9.2.26054.139" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" OrganizationVersion="9.2.26054.139" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26054.00139">
   <SolutionManifest>
     <UniqueName>DevOPsTesting</UniqueName>
     <LocalizedNames>
       <LocalizedName description="DevOPsTesting" languagecode="1033"/>
     </LocalizedNames>
     <Descriptions/>
-    <Version>1.0.260612.3</Version>
+    <Version>1.0.260615.1</Version>
     <Managed>Both</Managed>
     <Publisher>
       <UniqueName>Cr033a1</UniqueName>
@@ -78,7 +78,6 @@
       </Addresses>
     </Publisher>
     <RootComponents>
-      <RootComponent type="29" id="{7ac5cdeb-1c37-f111-88b5-6045bdfbb4f0}" behavior="0"/>
       <RootComponent type="300" schemaName="crdf0_devopstestcanvasapp_2fd04" behavior="0"/>
     </RootComponents>
     <MissingDependencies/>
