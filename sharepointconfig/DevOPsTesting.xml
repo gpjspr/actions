@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema">
-  <pnp:Preferences Generator="PnP.Framework, Version=1.18.0.0, Culture=neutral, PublicKeyToken=0d501f89f11b748c"/>
+  <pnp:Preferences Generator="PnP.Framework, Version=1.18.373.0, Culture=neutral, PublicKeyToken=0d501f89f11b748c"/>
   <pnp:Templates ID="CONTAINER-DevOPsTesting">
     <pnp:ProvisioningTemplate ID="TEMPLATE-DevOPsTesting" Version="1">
       <pnp:Lists>
@@ -146,6 +146,78 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="SA Number" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="SA Number" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="SA Number" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="CLK Number" Format="Dropdown" MaxLength="255" Name="CLKNumber" Title="CLK Number" Type="Text" ID="{272befd9-df65-4a12-88a8-66cb9a613769}" SourceID="{{listid:[01] - Live Case Tracker}}" StaticName="CLKNumber" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field Type="Choice" DisplayName="Case Path" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" ID="{013f7c4a-f417-4abf-98aa-3a652019bbbb}" SourceID="{{listid:[01] - Live Case Tracker}}" StaticName="Case_x0020_Path" Name="Case_x0020_Path" ColName="nvarchar8" RowOrdinal="0" CustomFormatter="" Version="24">
               <Default>Intake Form</Default>
@@ -222,7 +294,6 @@
             <Field DisplayName="Test" Format="Dropdown" Indexed="FALSE" List="{listid:Custom Cases Folder}" Name="Test" ShowField="Title" Title="Test" Type="Lookup" ID="{bb6e1c90-8905-4029-8798-737cbebc3fb2}" SourceID="{{listid:[01] - Live Case Tracker}}" StaticName="Test" ColName="int3" RowOrdinal="0" Version="20"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="SA Number"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -257,6 +328,9 @@
               </CalendarViewStyles>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Title"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
@@ -350,6 +424,7 @@
           </pnp:Views>
           <pnp:Fields>
             <Field Type="Note" DisplayName="Image Tags_0" StaticName="lcf76f155ced4ddcb4097134ff3c332f" Name="lcf76f155ced4ddcb4097134ff3c332f" ID="{7c51d632-27e0-f6f7-a5d6-ed67b68bd369}" ShowInViewForms="FALSE" Required="FALSE" Hidden="TRUE" CanToggleHidden="TRUE" ColName="ntext9" RowOrdinal="0"/>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Anatomical Loaction" Format="Dropdown" MaxLength="255" Name="AnatomicalLoaction" Title="Anatomical Loaction" Type="Text" ID="{eb865e2d-920a-45c8-a38c-4e223a7d1f77}" SourceID="{{listid:Anatomical Loaction}}" StaticName="AnatomicalLoaction" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Tumbnail" Format="Thumbnail" Name="Tumbnail" Title="Tumbnail" Type="Thumbnail" ID="{9ab7ef95-1a5f-4516-a3ec-0b04a0a3ab50}" SourceID="{{listid:Anatomical Loaction}}" StaticName="Tumbnail" ColName="ntext2" RowOrdinal="0" Version="22"/>
             <Field Type="TaxonomyFieldTypeMulti" DisplayName="Image Tags" ID="{5cf76f15-5ced-4ddc-b409-7134ff3c332f}" Name="MediaServiceImageTags" List="{ce3c93c3-ed21-4132-bf1b-f77357cf39a1}" WebId="92c61e55-92ce-43f1-94e8-0cc786f857bd" ShowField="Term1033" SourceID="{8a4ccf35-e156-4ce5-812c-f40170fcdaea}" StaticName="MediaServiceImageTags" ColName="int3" RowOrdinal="0" Version="3" Group="_Hidden" CustomFormatter="" Description="Field created by MediaTA" EnforceUniqueValues="FALSE" Hidden="FALSE" CanToggleHidden="TRUE" Indexed="FALSE" ReadOnly="FALSE" Required="FALSE" Mult="TRUE" Sortable="FALSE">
@@ -425,6 +500,7 @@
               </Customization>
             </Field>
             <Field ID="{67aff0cf-8e19-43f2-9987-be89075e1467}" Type="Note" DisplayName="Extracted Text" Name="MediaServiceOCR" Group="_Hidden" Hidden="FALSE" Indexed="FALSE" Sealed="TRUE" ReadOnly="TRUE" ShowInNewForm="FALSE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" Json="TRUE" SourceID="{8a4ccf35-e156-4ce5-812c-f40170fcdaea}" StaticName="MediaServiceOCR" ColName="ntext10" RowOrdinal="0"/>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="int5" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
             <Field DisplayName="Skeletal Location" Format="Dropdown" Indexed="FALSE" List="{listid:Skeletal Location}" Name="SkeletalLocation" ShowField="SkeletalLocation" Title="Skeletal Location" Type="Lookup" ID="{ef427d4a-3923-4f9f-876a-8f9fe965d2d5}" SourceID="{{listid:Anatomical Loaction}}" StaticName="SkeletalLocation" ColName="int1" RowOrdinal="0" Version="22"/>
           </pnp:Fields>
           <pnp:FieldRefs>
@@ -457,10 +533,81 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Anatomical Location:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="3" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0" CustomFormatter="" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Anatomical Location:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Anatomical Location:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Anatomical region(s):" Format="Dropdown" Indexed="FALSE" List="{listid:Anatomical Region Lookup List}" Name="Anatomicalregion_x0028_s_x0029__" ShowField="Title" Title="Anatomical region(s):" Type="Lookup" ID="{5a08175a-46ec-468a-922c-174ceab7977e}" SourceID="{{listid:Anatomical Location Lookup List}}" StaticName="Anatomicalregion_x0028_s_x0029__" ColName="int1" RowOrdinal="0" Version="23"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Anatomical Location:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -486,11 +633,82 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Anatomical Region:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Anatomical Region:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Anatomical Region:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Translation" Format="Dropdown" MaxLength="255" Name="Translation" Title="Translation" Type="Text" ID="{80b788aa-0b29-4508-b879-621a07e9bfa8}" SourceID="{{listid:Anatomical Region Lookup List}}" StaticName="Translation" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Anatomical Location" Format="Dropdown" Indexed="FALSE" IsModern="TRUE" List="{listid:Anatomical Location Lookup List}" Name="AnatomicalLocation" ShowField="Title" Title="Anatomical Location" Type="Lookup" ID="{acfe255c-936a-49c0-864e-7adbb4e22673}" SourceID="{{listid:Anatomical Region Lookup List}}" StaticName="AnatomicalLocation" ColName="int1" RowOrdinal="0"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Anatomical Region:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -591,6 +809,7 @@
               </Customization>
             </Field>
             <Field ID="{67aff0cf-8e19-43f2-9987-be89075e1467}" Type="Note" DisplayName="Extracted Text" Name="MediaServiceOCR" Group="_Hidden" Hidden="FALSE" Indexed="FALSE" Sealed="TRUE" ReadOnly="TRUE" ShowInNewForm="FALSE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" Json="TRUE" SourceID="{{listid:CAD - Custom Cases}}" StaticName="MediaServiceOCR" ColName="ntext6" RowOrdinal="0" Description=""/>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
           </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
@@ -629,6 +848,9 @@
               <JSLink>clienttemplates.js</JSLink>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Title"/>
@@ -689,6 +911,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Submit Patient Form" Format="Dropdown" Name="SubmitPatientForm" Title="Submit Patient Form" Type="Boolean" ID="{b91dd05c-96c6-4592-af7d-c601cad9cfbc}" StaticName="SubmitPatientForm" SourceID="{{listid:Case Intake Review Form}}" ColName="bit1" RowOrdinal="0" Version="24">
               <Default>0</Default>
             </Field>
@@ -847,6 +1070,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="C-Fit Number" Format="Dropdown" MaxLength="255" Name="C_x002d_FitNumber" Title="C-Fit Number" Type="Text" ID="{1c968194-5ef4-461e-bb61-6f03be3144fc}" SourceID="{{listid:Case Log}}" StaticName="C_x002d_FitNumber" ColName="nvarchar7" RowOrdinal="0" Version="23"/>
             <Field ID="{baeede64-2390-4efc-bb50-bd972a906c6b}" DisplayName="Image" Format="Thumbnail" Name="Image0" Title="Image0" Type="Thumbnail" StaticName="Image0" ColName="ntext2" RowOrdinal="0" SourceID="{{listid:Case Log}}" Version="22"/>
             <Field Name="DesignEngineertext" FromBaseType="FALSE" Type="Note" DisplayName="Design Engineer Notes" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{4cf9993d-90bc-454c-aa18-951b7c130187}" StaticName="DesignEngineertext" SourceID="{{listid:Case Log}}" ColName="ntext3" RowOrdinal="0" Version="23"/>
@@ -898,10 +1122,81 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Case Priority:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Case Priority:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Case Priority:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field CommaSeparator="TRUE" CustomUnitOnRight="TRUE" DisplayName="Priority Weight" Format="Dropdown" Name="PriorityWeight" Percentage="FALSE" Title="Priority Weight" Type="Number" Unit="None" ID="{7b0e3369-ae77-4b2f-b416-46965321ec61}" SourceID="{{listid:Case Priority Lookup List}}" StaticName="PriorityWeight" ColName="float1" RowOrdinal="0" Version="22"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Case Priority:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -925,6 +1220,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Created Date" FriendlyDisplayFormat="Disabled" Format="DateOnly" Name="CreatedDate" Title="Created Date" Type="DateTime" ID="{c9edf78c-1f3a-42fd-9c14-c844e596ca51}" SourceID="{{listid:CFit Data}}" StaticName="CreatedDate" ColName="datetime1" RowOrdinal="0" Version="22"/>
             <Field DisplayName="C-Fit Number" Format="Dropdown" MaxLength="255" Name="C_x002d_FitNumber" Title="C-Fit Number" Type="Text" ID="{cdc245b1-eeb1-4749-bbb2-df4cb3fcedf0}" SourceID="{{listid:CFit Data}}" StaticName="C_x002d_FitNumber" ColName="nvarchar7" RowOrdinal="0" Version="23"/>
             <Field DisplayName="Patient" Format="Dropdown" MaxLength="255" Name="Patient" Title="Patient" Type="Text" ID="{eb5f2809-b173-47fa-b186-abbfe5a87d65}" SourceID="{{listid:CFit Data}}" StaticName="Patient" ColName="nvarchar8" RowOrdinal="0" Version="22"/>
@@ -962,6 +1258,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Hospital Number: (MRN)" Format="Dropdown" MaxLength="255" Name="HospitalNumber_x003a__x0028_MRN_" Required="TRUE" Title="Hospital Number: (MRN)" Type="Text" ID="{9c1f57d2-39ac-4b33-b340-09ab5fd772e7}" StaticName="HospitalNumber_x003a__x0028_MRN_" SourceID="{{listid:Clone Intake Form}}" ColName="nvarchar7" RowOrdinal="0" Version="25"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Patients DOB:" FriendlyDisplayFormat="Disabled" Format="DateOnly" Name="PatientsDOB_x003a_" Required="TRUE" Title="Patients DOB:" Type="DateTime" ID="{347e1fba-a326-41c5-95be-e13b4998fbb6}" StaticName="PatientsDOB_x003a_" SourceID="{{listid:Clone Intake Form}}" ColName="datetime1" RowOrdinal="0" Version="25"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName=" Schedule for surgery:" FriendlyDisplayFormat="Disabled" Format="DateOnly" Name="Scheduleforsurgery_x003a_" Required="TRUE" Title=" Schedule for surgery:" Type="DateTime" ID="{142e6f94-96e6-49d1-915b-38d096f8a92c}" StaticName="Scheduleforsurgery_x003a_" SourceID="{{listid:Clone Intake Form}}" ColName="datetime2" RowOrdinal="0" Version="25"/>
@@ -1121,6 +1418,8 @@
               </Customization>
             </Field>
             <Field ID="{67aff0cf-8e19-43f2-9987-be89075e1467}" Type="Note" DisplayName="Extracted Text" Name="MediaServiceOCR" Group="_Hidden" Hidden="FALSE" Indexed="FALSE" Sealed="TRUE" ReadOnly="TRUE" ShowInNewForm="FALSE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" Json="TRUE" SourceID="{{listid:Custom Cases Folder}}" StaticName="MediaServiceOCR" ColName="ntext9" RowOrdinal="0" Description=""/>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" Name="Created" DisplayName="Created" StorageTZ="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" FromBaseType="TRUE"/>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
           </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Title"/>
@@ -1404,6 +1703,8 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{1df5e554-ec7e-46a6-901d-d85a3881cb18}" Name="Author" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Author" Group="_Hidden" ColName="tp_Author" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" DisplayName="Sales Representative" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Patient Folder" Format="Hyperlink" Name="PatientFolder" Title="Patient Folder" Type="URL" ID="{05d7b1f2-b088-4e35-aefc-a92084086d90}" SourceID="{{listid:Custom Dates Log}}" StaticName="PatientFolder" ColName="nvarchar7" RowOrdinal="0" ColName2="nvarchar8" RowOrdinal2="0" CustomFormatter="{&quot;$schema&quot;:&quot;https://developer.microsoft.com/json-schemas/sp/v2/column-formatting.schema.json&quot;,&quot;elmType&quot;:&quot;a&quot;,&quot;attributes&quot;:{&quot;href&quot;:&quot;[$PatientFolder]&quot;,&quot;target&quot;:&quot;_blank&quot;},&quot;txtContent&quot;:&quot;Patient Folder&quot;}" Version="23"/>
             <Field Type="Text" DisplayName="UID_Power_Automate" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" ID="{9b8e25a6-8b03-4bbb-9137-76787d9e77b5}" SourceID="{{listid:Custom Dates Log}}" StaticName="UID_Power_Automate" Name="UID_Power_Automate" ColName="nvarchar9" RowOrdinal="0" Version="22"/>
             <Field CommaSeparator="TRUE" CustomUnitOnRight="TRUE" DisplayName="Case Tracker ID" Format="Dropdown" Name="CaseTrackerID" Percentage="FALSE" Title="Case Tracker ID" Type="Number" Unit="None" ID="{51229822-bb0b-44e4-b25a-5d11883402bb}" SourceID="{{listid:Custom Dates Log}}" StaticName="CaseTrackerID" ColName="float1" RowOrdinal="0" Version="22"/>
@@ -1588,6 +1889,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="UID_Power_Automate" Format="Dropdown" MaxLength="255" Name="UID_Power_Automate" Title="UID_Power_Automate" Type="Text" ID="{96554816-a631-48f7-a894-6d555a7044fd}" SourceID="{{listid:Custom Priority List}}" StaticName="UID_Power_Automate" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Patient Folder" Format="Hyperlink" Name="PatientFolder" Title="Patient Folder" Type="URL" ID="{b7e3af11-bd95-4241-8c7a-77ae8c066bb6}" SourceID="{{listid:Custom Priority List}}" StaticName="PatientFolder" ColName="nvarchar8" RowOrdinal="0" ColName2="nvarchar9" RowOrdinal2="0" CustomFormatter="{&quot;$schema&quot;:&quot;https://developer.microsoft.com/json-schemas/sp/v2/column-formatting.schema.json&quot;,&quot;elmType&quot;:&quot;a&quot;,&quot;attributes&quot;:{&quot;href&quot;:&quot;[$PatientFolder]&quot;,&quot;target&quot;:&quot;_blank&quot;},&quot;txtContent&quot;:&quot;Patient Folder&quot;}" Version="23"/>
             <Field CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Pelvic Implants&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-field-fontSizeSmall sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Shaft Implants&quot;]},&quot;sp-css-backgroundColor-BgMintGreen sp-field-fontSizeSmall sp-css-color-MintGreenFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;X-Pand&quot;]},&quot;sp-css-backgroundColor-BgGold sp-field-fontSizeSmall sp-css-color-GoldFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;&quot;]},&quot;&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Shoulder&quot;]},&quot;sp-css-backgroundColor-BgCoral sp-field-fontSizeSmall sp-css-color-CoralFont&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}]}]}},&quot;txtContent&quot;:&quot;@currentField&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" DisplayName="Implant Team" FillInChoice="FALSE" Format="Dropdown" Name="ImplantTeam" Title="Implant Team" Type="Choice" ID="{454a517a-d972-4ec2-9570-496343b1e727}" SourceID="{{listid:Custom Priority List}}" StaticName="ImplantTeam" ColName="nvarchar10" RowOrdinal="0" Version="22">
@@ -2165,6 +2467,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="UID_Power_Automate" Format="Dropdown" MaxLength="255" Name="UID_Power_Automate" Title="UID_Power_Automate" Type="Text" ID="{4ea11617-cd45-4f8d-9dd8-ad9e8585c54e}" SourceID="{{listid:Custom Tracker}}" StaticName="UID_Power_Automate" ColName="nvarchar7" RowOrdinal="0" CustomFormatter="" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Version="23">
               <Default>Generating UID.....</Default>
             </Field>
@@ -2571,6 +2874,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Product Code" Format="Dropdown" MaxLength="255" Name="ProductCode" Title="Product Code" Type="Text" ID="{2f968061-a899-4630-a4fe-3e5546eb5323}" SourceID="{{listid:Customs History}}" StaticName="ProductCode" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
           </pnp:Fields>
           <pnp:FieldRefs>
@@ -2600,6 +2904,78 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="UID_Power_Automate" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="3" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0" CustomFormatter="" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="UID_Power_Automate" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="UID_Power_Automate" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Hospital:" Format="Dropdown" MaxLength="255" Name="Hospital_x003a_" Title="Hospital:" Type="Text" ID="{a2c460f0-dd86-4241-81e3-3b60312d8c7e}" SourceID="{{listid:Design Proposal}}" StaticName="Hospital_x003a_" ColName="nvarchar7" RowOrdinal="0" Version="23"/>
             <Field DisplayName="Sales Representative:" Format="Dropdown" MaxLength="255" Name="SalesRepresentative_x003a_" Title="Sales Representative:" Type="Text" ID="{0cc81372-d43a-4ec7-aec4-1e1d287d33fb}" SourceID="{{listid:Design Proposal}}" StaticName="SalesRepresentative_x003a_" ColName="nvarchar8" RowOrdinal="0" Version="23"/>
             <Field DisplayName="City:" Format="Dropdown" MaxLength="255" Name="City_x003a_" Title="City:" Type="Text" ID="{3b6c1b31-09c9-46f2-9ee2-a3e48087b847}" SourceID="{{listid:Design Proposal}}" StaticName="City_x003a_" ColName="nvarchar9" RowOrdinal="0" Version="23"/>
@@ -2610,7 +2986,6 @@
             </Field>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="UID_Power_Automate"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -2633,6 +3008,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Email Address" Format="Dropdown" MaxLength="255" Name="EmailAddress" Title="Email Address" Type="Text" ID="{23d4dedc-c723-452b-90a5-597b04084dd8}" SourceID="{{listid:Engineers}}" StaticName="EmailAddress" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field Type="Choice" DisplayName="Team" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" ID="{527cc47e-da0c-4a3c-a7fb-9d30bd05a425}" SourceID="{{listid:Engineers}}" StaticName="Team" Name="Team" ColName="nvarchar8" RowOrdinal="0" Version="22">
               <Default>Germany</Default>
@@ -2666,6 +3042,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Email Sent to FD" Format="Dropdown" Name="EmailSenttoFD" Title="Email Sent to FD" Type="Boolean" ID="{cf307d5e-3ea2-4cf7-a3fc-32807bffffca}" SourceID="{{listid:FlightDeck Automation Check}}" StaticName="EmailSenttoFD" ColName="bit1" RowOrdinal="0" Version="22">
               <Default>0</Default>
             </Field>
@@ -2724,6 +3101,10 @@
               <JSLink>clienttemplates.js</JSLink>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" Name="Created" DisplayName="Created" StorageTZ="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" FromBaseType="TRUE"/>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Title"/>
@@ -2775,6 +3156,78 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Hospital" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Hospital" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Hospital" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field Type="Text" DisplayName="Sales Representative" Name="field_1" ID="{bab36923-ff79-45c1-9b86-3280d10c4c78}" StaticName="field_1" SourceID="{{listid:Hospitals}}" ColName="nvarchar7" RowOrdinal="0" Version="24"/>
             <Field Type="Text" DisplayName="Address1" Name="field_2" ID="{03d19497-e475-41d3-b033-a4c5a68ab425}" StaticName="field_2" SourceID="{{listid:Hospitals}}" ColName="nvarchar8" RowOrdinal="0" Version="24"/>
             <Field Type="Text" DisplayName="City" Name="field_3" ID="{3a14e222-63e6-4f62-b2fa-9c2ff5d6dd9c}" StaticName="field_3" SourceID="{{listid:Hospitals}}" ColName="nvarchar9" RowOrdinal="0" Version="24"/>
@@ -2788,7 +3241,6 @@
             <Field DisplayName="Priority Category" Format="Dropdown" MaxLength="255" Name="PriorityCategory" Title="Priority Category" Type="Text" ID="{96cb838d-a34f-4e33-bb11-a945a5fa9e53}" SourceID="{{listid:Hospitals}}" StaticName="PriorityCategory" ColName="nvarchar16" RowOrdinal="0" Version="22"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Hospital"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -2810,8 +3262,81 @@
               <JSLink>clienttemplates.js</JSLink>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Image Transfer:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Image Transfer:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Image Transfer:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Image Transfer:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -2842,6 +3367,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Study date:" FriendlyDisplayFormat="Disabled" Format="DateOnly" Name="Studydate_x003a_" Title="Study date:" Type="DateTime" ID="{8c444197-9893-4ed9-a0b8-45137e4bff90}" SourceID="{{listid:Imaging Information}}" StaticName="Studydate_x003a_" ColName="datetime1" RowOrdinal="0" Version="23"/>
             <Field DisplayName="Study Instance UID:" Format="Dropdown" MaxLength="255" Name="StudyInstanceUID_x003a_" Title="Study Instance UID:" Type="Text" ID="{990d3b0d-f28a-4929-9c41-c048ffa927a2}" SourceID="{{listid:Imaging Information}}" StaticName="StudyInstanceUID_x003a_" ColName="nvarchar7" RowOrdinal="0" Version="23"/>
             <Field DisplayName="Series number:" Format="Dropdown" MaxLength="255" Name="Seriesnumber_x003a_" Title="Series number:" Type="Text" ID="{8cba2d02-9196-4417-a75a-517726ef1f7b}" SourceID="{{listid:Imaging Information}}" StaticName="Seriesnumber_x003a_" ColName="nvarchar8" RowOrdinal="0" Version="23"/>
@@ -2879,6 +3405,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Anatomical Region" Format="Dropdown" Indexed="FALSE" List="{listid:Anatomical Region Lookup List}" Name="AnatomicalRegion" ShowField="Title" Title="Anatomical Region" Type="Lookup" ID="{823ac164-cb6e-42ed-97e6-81dd8d9eeb9c}" SourceID="{{listid:Implant Family}}" StaticName="AnatomicalRegion" ColName="int1" RowOrdinal="0" Version="16"/>
           </pnp:Fields>
           <pnp:FieldRefs>
@@ -3305,6 +3832,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="UID_Power_Automate" Format="Dropdown" MaxLength="255" Name="Power_Automate_UID" Title="UID_Power_Automate" Type="Text" ID="{85ce3723-5693-49f2-8464-543a215fe625}" StaticName="Power_Automate_UID" CustomFormatter="" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" ColName="nvarchar7" RowOrdinal="0" SourceID="{{listid:Intake Form}}" Version="22">
               <Default>Generating UID.....</Default>
             </Field>
@@ -3766,6 +4294,77 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Description" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Description" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Description" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
             <Field Type="Number" DisplayName="Product Code" Name="field_0" ID="{255ca761-d838-4d42-9e4a-70cf4d1bcb7c}" StaticName="field_0" SourceID="{{listid:Knee System}}" ColName="float1" RowOrdinal="0" Version="24"/>
             <Field Type="Number" DisplayName="GTIN" Name="field_1" ID="{a10a9f64-b681-4e72-aab0-35cd21cfb9ac}" StaticName="field_1" SourceID="{{listid:Knee System}}" ColName="float2" RowOrdinal="0" Version="24"/>
             <Field Type="Text" DisplayName="ProductCategory" Name="field_3" ID="{1bce0eda-40b2-4056-8c47-54d137f71097}" StaticName="field_3" SourceID="{{listid:Knee System}}" ColName="nvarchar7" RowOrdinal="0" Version="24"/>
@@ -3788,7 +4387,6 @@
             <Field Type="Number" DisplayName="ProductID" Name="field_20" ID="{959db7e0-870d-4003-814d-d4879f9f597f}" StaticName="field_20" SourceID="{{listid:Knee System}}" ColName="float17" RowOrdinal="0" Version="24"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Description"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -4059,6 +4657,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Description" Format="Dropdown" MaxLength="255" Name="Description" Title="German Description" Type="Text" ID="{92224312-8d77-4135-b708-daef5fc228be}" StaticName="Description" SourceID="{{listid:Order Confirmaiton}}" ColName="nvarchar7" RowOrdinal="0" CustomFormatter="" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Version="25"/>
             <Field CommaSeparator="TRUE" CustomUnitOnRight="TRUE" DisplayName="Qty" Format="Dropdown" Name="Qty" Percentage="FALSE" Title="Qty" Type="Number" Unit="None" ID="{10132e78-1b0b-4728-bf25-e71539008dd9}" SourceID="{{listid:Order Confirmaiton}}" StaticName="Qty" ColName="float1" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Patient UID" Format="Dropdown" MaxLength="255" Name="PatientUID" Title="Patient UID" Type="Text" ID="{fa0f6d6c-51ec-45fd-8667-13bd6f8fe531}" SourceID="{{listid:Order Confirmaiton}}" StaticName="PatientUID" ColName="nvarchar8" RowOrdinal="0" Version="22"/>
@@ -4189,6 +4788,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Description" Format="Dropdown" MaxLength="255" Name="Description" Title="German Description" Type="Text" ID="{92224312-8d77-4135-b708-daef5fc228be}" StaticName="Description" CustomFormatter="" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" ColName="nvarchar7" RowOrdinal="0" SourceID="{{listid:Order Confirmation Archive}}" Version="22"/>
             <Field CommaSeparator="TRUE" CustomUnitOnRight="TRUE" DisplayName="Qty" Format="Dropdown" Name="Qty" Percentage="FALSE" Title="Qty" Type="Number" Unit="None" ID="{10132e78-1b0b-4728-bf25-e71539008dd9}" StaticName="Qty" ColName="float1" RowOrdinal="0" SourceID="{{listid:Order Confirmation Archive}}" Version="22"/>
             <Field DisplayName="Patient UID" Format="Dropdown" MaxLength="255" Name="PatientUID" Title="Patient UID" Type="Text" ID="{fa0f6d6c-51ec-45fd-8667-13bd6f8fe531}" StaticName="PatientUID" ColName="nvarchar8" RowOrdinal="0" SourceID="{{listid:Order Confirmation Archive}}" Version="22"/>
@@ -4343,6 +4943,7 @@
               </Customization>
             </Field>
             <Field ID="{67aff0cf-8e19-43f2-9987-be89075e1467}" Type="Note" DisplayName="Extracted Text" Name="MediaServiceOCR" Group="_Hidden" Hidden="FALSE" Indexed="FALSE" Sealed="TRUE" ReadOnly="TRUE" ShowInNewForm="FALSE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" Json="TRUE" SourceID="{{listid:Power Platforms}}" StaticName="MediaServiceOCR" ColName="ntext6" RowOrdinal="0" Description=""/>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
           </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
@@ -4386,6 +4987,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Product Group" Format="Dropdown" MaxLength="255" Name="ProductGroupe" Title="Product Group" Type="Text" ID="{4ad67200-e660-472b-b989-8bf877322ccb}" StaticName="ProductGroupe" SourceID="{{listid:Product Groups}}" ColName="nvarchar7" RowOrdinal="0" Version="24"/>
             <Field DisplayName="Tumbnail" Format="Thumbnail" Name="Tumbnail" Title="Tumbnail" Type="Thumbnail" ID="{c919f07f-d464-4457-b82a-370ae00cc0a3}" SourceID="{{listid:Product Groups}}" StaticName="Tumbnail" ColName="ntext2" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Compatibility" Format="Thumbnail" Name="Compatibility" Title="Compatibility" Type="Thumbnail" ID="{6274e74c-313c-466d-b2eb-21f0ea0bb742}" SourceID="{{listid:Product Groups}}" StaticName="Compatibility" ColName="ntext3" RowOrdinal="0" Version="22"/>
@@ -4425,6 +5027,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Product Category" Format="Dropdown" MaxLength="255" Name="ProductCategory" Title="Product Category" Type="Text" ID="{374e82ca-dff0-437b-927a-e528ff35e142}" SourceID="{{listid:Products}}" StaticName="ProductCategory" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Thumbnail" Format="Thumbnail" Name="Thumbnail" Title="Thumbnail" Type="Thumbnail" ID="{dacc4b7b-f2a9-4628-9940-f18b8117be20}" SourceID="{{listid:Products}}" StaticName="Thumbnail" ColName="ntext2" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Standard Surgical Technique" Format="Thumbnail" Name="StandardSurgicalTechnique" Title="Standard Surgical Technique" Type="Thumbnail" ID="{130585a4-998f-492d-b19c-504e2ad2ea32}" SourceID="{{listid:Products}}" StaticName="StandardSurgicalTechnique" ColName="ntext3" RowOrdinal="0" Version="22"/>
@@ -4455,8 +5058,81 @@
               <CustomFormatter/>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Relevant Allergie(s):" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Relevant Allergie(s):" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Relevant Allergie(s):" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Relevant Allergie(s):"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -4491,6 +5167,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Sales Rep" Format="Dropdown" Indexed="FALSE" List="{listid:Sales Representative Lookup List}" Name="SalesRep" ShowField="Title" Title="Sales Rep" Type="Lookup" ID="{93d0d6df-820e-4276-bcd1-82b11e36efc6}" SourceID="{{listid:Sales Rep Test}}" StaticName="SalesRep" ColName="int1" RowOrdinal="0" Version="14"/>
             <Field DisplayName="Sales Rep ID" Format="Dropdown" MaxLength="255" Name="SalesRepID" Title="Sales Rep ID" Type="Text" ID="{b5219243-2d3d-47bc-856b-1a04af83261d}" SourceID="{{listid:Sales Rep Test}}" StaticName="SalesRepID" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Sales Person" Format="Dropdown" List="UserInfo" Name="SalesPerson" Title="Sales Person" Type="User" UserSelectionMode="0" UserSelectionScope="0" ID="{408b0d49-8878-4c3e-8e44-36f668329af2}" SourceID="{{listid:Sales Rep Test}}" StaticName="SalesPerson" ColName="int2" RowOrdinal="0" Version="22"/>
@@ -4528,6 +5205,78 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Sales Representative:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="3" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0" CustomFormatter="" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Sales Representative:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Sales Representative:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Email Address" Format="Dropdown" MaxLength="255" Name="EmailAddress" Title="Email Address" Type="Text" ID="{46aa24b0-b77c-42b1-8d7c-935a3397a94d}" SourceID="{{listid:Sales Representative Lookup List}}" StaticName="EmailAddress" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Sales Person" Format="Dropdown" List="UserInfo" Name="SalesPerson" Title="Sales Person" Type="User" UserSelectionMode="0" UserSelectionScope="0" ID="{a021a65c-57fe-4144-89a3-e4ecb4e1f416}" SourceID="{{listid:Sales Representative Lookup List}}" StaticName="SalesPerson" ColName="int1" RowOrdinal="0" Version="22"/>
             <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$Status]&quot;,&quot;&quot;]},&quot;&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$Status]&quot;,&quot;Active&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$Status]&quot;,&quot;Inactive&quot;]},&quot;sp-css-backgroundColor-BgMintGreen sp-field-fontSizeSmall sp-css-color-MintGreenFont&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}},&quot;txtContent&quot;:&quot;[$Status]&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" DisplayName="Status" FillInChoice="FALSE" Format="Dropdown" Name="Status" Title="Status" Type="Choice" ID="{175d25e3-556e-44f7-a0a5-33ff6f6bcffb}" StaticName="Status" SourceID="{{listid:Sales Representative Lookup List}}" ColName="nvarchar8" RowOrdinal="0" Version="24">
@@ -4539,7 +5288,6 @@
             <Field DisplayName="Out of Office Buddy" Format="Dropdown" List="UserInfo" Name="OutofOfficeBuddy" Title="Out of Office Buddy" Type="User" UserSelectionMode="0" UserSelectionScope="0" ID="{82d13274-3b61-4dd2-8902-dc64cd5bbd23}" SourceID="{{listid:Sales Representative Lookup List}}" StaticName="OutofOfficeBuddy" ColName="int2" RowOrdinal="0" Version="22"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Sales Representative:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -4643,6 +5391,8 @@
               </Customization>
             </Field>
             <Field ID="{67aff0cf-8e19-43f2-9987-be89075e1467}" Type="Note" DisplayName="Extracted Text" Name="MediaServiceOCR" Group="_Hidden" Hidden="FALSE" Indexed="FALSE" Sealed="TRUE" ReadOnly="TRUE" ShowInNewForm="FALSE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" Json="FALSE" SourceID="{{listid:Site Assets}}" StaticName="MediaServiceOCR" ColName="ntext6" RowOrdinal="0" Description=""/>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" Name="Created" DisplayName="Created" StorageTZ="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" FromBaseType="TRUE"/>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
           </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
@@ -4677,6 +5427,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Skeletal Location" Format="Dropdown" MaxLength="255" Name="SkeletalLocation" Title="Skeletal Location" Type="Text" ID="{c86e7644-4486-4f33-be12-0cb7dd947210}" SourceID="{{listid:Skeletal Location}}" StaticName="SkeletalLocation" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Thumbnail" Format="Thumbnail" Name="Thumbnail" Title="Thumbnail" Type="Thumbnail" ID="{84fbabef-839b-4525-a918-bbec0e62bcee}" SourceID="{{listid:Skeletal Location}}" StaticName="Thumbnail" ColName="ntext2" RowOrdinal="0" Version="22"/>
           </pnp:Fields>
@@ -4715,6 +5466,78 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Surgeon:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0" CustomFormatter="" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Surgeon:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Surgeon:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Sales Person" Format="Dropdown" List="UserInfo" Name="SalesPerson" Title="Sales Person" Type="User" UserSelectionMode="0" UserSelectionScope="0" ID="{c696ba31-044d-43e7-8d0f-c9594d3a922b}" SourceID="{{listid:Surgeon Kardex}}" StaticName="SalesPerson" ColName="int1" RowOrdinal="0" Version="22"/>
             <Field Type="Note" DisplayName="Design Preferences:" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{0206e68d-46a8-4618-a97b-079e4509d46d}" SourceID="{{listid:Surgeon Kardex}}" StaticName="Design_x0020_Preferences_x003a_" Name="Design_x0020_Preferences_x003a_" ColName="ntext2" RowOrdinal="0" Version="23"/>
             <Field Name="Patient_x002d_specificinstrument" FromBaseType="FALSE" Type="Note" DisplayName="PSI preferences:" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{335cbb59-2538-449c-baa6-43a15718fc4d}" StaticName="Patient_x002d_specificinstrument" SourceID="{{listid:Surgeon Kardex}}" ColName="ntext3" RowOrdinal="0" CustomFormatter="" RestrictedMode="TRUE" AppendOnly="FALSE" Version="25"/>
@@ -4728,7 +5551,6 @@
             <Field DisplayName="Sales" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="Sales" Title="Sales" Type="Text" ID="{bc77c233-a4eb-4200-9a10-447e98ccb380}" SourceID="{{listid:Surgeon Kardex}}" StaticName="Sales" ColName="nvarchar8" RowOrdinal="0"/>
           </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Surgeon:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -4748,8 +5570,81 @@
               <CustomFormatter/>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" Group="_Hidden" Type="Text" DisplayName="Surgical Side:" Required="FALSE" FromBaseType="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="2" Sealed="FALSE" ColName="nvarchar1" RowOrdinal="0"/>
+            <Field ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" ReadOnly="TRUE" Type="Computed" Name="LinkTitleNoMenu" DisplayName="Surgical Side:" Dir="" DisplayNameSrcField="Title" AuthoringInfo="(linked to item)" EnableLookup="TRUE" ListItemMenuAllowed="Prohibited" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitleNoMenu" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkFilenameNoMenu"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <IfEqual>
+                  <Expr1>
+                    <LookupColumn Name="FSObjType"/>
+                  </Expr1>
+                  <Expr2>1</Expr2>
+                  <Then>
+                    <Field Name="LinkFilenameNoMenu"/>
+                  </Then>
+                  <Else>
+                    <HTML><![CDATA[<a onfocus="OnLink(this)" href="]]></HTML>
+                    <URL/>
+                    <HTML><![CDATA[" onclick="EditLink2(this,]]></HTML>
+                    <Counter Type="View"/>
+                    <HTML><![CDATA[);return false;" target="_self">]]></HTML>
+                    <Column HTMLEncode="TRUE" Name="Title" Default="(no title)"/>
+                    <IfEqual>
+                      <Expr1>
+                        <GetVar Name="ShowAccessibleIcon"/>
+                      </Expr1>
+                      <Expr2>1</Expr2>
+                      <Then>
+                        <HTML><![CDATA[<img src="/_layouts/15/images/blank.gif?rev=50" class="ms-hidden" border="0" width="1" height="1" alt="Use SHIFT+ENTER to open the menu (new window)."/>]]></HTML>
+                      </Then>
+                    </IfEqual>
+                    <HTML><![CDATA[</a>]]></HTML>
+                    <IfNew>
+                      <HTML><![CDATA[<img src="/_layouts/1033/images/new.gif" alt="]]></HTML>
+                      <HTML>New</HTML>
+                      <HTML><![CDATA[" class="ms-newgif" />]]></HTML>
+                    </IfNew>
+                  </Else>
+                </IfEqual>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" ReadOnly="TRUE" Type="Computed" Name="LinkTitle" DisplayName="Surgical Side:" DisplayNameSrcField="Title" ClassInfo="Menu" AuthoringInfo="(linked to item with edit menu)" ListItemMenuAllowed="Required" LinkToItemAllowed="Prohibited" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="LinkTitle" FromBaseType="TRUE">
+              <FieldRefs>
+                <FieldRef Name="Title"/>
+                <FieldRef Name="LinkTitleNoMenu"/>
+                <FieldRef Name="_EditMenuTableStart2"/>
+                <FieldRef Name="_EditMenuTableEnd"/>
+              </FieldRefs>
+              <DisplayPattern>
+                <FieldSwitch>
+                  <Expr>
+                    <GetVar Name="FreeForm"/>
+                  </Expr>
+                  <Case Value="TRUE">
+                    <Field Name="LinkTitleNoMenu"/>
+                  </Case>
+                  <Default>
+                    <HTML><![CDATA[<div class="ms-vb itx" onmouseover="OnItem(this)" CTXName="ctx]]></HTML>
+                    <Field Name="_EditMenuTableStart2"/>
+                    <HTML><![CDATA[">]]></HTML>
+                    <Field Name="LinkTitleNoMenu"/>
+                    <HTML><![CDATA[</div>]]></HTML>
+                    <HTML><![CDATA[<div class="s4-ctx" onmouseover="OnChildItem(this.parentNode); return false;">]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[<a onfocus="OnChildItem(this.parentNode.parentNode); return false;" onclick="PopMenuFromChevron(event); return false;" href="javascript:;" title="Open Menu"></a>]]></HTML>
+                    <HTML><![CDATA[<span>&nbsp;</span>]]></HTML>
+                    <HTML><![CDATA[</div>]]></HTML>
+                  </Default>
+                </FieldSwitch>
+              </DisplayPattern>
+            </Field>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Surgical Side:"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
           </pnp:FieldRefs>
         </pnp:ListInstance>
@@ -4775,6 +5670,9 @@
               <JSLink>clienttemplates.js</JSLink>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}" ColName="tp_CheckoutUserId" RowOrdinal="0" ReadOnly="TRUE" Type="User" List="UserInfo" Name="CheckoutUser" DisplaceOnUpgrade="TRUE" DisplayName="Checked Out To" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="CheckoutUser" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Title"/>
           </pnp:FieldRefs>
@@ -4794,6 +5692,9 @@
               <JSLink>clienttemplates.js</JSLink>
             </View>
           </pnp:Views>
+          <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
+          </pnp:Fields>
           <pnp:FieldRefs>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Title"/>
             <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag"/>
@@ -4845,6 +5746,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
+            <Field ID="{8c06beca-0777-48f7-91c7-6da68bc07b69}" Name="Created" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created" Group="_Hidden" ColName="tp_Created" RowOrdinal="0" ReadOnly="TRUE" Type="DateTime" DisplayName="Created" StorageTZ="TRUE" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" Version="1" Sealed="FALSE" FromBaseType="TRUE"/>
             <Field DisplayName="Product Code" Format="Dropdown" MaxLength="255" Name="ProductCode" Title="Product Code" Type="Text" ID="{1afe1780-1858-423f-8feb-ace603dd8eee}" SourceID="{{listid:UK Custom Catagories}}" StaticName="ProductCode" ColName="nvarchar7" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Hierarchy" Format="Dropdown" MaxLength="255" Name="Hierarchy" Title="Hierarchy" Type="Text" ID="{711311de-83cf-4cdd-90f6-4e9b38c8c018}" SourceID="{{listid:UK Custom Catagories}}" StaticName="Hierarchy" ColName="nvarchar8" RowOrdinal="0" Version="22"/>
             <Field DisplayName="Description" Format="Dropdown" MaxLength="255" Name="Description" Title="Description" Type="Text" ID="{5caaec88-8b3c-4e0e-b8c4-1f6f54ca7b99}" SourceID="{{listid:UK Custom Catagories}}" StaticName="Description" ColName="nvarchar9" RowOrdinal="0" Version="22"/>
