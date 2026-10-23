@@ -14,11 +14,18 @@ export class DevOpsTestCanvasApp {
     this.page = page;
   }
 
-  /** The iframe that hosts the rendered canvas app. Falls back to the main frame. */
+  /** The iframe that hosts the rendered canvas app.
+   *
+   * Only target the actual Power Apps host; excluding the generic `iframe`
+   * selector avoids matching unrelated O365/preload frames that appear in the page.
+   */
   app(): FrameLocator {
-    return this.page.frameLocator(
-      'iframe[name="fullscreen-app-host"], iframe#fullscreen-app-host, iframe[src*="apps.powerapps.com"], iframe',
-    );
+    return this.page
+      .locator(
+        'iframe#fullscreen-app-host, iframe[name="fullscreen-app-host"], iframe[src*="apps.powerapps.com"], iframe[src*="make.powerapps.com"]',
+      )
+      .first()
+      .contentFrame();
   }
 
   /** Open the app and wait for the Main Screen gallery to finish loading. */
