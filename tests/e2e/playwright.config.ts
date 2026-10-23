@@ -26,7 +26,7 @@ export default defineConfig({
     ['html', { open: 'never' }],
   ],
   use: {
-    baseURL: process.env.WELCOMEBOT_APP_URL,
+    baseURL: process.env.DEMO_APP_URL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
