@@ -11,16 +11,16 @@ import path from 'node:path';
  * this state so the wizard tests start already signed in.
  *
  * Required environment variables:
- *  - WELCOMEBOT_APP_URL        the canvas app "play" URL
- *  - WELCOMEBOT_TEST_USER      UPN / email of the non-MFA test account
- *  - WELCOMEBOT_TEST_PASSWORD  password for that account
+ *  - DEMO_APP_URL        the canvas app "play" URL
+ *  - DEMO_TEST_USER      UPN / email of the non-MFA test account
+ *  - DEMO_TEST_PASSWORD  password for that account
  */
 const authFile = path.join('.auth', 'user.json');
 
 setup('authenticate', async ({ page }) => {
-  const appUrl = requireEnv('WELCOMEBOT_APP_URL');
-  const user = requireEnv('WELCOMEBOT_TEST_USER');
-  const password = requireEnv('WELCOMEBOT_TEST_PASSWORD');
+  const appUrl = requireEnv('DEMO_APP_URL');
+  const user = requireEnv('DEMO_TEST_USER');
+  const password = requireEnv('DEMO_TEST_PASSWORD');
 
   // Navigating to the app triggers the Microsoft login redirect.
   await page.goto(appUrl, { waitUntil: 'domcontentloaded' });
