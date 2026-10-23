@@ -1,4 +1,4 @@
-name: 'E2E - Playwright (WelcomeBOT)'
+name: 'E2E - Playwright Trial'
 
 # Manual trigger only.
 on:
