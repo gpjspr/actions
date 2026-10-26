@@ -1,6 +1,6 @@
 import { Page, FrameLocator } from '@playwright/test';
 
-export class MyCanvasAppPage {
+export class DevOpsTestCanvasApp  {
   private readonly frame: FrameLocator;
 
   constructor(private readonly page: Page) {
