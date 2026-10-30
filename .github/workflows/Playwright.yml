@@ -54,9 +54,15 @@ jobs:
           if [ -z "$DEMO_APP_URL" ]; then echo "::error::DEMO_APP_URL variable is not set for environment ${{ inputs.environment }}"; exit 1; fi
           if [ -z "$DEMO_TEST_USER" ]; then echo "::error::DEMO_TEST_USER secret is not set for environment ${{ inputs.environment }}"; exit 1; fi
           if [ -z "$DEMO_TEST_PASSWORD" ]; then echo "::error::DEMO_TEST_PASSWORD secret is not set for environment ${{ inputs.environment }}"; exit 1; fi
-
-      - name: Run Playwright tests
-        run: npx playwright test
+      
+      - name: Check demo app env
+        shell: bash
+        run: |
+          echo "DEMO_APP_URL set? ${DEMO_APP_URL:+yes}"
+          test -n "${DEMO_APP_URL}" || { echo "Missing DEMO_APP_URL"; exit 1; }
+          echo "${DEMO_APP_URL}" | sed -E 's#(https://.*?/play/.*?)(tenantId=.*)$#\1...#'
+            - name: Run Playwright tests
+              run: npx playwright test
 
       - name: Upload Playwright report
         if: always()
