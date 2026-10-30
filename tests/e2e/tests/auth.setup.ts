@@ -2,7 +2,6 @@ import { test as setup, expect } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
 
-
 /**
  * Global authentication setup.
  *
@@ -67,6 +66,9 @@ setup('authenticate', async ({ page }) => {
       }
     }, { timeout: 120_000 })
     .toBeTruthy();
+
+  fs.mkdirSync(path.dirname(authFile), { recursive: true });
+  await page.context().storageState({ path: authFile });
 });
 
 function requireEnv(name: string): string {
