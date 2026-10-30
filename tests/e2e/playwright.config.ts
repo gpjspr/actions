@@ -1,18 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
-// Load local .env when present (ignored in CI where env vars are injected directly).
 dotenv.config();
 
-/**
- * Playwright configuration for the WelcomeBOT (LaunchPad) canvas-app E2E suite.
- *
- * Authentication strategy:
- *  - The `setup` project logs into Microsoft/Entra ID once using a NON-MFA test user
- *    and persists the authenticated session to `.auth/user.json`.
- *  - All test projects reuse that storage state, so the wizard tests never touch the
- *    login screens directly.
- */
+if (!process.env.DEMO_APP_URL) {
+  throw new Error('Missing required environment variable "DEMO_APP_URL"');
+}
+
 export default defineConfig({
   testDir: './tests',
   timeout: 90_000,
@@ -26,7 +20,7 @@ export default defineConfig({
     ['html', { open: 'never' }],
   ],
   use: {
-    baseURL: process.env.DEMO_APP_URL ,
+    baseURL: process.env.DEMO_APP_URL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
