@@ -61,8 +61,9 @@ jobs:
           echo "DEMO_APP_URL set? ${DEMO_APP_URL:+yes}"
           test -n "${DEMO_APP_URL}" || { echo "Missing DEMO_APP_URL"; exit 1; }
           echo "${DEMO_APP_URL}" | sed -E 's#(https://.*?/play/.*?)(tenantId=.*)$#\1...#'
-            - name: Run Playwright tests
-              run: npx playwright test
+          
+      - name: Run Playwright tests
+        run: npx playwright test
 
       - name: Upload Playwright report
         if: always()
