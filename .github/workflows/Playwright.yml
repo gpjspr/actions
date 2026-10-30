@@ -26,12 +26,10 @@ jobs:
       run:
         working-directory: tests/e2e
     env:
-      # Use the Chrome browser already installed on the runner instead of downloading a separate Playwright browser.
-      #PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
       PLAYWRIGHT_DOWNLOAD_HOST: 'https://playwright-verizon.azureedge.net'
-      # App URL is a non-secret per-environment value (GitHub Environment variable).
+      PLAYWRIGHT_JUNIT_OUTPUT_DIR: './playwright-report'
+      PLAYWRIGHT_JUNIT_OUTPUT_NAME: 'results.xml'
       DEMO_APP_URL: ${{ vars.DEMO_APP_URL }}
-      # Credentials for the NON-MFA test account come from Environment secrets.
       DEMO_TEST_USER: ${{ secrets.DEMO_TEST_USER }}
       DEMO_TEST_PASSWORD: ${{ secrets.DEMO_TEST_PASSWORD }}
     steps:
@@ -47,23 +45,106 @@ jobs:
         run: npm ci || npm install
 
       - name: Install Playwright OS dependencies
-        run: npx playwright install --with-deps chromium 
+        run: npx playwright install --with-deps chromium
 
       - name: Validate required configuration
         run: |
           if [ -z "$DEMO_APP_URL" ]; then echo "::error::DEMO_APP_URL variable is not set for environment ${{ inputs.environment }}"; exit 1; fi
           if [ -z "$DEMO_TEST_USER" ]; then echo "::error::DEMO_TEST_USER secret is not set for environment ${{ inputs.environment }}"; exit 1; fi
           if [ -z "$DEMO_TEST_PASSWORD" ]; then echo "::error::DEMO_TEST_PASSWORD secret is not set for environment ${{ inputs.environment }}"; exit 1; fi
-      
+
       - name: Check demo app env
         shell: bash
         run: |
           echo "DEMO_APP_URL set? ${DEMO_APP_URL:+yes}"
           test -n "${DEMO_APP_URL}" || { echo "Missing DEMO_APP_URL"; exit 1; }
           echo "${DEMO_APP_URL}" | sed -E 's#(https://.*?/play/.*?)(tenantId=.*)$#\1...#'
-          
+
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --reporter=html,junit,line
+
+      - name: Publish Playwright outcome
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          report = Path("playwright-report/results.xml")
+
+          if not report.exists():
+              print("::warning::No Playwright JUnit report found; skipping summary.")
+              raise SystemExit(0)
+
+          try:
+              root = ET.parse(report).getroot()
+          except Exception as exc:
+              print(f"::warning::Unable to parse Playwright JUnit report: {exc}")
+              raise SystemExit(0)
+
+          # Handle testsuites or testsuite root
+          suites = root.findall(".//testsuite") if root.tag == "testsuites" else [root]
+
+          total = 0
+          failed = 0
+          skipped = 0
+
+          for suite in suites:
+              total += int(suite.attrib.get("tests", 0) or 0)
+              failed += int(suite.attrib.get("failures", 0) or 0)
+              skipped += int(suite.attrib.get("skipped", 0) or 0)
+
+          passed = max(total - failed - skipped, 0)
+          status = "✅ Passed" if failed == 0 else "❌ Failed"
+
+          summary_lines = [
+              "## Playwright Test Summary",
+              "",
+              f"### {status}",
+              f"- Total: {total}",
+              f"- Passed: {passed}",
+              f"- Failed: {failed}",
+              f"- Skipped: {skipped}",
+              "",
+          ]
+
+          failing_tests = []
+          for testcase in root.iter("testcase"):
+              failure = testcase.find("failure")
+              if failure is None:
+                  continue
+
+              classname = testcase.attrib.get("classname", "unknown")
+              name = testcase.attrib.get("name", "unknown")
+              message = failure.attrib.get("message", "Test failed")
+              failing_tests.append(f"- `{classname} :: {name}` — {message}")
+
+          if failing_tests:
+              summary_lines.extend(["### Failing tests", *failing_tests[:20], ""])
+
+          summary = "\n".join(summary_lines)
+          step_summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if step_summary:
+              Path(step_summary).write_text(summary, encoding="utf-8")
+
+          print(summary)
+
+          # Emit GitHub annotations for failing tests
+          for testcase in root.iter("testcase"):
+              failure = testcase.find("failure")
+              if failure is None:
+                  continue
+
+              classname = testcase.attrib.get("classname", "unknown")
+              name = testcase.attrib.get("name", "unknown")
+              message = failure.attrib.get("message", "Test failed")
+              print(f"::error title=Playwright failed::{classname} :: {name} - {message}")
+
+          if failed > 0:
+              raise SystemExit(1)
+          PY
 
       - name: Upload Playwright report
         if: always()
