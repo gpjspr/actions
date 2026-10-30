@@ -47,13 +47,26 @@ setup('authenticate', async ({ page }) => {
     // Prompt did not appear (already suppressed for the tenant) — continue.
   }
 
-  // Wait until we've left the login domain and the Power Apps host has loaded.
-  await expect
-    .poll(() => new URL(page.url()).hostname, { timeout: 60_000 })
-    .not.toContain('login.microsoftonline.com');
+  const targetUrl = new URL(appUrl);
 
-  fs.mkdirSync(path.dirname(authFile), { recursive: true });
-  await page.context().storageState({ path: authFile });
+  await expect
+    .poll(async () => {
+      try {
+        const url = new URL(page.url());
+        return (
+          !url.hostname.includes('login.microsoftonline.com') &&
+          (
+            url.pathname === targetUrl.pathname ||
+            url.pathname.includes('/play/') ||
+            url.pathname.includes('/apps/')
+          ) &&
+          url.searchParams.get('tenantId') === targetUrl.searchParams.get('tenantId')
+        );
+      } catch {
+        return false;
+      }
+    }, { timeout: 120_000 })
+    .toBeTruthy();
 });
 
 function requireEnv(name: string): string {
