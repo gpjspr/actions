@@ -1,8 +1,8 @@
-# WelcomeBOT (LaunchPad) — Playwright E2E tests
+# Demo (LaunchPad) — Playwright E2E tests
 
-End-to-end UI tests for the **WelcomeBOT / LaunchPad** Power Apps **canvas app**. The tests drive the
+End-to-end UI tests for the **Demo / LaunchPad** Power Apps **canvas app**. The tests drive the
 published app in a real browser, walking the wizard screens and verifying the branching/navigation
-logic defined in `src/appsource/WelcomeBOT/Src/*.pa.yaml`.
+logic defined in `src/appsource/Demo/Src/*.pa.yaml`.
 
 ## What is covered
 
@@ -33,7 +33,7 @@ tests/e2e/
 ├─ env.example             # copy to .env for local runs
 └─ tests/
    ├─ auth.setup.ts        # logs in once, saves .auth/user.json
-   ├─ welcomeBotApp.ts     # page object for the canvas-app iframe
+   ├─ DemoApp.ts     # page object for the canvas-app iframe
    └─ wizard.spec.ts       # the screen/logic tests
 ```
 
@@ -51,9 +51,9 @@ Required configuration:
 
 | Variable | Type | Description |
 | -------- | ---- | ----------- |
-| `WELCOMEBOT_APP_URL` | value | Published canvas-app *play* URL for the environment |
-| `WELCOMEBOT_TEST_USER` | secret | UPN/email of the non-MFA test account |
-| `WELCOMEBOT_TEST_PASSWORD` | secret | Password for that account |
+| `Demo_APP_URL` | value | Published canvas-app *play* URL for the environment |
+| `Demo_TEST_USER` | secret | UPN/email of the non-MFA test account |
+| `Demo_TEST_PASSWORD` | secret | Password for that account |
 
 ## Running locally
 
@@ -73,10 +73,10 @@ The workflow **`.github/workflows/e2e-playwright.yml`** is **manual only** (`wor
 takes an `environment` input (`DEV` / `TEST` / `UAT`). Configure per-environment values under
 **Settings → Environments** in GitHub:
 
-- Environment **variable** `WELCOMEBOT_APP_URL`
-- Environment **secrets** `WELCOMEBOT_TEST_USER`, `WELCOMEBOT_TEST_PASSWORD`
+- Environment **variable** `Demo_APP_URL`
+- Environment **secrets** `Demo_TEST_USER`, `Demo_TEST_PASSWORD`
 
-Run it from **Actions → E2E - Playwright (WelcomeBOT) → Run workflow**. The HTML report is uploaded
+Run it from **Actions → E2E - Playwright (Demo) → Run workflow**. The HTML report is uploaded
 as a build artifact.
 
 ## Notes & limitations
@@ -86,4 +86,4 @@ as a build artifact.
 - If your tenant shows a first-run **connection consent** dialog, `open()` clicks through it; on a
   clean test account you may need to consent once manually.
 - Selectors rely on the current screen wording. If labels in `*.pa.yaml` change, update
-  `wizard.spec.ts` / `welcomeBotApp.ts` accordingly.
+  `wizard.spec.ts` / `DemoApp.ts` accordingly.
