@@ -1,4 +1,4 @@
-name: 'E2E - Playwright Trial'
+name: 'Power Platform Canvas App UI Test'
 
 # Manual trigger only.
 on:
@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   playwright:
-    name: 'Run Playwright tests'
+    name: 'Test Canvas App UI'
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
