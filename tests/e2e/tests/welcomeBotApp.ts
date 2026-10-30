@@ -25,7 +25,12 @@ export class DevOpsTestCanvasApp {
     }
 
   async open(): Promise<void> {
-    await this.page.goto('/', { waitUntil: 'domcontentloaded' });
+    const appUrl = process.env.DEMO_APP_URL;
+    if (!appUrl) {
+      throw new Error('Missing DEMO_APP_URL');
+    }
+  
+    await this.page.goto(appUrl, { waitUntil: 'domcontentloaded' });
     await this.waitForLoad();
   }
 
