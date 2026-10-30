@@ -8,7 +8,7 @@ on:
         description: 'Target environment whose test user / app URL to use'
         type: choice
         required: true
-        default: 'DEV'
+        default: 'UAT'
         options:
           - DEV
           - TEST
