@@ -10,13 +10,12 @@ test.describe('DevOps Test Canvas App', () => {
   });
 
   test('Main Screen loads and shows gallery items', async () => {
-    const itemCount = await app.getItemCount();
-
-    expect(itemCount).toBeGreaterThan(0);
-    await expect(app.galleryItems.first()).toBeVisible();
+    await expect(appHost.gallery).toBeVisible();
+    await expect(appHost.galleryItems.first()).toBeVisible();
   });
 
-  test('Add button is available for the main action', async () => {
-    await expect(app.addButton).toBeVisible();
+  test('button is available for the main action', async () => {
+    await appHost.galleryItems.first().locator('[data-control-name="NextArrow1"]').click();
+    await expect(appHost.messageBar).toHaveText('Clicked');
   });
 });

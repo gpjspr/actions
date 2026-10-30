@@ -20,6 +20,10 @@ export class DevOpsTestCanvasApp {
     return this.gallery.locator('[data-control-part="gallery-item"]');
   }
 
+  get messageBar(): Locator {
+    return this.page.locator('.ms-MessageBar-innerText').first();
+    }
+
   async open(): Promise<void> {
     await this.page.goto('/', { waitUntil: 'domcontentloaded' });
     await this.waitForLoad();
@@ -38,3 +42,4 @@ export class DevOpsTestCanvasApp {
     return this.galleryItems.count();
   }
 }
+
